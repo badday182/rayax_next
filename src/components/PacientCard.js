@@ -5,7 +5,7 @@ import { renderToString } from "react-dom/server";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 // import { useDispatch } from "react-redux";
-import PatientInfo from "./PatientInfo";
+import PatientInfo from "./PatientInfo/PatientInfo";
 import Button from "react-bootstrap/Button";
 
 import { ImagineOptions } from "./ImagineOptions";
@@ -63,7 +63,7 @@ export const PacientCard = ({ id, editorContent }) => {
         <Button
           title="Створити нову анкету для опису протоколу дослідження нового пацієнта"
           // variant="success"
-          className="w-100 p-2 glass-button"
+          className="w-100 p-2 glass-button d-ruby"
           onClick={() => {
             editorContent();
             const newPatient = {
@@ -88,7 +88,7 @@ export const PacientCard = ({ id, editorContent }) => {
 
           }}
         >
- Новий пацієнт <PiUserPlusLight size={30}/>
+ Новий пацієнт <PiUserPlusLight className="mt--025rem" size={30}/>
         </Button>
         {/* <Button
           onClick={() => {

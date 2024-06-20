@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import ApplyPacientInfoButton from "./applyPacientInfoButton";
+import ApplyPacientInfoButton from "../applyPacientInfoButton";
 import { useSelector, useDispatch } from "react-redux";
 import { renderToString } from "react-dom/server";
 
@@ -15,15 +15,15 @@ import {
   editExamName,
   editExamBirthYear,
   resetPacientInfoSliseReducer,
-} from "./redux/slices/pacientInfoSliseReducer";
+} from "../redux/slices/pacientInfoSliseReducer";
 
-import { PacientInfoPattern } from "../patternsText/pacientInfoPattern";
+import { PacientInfoPattern } from "../../patternsText/pacientInfoPattern";
 
-import { addDocText } from "./redux/slices/documentSliseReducer";
-import { initialExamNumber } from "../data/initialExamNumber";
-import { applyPatientInfoBlock } from "./redux/slices/zoneInfoSliseReducer";
+import { addDocText } from "../redux/slices/documentSliseReducer";
+import { initialExamNumber } from "../../data/initialExamNumber";
+import { applyPatientInfoBlock } from "../redux/slices/zoneInfoSliseReducer";
 import { RiPlayListAddLine } from "react-icons/ri";
-
+import "./patientInfo.css"
 // function PacientInfo() {
 const PatientInfo = ({ editorContent }) => {
   const textToDoc = renderToString(PacientInfoPattern());
@@ -203,7 +203,7 @@ const PatientInfo = ({ editorContent }) => {
       <Button
         title="Надіслати інформацію до Редактора"
         variant="success"
-        className="me-2"
+        className="me-2 d-ruby"
         onClick={handleApplyPatientButtonClick}
         disabled={buttonDisabled}
       >

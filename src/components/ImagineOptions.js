@@ -224,7 +224,7 @@ export const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) =
             title="Надіслати інформацію до Редактора"
             variant="success"
             // className="me-0 mt-2 mb-2"
-            className={`${descriptionOnly ? "me-2" : "me-0 mt-2 mb-2"}`}
+            className={`${descriptionOnly ? "me-2 d-ruby" : "me-0 mt-2 mb-2 d-ruby"}`}
             onClick={() => {
               setDescriptionOnlyButtonDisabled(false);
               handleApplyZone();

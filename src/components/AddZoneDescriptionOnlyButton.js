@@ -26,12 +26,12 @@ export function AddZoneDescriptionOnlyButton({
     <>
       <Button
         title="Додати тільки опис, без шапки"
-        className="backgroundWhite me-0 mt-2 mb-2"
+        className="backgroundWhite me-0 mt-2 mb-2 d-ruby"
         variant={variant}
         onClick={handleClick}
         disabled={descriptionOnlyButtonDisabled || disabled}
       >
-        Додати опис <TbPencilPlus size={18}/>
+        Додати опис <TbPencilPlus className="mt--025rem" size={18}/>
       </Button>{" "}
     </>
   );

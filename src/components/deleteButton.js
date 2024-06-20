@@ -11,7 +11,7 @@ function DeleteButton({ variant, onClick, id }) {
     <>
       <Button
         title="Видалити протокол із поточної анкети пацієнта, не видаляє протокол із текстового редактора"
-        className="backgroundWhite"
+        className="backgroundWhite d-ruby"
         variant={variant}
         // onClick={() => onClick(id)}
         onClick={() => {
@@ -19,7 +19,7 @@ function DeleteButton({ variant, onClick, id }) {
           dispatch(resetDescriptionOnly()); // сброс стейта для описания без шапки
         }}
       >
-        Видалити протокол <AiTwotoneDelete size={18} />
+        Видалити протокол <AiTwotoneDelete className="mt--025rem" size={18} />
       </Button>{" "}
     </>
   );
