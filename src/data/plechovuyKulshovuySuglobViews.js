@@ -1,0 +1,1 @@
+export const plechKulshSuglobViews = ['Пряма', 'В 2-х проекціях']

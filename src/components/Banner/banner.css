@@ -1,0 +1,112 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+
+.banner {
+    width: 90px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 14px;
+    left: 10px;
+    /* background-color: #3498db87; */
+    color: #fff;
+    padding: 10px;
+    padding-top: 0px;
+    border: 1px solid rgb(245 245 245 / 64%);
+    backdrop-filter: blur(0.7px);
+    /* background-color: rgb(178 214 247 / 18%); */
+    background-color: rgba(22, 101, 129, 0.11);
+    z-index: 20;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-image: url('./svg/nnnoise.svg'); */
+  }
+  
+  .content p {
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  .content a,
+  img {
+    width: 50px;
+    height: auto;
+    margin: 5px 0;
+    border-radius: 25px;
+  }
+  
+  .logo {
+    position: relative;
+  }
+  
+  .logo::after {
+    content: "";
+    position: absolute;
+    /* background-image: url(/src/img/telegram_qr.jpg); */
+    background-size: cover;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.5s ease 0s;
+  }
+  .telegram-logo::after {
+    background-image: url(/src/img/telegram_qr2.jpg);
+  }
+  .mono-logo::after {
+    background-image: url(/src/img/mono_qr.jpg);
+  }
+  .privat-logo::after {
+    background-image: url(/src/img/privat_qr.jpg);
+  }
+  .logo:hover::after {
+    opacity: 1;
+    top: -80px;
+    left: 150%;
+    /* box-shadow: 0 10px 16px -4px rgba(0, 0, 0, 0.6); */
+    box-shadow: 0px 0px 20px 6px rgba(0, 0, 0, 0.6);
+  }
+  
+  .privat-logo:hover::after {
+    height: 300px;
+    width: 300px;
+    border: 1px solid;
+    border-color: gray;
+  }
+  .mono-logo:hover::after {
+    height: 300px;
+    width: 350px;
+  }
+  .telegram-logo:hover::after {
+    height: 300px;
+    width: 250px;
+  }
+
+  #closeBanner {
+    align-self: flex-end;
+  }
+  #closeBanner:hover {
+    color: rgb(255, 51, 0);
+  }
+  .hidden {
+    display: none;
+  }
+
+  .logo {
+    position: relative;
+  }
+  
+  .logo::after {
+    content: "";
+    position: absolute;
+    /* background-image: url(/src/img/telegram_qr.jpg); */
+    background-size: cover;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.5s ease 0s;
+  }

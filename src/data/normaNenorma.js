@@ -1,0 +1,1 @@
+export const normaNenorma = ['Норма', 'Не норма']
