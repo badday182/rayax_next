@@ -25,7 +25,6 @@ export default function Home() {
 
   const pacientInfo = renderToString(PacientInfoPattern());
 
-
   return (
     <div className="conteinerWidht d-flex justify-content-center flex-wrap p-3">
       {/* <Banner /> */}
