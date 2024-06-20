@@ -1,12 +1,17 @@
 'use client'
 
-
+import { useState } from "react";
+import { renderToString } from "react-dom/server";
 import Banner from "@/components/Banner/Banner.jsx";
 import ButtonEditorCleaner from "@/components/Button_EditorCleaner/Button_EditorCleaner.js";
 import { useDispatch, useSelector } from "react-redux";
 import { PacientCard } from "@/components/PacientCard.js";
+import TextEditor from "@/components/TextEditor/TextEditor.js";
+import { addTextFromEditor } from "@/components/redux/slices/documentSliseReducer.js";
+import { PacientInfoPattern } from "@/patternsText/pacientInfoPattern.js";
 
 export default function Home() {
+  const dispatch = useDispatch();
 
   const patientState = useSelector(
     (state) => state.creatingPatient.patientCounter
@@ -16,6 +21,9 @@ export default function Home() {
     const content = editorRef.current.getContent(); //takes text from editor
     dispatch(addTextFromEditor(content));
   };
+  const [editorRef, setEditorRef] = useState(null);
+
+  const pacientInfo = renderToString(PacientInfoPattern());
 
 
   return (
@@ -32,8 +40,11 @@ export default function Home() {
 
         <ButtonEditorCleaner title="Очистити редактор" />
       </div>
-      <p className="display-1">Hello</p>
-    
+      <>
+
+        <TextEditor docTex={docTex} setEditorRef={setEditorRef} />
+      </>
+
     </div>
   );
 }
