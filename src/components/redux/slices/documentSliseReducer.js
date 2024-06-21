@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   textFromEditor: null,
   documentText: '',
+  //localStorage works only on client, next use ssr, so needed this refactor
   // documentText: localStorage.getItem('textToDoc'),
 };
 

@@ -18,27 +18,20 @@ const PacientCard = dynamic(
 )
 // import { PacientCard } from "@/components/PacientCard.js";
 import TextEditor from "@/components/TextEditor/TextEditor.js";
-
-const addTextFromEditor = dynamic(
-  () => import("@/components/redux/slices/documentSliseReducer.js"),
-  { ssr: false }
-)
-// import { addTextFromEditor } from "@/components/redux/slices/documentSliseReducer.js";
+import { addTextFromEditor, setDocumentText } from "@/components/redux/slices/documentSliseReducer.js";
 import { PacientInfoPattern } from "@/patternsText/pacientInfoPattern.js";
 import { setDocumentText } from "@/components/redux/slices/documentSliseReducer.js";
 
 export default function Home() {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (typeof window !== 'undefined') {   //код выполняется на стороне клиента
+    if (typeof window !== 'undefined') {   //код выполняется на стороне клиента???
       const savedText = localStorage.getItem('textToDoc');
       if (savedText) {
         dispatch(setDocumentText(savedText));
       }
     }
   }, [dispatch]);
-
-
   const patientState = useSelector(
     (state) => state.creatingPatient.patientCounter
   );
