@@ -1,6 +1,12 @@
 'use client'
 import { useDispatch } from "react-redux";
-import { addTextFromEditor } from "../redux/slices/documentSliseReducer";
+
+import dynamic from "next/dynamic";
+const addTextFromEditor = dynamic(
+  () => import("../redux/slices/documentSliseReducer"),
+  { ssr: false }
+)
+// import { addTextFromEditor } from "../redux/slices/documentSliseReducer";
 import { VscClearAll } from "react-icons/vsc";
 
 const ButtonEditorCleaner = ({title}) => {

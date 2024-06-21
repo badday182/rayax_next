@@ -19,7 +19,7 @@ useEffect(() => {
     return (
         <Editor
           apiKey="62kbbg7407jjlea01hu71w9axyixiyxitsr8wtho4lnck72p"
-          onInit={(evt, editor) => (editorRef.current = editor)}
+          onInit={(_evt, editor) => (editorRef.current = editor)}
           initialValue={docTex}
           init={{
             selector: "#myTextarea",

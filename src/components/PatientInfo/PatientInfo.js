@@ -18,8 +18,12 @@ import {
 } from "../redux/slices/pacientInfoSliseReducer";
 
 import { PacientInfoPattern } from "../../patternsText/pacientInfoPattern";
-
-import { addDocText } from "../redux/slices/documentSliseReducer";
+import dynamic from "next/dynamic";
+const addDocText = dynamic(
+  () => import("../redux/slices/documentSliseReducer"),
+  { ssr: false }
+)
+// import { addDocText } from "../redux/slices/documentSliseReducer";
 import { initialExamNumber } from "../../data/initialExamNumber";
 import { applyPatientInfoBlock } from "../redux/slices/zoneInfoSliseReducer";
 import { RiPlayListAddLine } from "react-icons/ri";

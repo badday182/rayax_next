@@ -21,6 +21,14 @@ import {
 import { resetCherepSliseReducer } from "./redux/slices/cherepSliseReducer";
 import { resetPpnSliseReducer } from "./redux/slices/ppnSliseReducer";
 import { resetUniversalSliceReducer } from "./redux/slices/universalSliceReducer";
+
+import dynamic from "next/dynamic";
+// const {addDocText,
+//   doubleAddPatientAndZoneDocText} = dynamic(
+//   () => import("./redux/slices/documentSliseReducer"),
+//   { ssr: false }
+// )
+
 import {
   addDocText,
   doubleAddPatientAndZoneDocText,
@@ -59,7 +67,7 @@ import { initialExamNumber } from "../data/initialExamNumber";
 import { AddZoneDescriptionOnlyButton } from "./AddZoneDescriptionOnlyButton";
 import { RiPlayListAddLine } from "react-icons/ri";
 
-export const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
+const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
   const zoneState = useSelector((state) => state.zoneInfo.zone); //"ОГК" Defoult
 
   // const [selectedZone, setSelectedZone] = useState("ОГК");
@@ -278,3 +286,4 @@ export const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) =
     </div>
   );
 };
+export default ImagineOptions;

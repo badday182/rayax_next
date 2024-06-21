@@ -1,5 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import newZoneSliseReducer from '../components/redux/slices/newZoneSlise'
+import dynamic from "next/dynamic";
+// const documentSliseReducer = dynamic(
+//     () => import("../components/redux/slices/documentSliseReducer"),
+//     { ssr: false }
+// )
 import documentSliseReducer from "../components/redux/slices/documentSliseReducer";
 import pacientInfoSliseReducer from "../components/redux/slices/pacientInfoSliseReducer";
 import zoneInfoSliseReducer from "../components/redux/slices/zoneInfoSliseReducer";

@@ -1,16 +1,17 @@
-'use client'
 import { createSlice } from "@reduxjs/toolkit";
-
 const initialState = {
   textFromEditor: null,
-  // documentText: '',
-  documentText: localStorage.getItem('textToDoc'),
+  documentText: '',
+  // documentText: localStorage.getItem('textToDoc'),
 };
 
 export const documentSliseReducer = createSlice({
   name: "documentText",
   initialState,
   reducers: {
+    setDocumentText: (state, action) => {
+      state.documentText = action.payload;
+    },
     addDocText: (state, action) => {
       // const { formattedDate, naprav, name, birthYear } = action.payload;
       const { textToDoc } = action.payload;
@@ -20,7 +21,7 @@ export const documentSliseReducer = createSlice({
       state.documentText += `${textToDoc}`
 
       // state.documentText = state.textFromEditor + textToDoc
-      
+
 
 
       // console.log(action.payload.naprav)
@@ -35,7 +36,7 @@ export const documentSliseReducer = createSlice({
       state.documentText = action.payload
 
     },
-    
+
     doubleAddPatientAndZoneDocText: (state, action) => {
       // const { formattedDate, naprav, name, birthYear } = action.payload;
       const { textToDocPacientInfo, textToDoc } = action.payload;
@@ -46,7 +47,7 @@ export const documentSliseReducer = createSlice({
       state.documentText += textToDocPacientInfo + textToDoc
 
       // state.documentText = state.textFromEditor + textToDoc
-      
+
 
 
       // console.log(action.payload.naprav)
@@ -54,6 +55,6 @@ export const documentSliseReducer = createSlice({
   },
 });
 
-export const { addDocText, addTextFromEditor, doubleAddPatientAndZoneDocText } = documentSliseReducer.actions;
+export const { addDocText, addTextFromEditor, doubleAddPatientAndZoneDocText, setDocumentText } = documentSliseReducer.actions;
 
 export default documentSliseReducer.reducer;

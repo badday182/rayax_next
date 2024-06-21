@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-// import { addDocText } from "./redux/slices/documentSliseReducer";
 import { v4 as uuidv4 } from "uuid";
 
 export const PacientInfoPattern = () => {

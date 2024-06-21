@@ -3,11 +3,21 @@ import React, { useState, useRef } from "react";
 import { renderToString } from "react-dom/server";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-import PatientInfo from "./PatientInfo/PatientInfo";
+
+import dynamic from "next/dynamic";
+const PatientInfo = dynamic(
+  () => import("./PatientInfo/PatientInfo.js"),
+  { ssr: false }
+)
+// import PatientInfo from "./PatientInfo/PatientInfo";
 import Button from "react-bootstrap/Button";
 
-import { ImagineOptions } from "./ImagineOptions";
+const ImagineOptions = dynamic(
+  // () => import("./ImagineOptions"),
+  () => import("./ImagineOptions.js"),
+  { ssr: false }
+)
+// import ImagineOptions from "./ImagineOptions";
 
 
 import {
@@ -25,7 +35,7 @@ import { resetogkSliseReducer } from "./redux/slices/ogkSliseReducer";
 import { resetUniversalSliceReducer } from "./redux/slices/universalSliceReducer";
 import { PiUserPlusLight } from "react-icons/pi";
 
-export const PacientCard = ({ id, editorContent }) => {
+const PacientCard = ({ id, editorContent }) => {
   const dispatch = useDispatch();
   const zoneState = useSelector((state) => state.creatingZones.zoneCounter);
   const descriptionOnlyState = useSelector(
@@ -109,3 +119,4 @@ export const PacientCard = ({ id, editorContent }) => {
     </div>
   );
 };
+export default PacientCard;
