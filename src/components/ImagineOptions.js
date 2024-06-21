@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import { FormFloatingSelect } from "./FloatingLabel";
 import DeleteButton from "./deleteButton";

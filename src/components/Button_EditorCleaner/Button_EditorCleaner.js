@@ -1,4 +1,4 @@
-
+'use client'
 import { useDispatch } from "react-redux";
 import { addTextFromEditor } from "../redux/slices/documentSliseReducer";
 import { VscClearAll } from "react-icons/vsc";
