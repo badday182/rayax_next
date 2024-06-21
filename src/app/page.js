@@ -20,7 +20,6 @@ const PacientCard = dynamic(
 import TextEditor from "@/components/TextEditor/TextEditor.js";
 import { addTextFromEditor, setDocumentText } from "@/components/redux/slices/documentSliseReducer.js";
 import { PacientInfoPattern } from "@/patternsText/pacientInfoPattern.js";
-import { setDocumentText } from "@/components/redux/slices/documentSliseReducer.js";
 
 export default function Home() {
   const dispatch = useDispatch();
