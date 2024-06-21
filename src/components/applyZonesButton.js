@@ -1,12 +1,8 @@
 import Button from "react-bootstrap/Button";
 import { useSelector, useDispatch } from "react-redux";
 
-import dynamic from "next/dynamic";
-const addDocText = dynamic(
-  () => import("./redux/slices/documentSliseReducer"),
-  { ssr: false }
-)
-// import { addDocText } from "./redux/slices/documentSliseReducer";
+
+import { addDocText } from "./redux/slices/documentSliseReducer";
 
 function ApplyZonesButton() {
   const dispatch = useDispatch();

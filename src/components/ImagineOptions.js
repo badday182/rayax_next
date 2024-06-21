@@ -22,12 +22,6 @@ import { resetCherepSliseReducer } from "./redux/slices/cherepSliseReducer";
 import { resetPpnSliseReducer } from "./redux/slices/ppnSliseReducer";
 import { resetUniversalSliceReducer } from "./redux/slices/universalSliceReducer";
 
-import dynamic from "next/dynamic";
-// const {addDocText,
-//   doubleAddPatientAndZoneDocText} = dynamic(
-//   () => import("./redux/slices/documentSliseReducer"),
-//   { ssr: false }
-// )
 
 import {
   addDocText,

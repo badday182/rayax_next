@@ -4,20 +4,10 @@ import { renderToString } from "react-dom/server";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 
-import dynamic from "next/dynamic";
-const PatientInfo = dynamic(
-  () => import("./PatientInfo/PatientInfo.js"),
-  { ssr: false }
-)
-// import PatientInfo from "./PatientInfo/PatientInfo";
-import Button from "react-bootstrap/Button";
 
-const ImagineOptions = dynamic(
-  // () => import("./ImagineOptions"),
-  () => import("./ImagineOptions.js"),
-  { ssr: false }
-)
-// import ImagineOptions from "./ImagineOptions";
+import PatientInfo from "./PatientInfo/PatientInfo";
+import Button from "react-bootstrap/Button";
+import ImagineOptions from "./ImagineOptions";
 
 
 import {

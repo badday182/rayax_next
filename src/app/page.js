@@ -3,20 +3,9 @@
 import { useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
 import Banner from "@/components/Banner/Banner.jsx";
-
-import dynamic from "next/dynamic";
-const ButtonEditorCleaner = dynamic(
-  () => import("@/components/Button_EditorCleaner/Button_EditorCleaner.js"),
-  { ssr: false }
-)
-// import ButtonEditorCleaner from "@/components/Button_EditorCleaner/Button_EditorCleaner.js";
+import ButtonEditorCleaner from "@/components/Button_EditorCleaner/Button_EditorCleaner.js";
 import { useDispatch, useSelector } from "react-redux";
-
-const PacientCard = dynamic(
-  () => import("../components/PacientCard.js"),
-  { ssr: false }
-)
-// import { PacientCard } from "@/components/PacientCard.js";
+import  PacientCard  from "@/components/PacientCard.js";
 import TextEditor from "@/components/TextEditor/TextEditor.js";
 import { addTextFromEditor, setDocumentText } from "@/components/redux/slices/documentSliseReducer.js";
 import { PacientInfoPattern } from "@/patternsText/pacientInfoPattern.js";
