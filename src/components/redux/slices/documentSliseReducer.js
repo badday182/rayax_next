@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   textFromEditor: null,
   documentText: '',
+  //localStorage works only on client, next use ssr, so needed this refactor
   // documentText: localStorage.getItem('textToDoc'),
 };
 
@@ -10,6 +11,9 @@ export const documentSliseReducer = createSlice({
   name: "documentText",
   initialState,
   reducers: {
+    setDocumentText: (state, action) => {
+      state.documentText = action.payload;
+    },
     addDocText: (state, action) => {
       // const { formattedDate, naprav, name, birthYear } = action.payload;
       const { textToDoc } = action.payload;
@@ -53,6 +57,6 @@ export const documentSliseReducer = createSlice({
   },
 });
 
-export const { addDocText, addTextFromEditor, doubleAddPatientAndZoneDocText } = documentSliseReducer.actions;
+export const { addDocText, addTextFromEditor, doubleAddPatientAndZoneDocText, setDocumentText } = documentSliseReducer.actions;
 
 export default documentSliseReducer.reducer;
