@@ -874,6 +874,8 @@ export const ZoneInfoPattern = (descriptionOnly) => {
       {report}
       <br />
       <br />
+      <br />
+      <br />
     </div>
   );
 };
