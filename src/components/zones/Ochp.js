@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { homilkovoStopnyiSuhlobViews } from "../data/HOMILKOVOSTOPNYISUHLOB/homilkovoStopnyiSuhlobViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { ochpViews } from "../../data/OCHP/ochpViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-export const HomilkovoStopnyiSuhlob = () => {
-  const [selectedHomilkovoStopnyiSuhlobViews, setSelectedHomilkovoStopnyiSuhlobViews] = useState(
-    homilkovoStopnyiSuhlobViews[0]
+export const Ochp = () => {
+  const [selectedOchpViews, setSelectedOchpViews] = useState(
+    ochpViews[0]
   );
-  const [homilkovoStopnyiSuhlobCounter, setHomilkovoStopnyiSuhlobCounter] = useState([{ id: uuidv4() }]);
+  const [ochpCounter, setOchpCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -29,16 +29,17 @@ export const HomilkovoStopnyiSuhlob = () => {
          dispatch(deleteIdSemicolonUniversalArray_1({ floatingId: deleteId }));   
       }
    }
-
   return (
     <div className="">
       <AddOptionBlock
-        items={homilkovoStopnyiSuhlobViews}
-        onZoneSelect={setSelectedHomilkovoStopnyiSuhlobViews}
+        items={ochpViews}
+        onZoneSelect={setSelectedOchpViews}
         label="Норма/Не норма"
-        counter={homilkovoStopnyiSuhlobCounter}
-        onAddClick={() => handleAddOption(setHomilkovoStopnyiSuhlobCounter, homilkovoStopnyiSuhlobCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [homilkovoStopnyiSuhlobCounter, setHomilkovoStopnyiSuhlobCounter])}
+        counter={ochpCounter}
+        onAddClick={() => handleAddOption(setOchpCounter, ochpCounter)}
+        // onAddClick={() => handleAddOption(setSelectedOchpViews, ochpCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [ochpCounter, setOchpCounter])}
+
       />
     </div>
   );

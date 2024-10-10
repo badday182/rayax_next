@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { addDescriptionOnly } from "./redux/slices/newZoneSlise";
+import { addDescriptionOnly } from "../redux/slices/newZoneSlise";
 import { TbPencilPlus } from "react-icons/tb";
 export function AddZoneDescriptionOnlyButton({
   variant,

@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { deleteImagineOptions } from "./redux/slices/newZoneSlise";
-import { resetDescriptionOnly } from "./redux/slices/descriptionOnlyReducer";
+import { deleteImagineOptions } from "../redux/slices/newZoneSlise";
+import { resetDescriptionOnly } from "../redux/slices/descriptionOnlyReducer";
 import { AiTwotoneDelete } from "react-icons/ai";
 function DeleteButton({ variant, onClick, id }) {
   const dispatch = useDispatch();

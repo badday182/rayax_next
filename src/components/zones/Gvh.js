@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import { FormFloatingSelect } from "./FloatingLabel";
 import { v4 as uuidv4 } from "uuid";
-import {gvhNormaNenorma} from "../data/GVH/gvhNormaNenorma";
+import {gvhNormaNenorma} from "../../data/GVH/gvhNormaNenorma";
 
-import { fiziologKifos } from "../data/GVH/GVH_notNorma/fiziologKifos";
-import { seredynnaVis } from "../data/universal_notNorma/seredynnaVis";
-import { vysotaTilHrebtsivGvh } from "../data/GVH/GVH_notNorma/vysotaTilHrebtsivGvh";
-import { mizhkhrebtseviPromizhky } from "../data/universal_notNorma/mizhkhrebtseviPromizhky";
-import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../data/universal_notNorma/zamykaiuchiPlastynkyTilKhrebtsiv";
-import { fasetkoviUnkovertSuhlShchelyny } from "../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
+import { fiziologKifos } from "../../data/GVH/GVH_notNorma/fiziologKifos";
+import { seredynnaVis } from "../../data/universal_notNorma/seredynnaVis";
+import { vysotaTilHrebtsivGvh } from "../../data/GVH/GVH_notNorma/vysotaTilHrebtsivGvh";
+import { mizhkhrebtseviPromizhky } from "../../data/universal_notNorma/mizhkhrebtseviPromizhky";
+import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../../data/universal_notNorma/zamykaiuchiPlastynkyTilKhrebtsiv";
+import { fasetkoviUnkovertSuhlShchelyny } from "../../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
 
-import { AddOptionBlock } from "./AddOptionBlock";
-import { gvhNenormaItems } from "../data/GVH/gvhNenormaItems";
-import { zakliuchenniaGvh } from "../data/GVH/GVH_notNorma/zakliuchenniaGvh";
+import { AddOptionBlock } from "../AddOptionBlock";
+import { gvhNenormaItems } from "../../data/GVH/gvhNenormaItems";
+import { zakliuchenniaGvh } from "../../data/GVH/GVH_notNorma/zakliuchenniaGvh";
 
 import { useDispatch } from "react-redux";
 import {
@@ -23,7 +22,7 @@ import {
   deleteIdCommaUniversalArray_5,
   deleteIdCommaUniversalArray_6,
   deleteIdSvhVysotaTilHrebtsivArray,
-} from "./redux/slices/universalSliceReducer";
+} from "../redux/slices/universalSliceReducer";
 
 export const Gvh = () => {
   const [selectedGvhViews, setSelectedGvhViews] = useState("");
@@ -82,7 +81,7 @@ export const Gvh = () => {
   };
   return (
     <div className="">
-      <FormFloatingSelect
+      <FormFloatingSelec
         items={gvhNormaNenorma}
         onZoneSelect={setSelectednormaNenorma}
         label="Норма/Не норма"

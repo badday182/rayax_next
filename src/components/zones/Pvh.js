@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { FormFloatingSelect } from "./FloatingLabel";
+import { FormFloatingSelect } from "../FloatingLabel";
 import { v4 as uuidv4 } from "uuid";
 
-import { fiziologLordoz } from "../data/universal_notNorma/fiziologLordoz";
-import { seredynnaVis } from "../data/universal_notNorma/seredynnaVis";
-import { vysotaTilHrebtsivPvh } from "../data/PVH/PVH_notNorma/vysotaTilHrebtsivPvh";
-import { mizhkhrebtseviPromizhky } from "../data/universal_notNorma/mizhkhrebtseviPromizhky";
-import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../data/universal_notNorma/zamykaiuchiPlastynkyTilKhrebtsiv";
-import { fasetkoviUnkovertSuhlShchelyny } from "../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
+import { fiziologLordoz } from "../../data/universal_notNorma/fiziologLordoz";
+import { seredynnaVis } from "../../data/universal_notNorma/seredynnaVis";
+import { vysotaTilHrebtsivPvh } from "../../data/PVH/PVH_notNorma/vysotaTilHrebtsivPvh";
+import { mizhkhrebtseviPromizhky } from "../../data/universal_notNorma/mizhkhrebtseviPromizhky";
+import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../../data/universal_notNorma/zamykaiuchiPlastynkyTilKhrebtsiv";
+import { fasetkoviUnkovertSuhlShchelyny } from "../../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
 
-import { AddOptionBlock } from "./AddOptionBlock";
-import { pvhNormaNenorma } from "../data/PVH/pvhNormaNenorma";
-import { pvhNenormaItems } from "../data/PVH/pvhNenormaItems";
-import { zakliuchenniaPvh } from "../data/PVH/PVH_notNorma/zakliuchenniaPvh";
+import { AddOptionBlock } from "../AddOptionBlock";
+import { pvhNormaNenorma } from "../../data/PVH/pvhNormaNenorma";
+import { pvhNenormaItems } from "../../data/PVH/pvhNenormaItems";
+import { zakliuchenniaPvh } from "../../data/PVH/PVH_notNorma/zakliuchenniaPvh";
 import { useDispatch } from "react-redux";
 import {
   deleteIdSemicolonUniversalArray_1,
@@ -22,7 +22,7 @@ import {
   deleteIdCommaUniversalArray_5,
   deleteIdCommaUniversalArray_6,
   deleteIdSvhVysotaTilHrebtsivArray,
-} from "./redux/slices/universalSliceReducer";
+} from "../redux/slices/universalSliceReducer";
 
 
 export const Pvh = () => {

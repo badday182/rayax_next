@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { kolinnyiSuhlobViews } from "../data/KOLINNYISUHLOB/kolinnyiSuhlobViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { peredniViddilyStopyViews } from "../../data/PEREDNIVIDDILYSTOPY/peredniViddilyStopyViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-export const KolinnyiSuhlob = () => {
-  const [selectedKolinnyiSuhlobViews, setSelectedKolinnyiSuhlobViews] = useState(
-    kolinnyiSuhlobViews[0]
+
+export const PeredniViddilyStopy = () => {
+  const [selectedPeredniViddilyStopyViews, setSelectedPeredniViddilyStopyViews] = useState(
+    peredniViddilyStopyViews[0]
   );
-  const [kolinnyiSuhlobCounter, setKolinnyiSuhlobCounter] = useState([{ id: uuidv4() }]);
+  const [peredniViddilyStopyCounter, setPeredniViddilyStopyCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -30,16 +31,15 @@ export const KolinnyiSuhlob = () => {
       }
    }
 
-
   return (
     <div className="">
       <AddOptionBlock
-        items={kolinnyiSuhlobViews}
-        onZoneSelect={setSelectedKolinnyiSuhlobViews}
+        items={peredniViddilyStopyViews}
+        onZoneSelect={setSelectedPeredniViddilyStopyViews}
         label="Норма/Не норма"
-        counter={kolinnyiSuhlobCounter}
-        onAddClick={() => handleAddOption(setKolinnyiSuhlobCounter, kolinnyiSuhlobCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [kolinnyiSuhlobCounter, setKolinnyiSuhlobCounter])}
+        counter={peredniViddilyStopyCounter}
+        onAddClick={() => handleAddOption(setPeredniViddilyStopyCounter, peredniViddilyStopyCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [peredniViddilyStopyCounter, setPeredniViddilyStopyCounter])}
       />
     </div>
   );

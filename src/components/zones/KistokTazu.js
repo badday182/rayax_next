@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { kistokTazuViews } from "../data/KISTOKTAZU/kistokTazuViews";
-import { AddOptionBlock } from "./AddOptionBlock";
-import { FormFloatingSelect } from "./FloatingLabel";
+import { kistokTazuViews } from "../../data/KISTOKTAZU/kistokTazuViews";
+import { AddOptionBlock } from "../AddOptionBlock";
+import { FormFloatingSelect } from "../FloatingLabel";
 
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
 export const KistokTazu = () => {
   const [selectedKistokTazuViews, setSelectedKistokTazuViews] = useState(

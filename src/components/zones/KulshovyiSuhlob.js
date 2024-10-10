@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { kulshovyiSuhlobViews } from "../data/KULShOVYISUHLOB/kulshovyiSuhlobViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { kulshovyiSuhlobViews } from "../../data/KULShOVYISUHLOB/kulshovyiSuhlobViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
 export const KulshovyiSuhlob = () => {
   const [selectedKulshovyiSuhlobViews, setSelectedKulshovyiSuhlobViews] = useState(

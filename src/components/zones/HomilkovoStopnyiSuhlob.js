@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { kystViews } from "../data/KYST/kystViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { homilkovoStopnyiSuhlobViews } from "../../data/HOMILKOVOSTOPNYISUHLOB/homilkovoStopnyiSuhlobViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-export const Kyst = () => {
-  const [selectedKystViews, setSelectedKystViews] = useState(
-    kystViews[0]
+export const HomilkovoStopnyiSuhlob = () => {
+  const [selectedHomilkovoStopnyiSuhlobViews, setSelectedHomilkovoStopnyiSuhlobViews] = useState(
+    homilkovoStopnyiSuhlobViews[0]
   );
-  const [kystCounter, setKystCounter] = useState([{ id: uuidv4() }]);
+  const [homilkovoStopnyiSuhlobCounter, setHomilkovoStopnyiSuhlobCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -30,16 +30,15 @@ export const Kyst = () => {
       }
    }
 
-
   return (
     <div className="">
       <AddOptionBlock
-        items={kystViews}
-        onZoneSelect={setSelectedKystViews}
+        items={homilkovoStopnyiSuhlobViews}
+        onZoneSelect={setSelectedHomilkovoStopnyiSuhlobViews}
         label="Норма/Не норма"
-        counter={kystCounter}
-        onAddClick={() => handleAddOption(setKystCounter, kystCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [kystCounter, setKystCounter])}
+        counter={homilkovoStopnyiSuhlobCounter}
+        onAddClick={() => handleAddOption(setHomilkovoStopnyiSuhlobCounter, homilkovoStopnyiSuhlobCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [homilkovoStopnyiSuhlobCounter, setHomilkovoStopnyiSuhlobCounter])}
       />
     </div>
   );
