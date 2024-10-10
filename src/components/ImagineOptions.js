@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from "react";
 import { FormFloatingSelect } from "./FloatingLabel";
-import DeleteButton from "./deleteButton";
-import AddZoneButton from "./addZoneButton";
+import DeleteButton from "./Buttons/deleteButton";
+import AddZoneButton from "./Buttons/addZoneButton";
 import { zones } from "../data/zones";
 import { zonesWithSides } from "../data/zonesWithSides";
 import { sides } from "../data/sides";
@@ -31,25 +31,25 @@ import {
 import { renderToString } from "react-dom/server";
 import { ZoneInfoPattern } from "../patternsText/zoneInfoPattern";
 
-import { Ogk } from "./Ogk";
-import { Cherep } from "./Cherep";
-import { Ppn } from "./Ppn";
-import { Shvh } from "./Shvh";
-import { Gvh } from "./Gvh";
-import { Pvh } from "./Pvh";
-import { Ochp } from "./Ochp";
-import { PlechovyiSuhlob } from "./PlechovyiSuhlob";
-import { Kliuchytsia } from "./Kliuchytsia";
-import { Rebra } from "./Rebra";
-import { LiktovyiSuhlob } from "./LiktovyiSuhlob";
-import { PromenevoZapIastkovyiSuhlob } from "./PromenevoZapIastkovyiSuhlob";
-import { Kyst } from "./Kyst";
-import { KistokTazu } from "./KistokTazu";
-import { KulshovyiSuhlob } from "./KulshovyiSuhlob";
-import { KolinnyiSuhlob } from "./KolinnyiSuhlob";
-import { HomilkovoStopnyiSuhlob } from "./HomilkovoStopnyiSuhlob";
-import { Stopa } from "./Stopa";
-import { PeredniViddilyStopy } from "./PeredniViddilyStopy";
+import { Ogk } from "./zones/Ogk";
+import { Cherep } from "./zones/Cherep";
+import { Ppn } from "./zones/Ppn";
+import { Shvh } from "./zones/Shvh";
+import { Gvh } from "./zones/Gvh";
+import { Pvh } from "./zones/Pvh";
+import { Ochp } from "./zones/Ochp";
+import { PlechovyiSuhlob } from "./zones/PlechovyiSuhlob";
+import { Kliuchytsia } from "./zones/Kliuchytsia";
+import { Rebra } from "./zones/Rebra";
+import { LiktovyiSuhlob } from "./zones/LiktovyiSuhlob";
+import { PromenevoZapIastkovyiSuhlob } from "./zones/PromenevoZapIastkovyiSuhlob";
+import { Kyst } from "./zones/Kyst";
+import { KistokTazu } from "./zones/KistokTazu";
+import { KulshovyiSuhlob } from "./zones/KulshovyiSuhlob";
+import { KolinnyiSuhlob } from "./zones/KolinnyiSuhlob";
+import { HomilkovoStopnyiSuhlob } from "./zones/HomilkovoStopnyiSuhlob";
+import { Stopa } from "./zones/Stopa";
+import { PeredniViddilyStopy } from "./zones/PeredniViddilyStopy";
 import { PacientInfoPattern } from "../patternsText/pacientInfoPattern";
 import {
   editExamNumber,
@@ -58,7 +58,7 @@ import {
 import { initialPatientName } from "../data/initialPatientName";
 import { initialPatientBirthYear } from "../data/initialPatientBirthYear";
 import { initialExamNumber } from "../data/initialExamNumber";
-import { AddZoneDescriptionOnlyButton } from "./AddZoneDescriptionOnlyButton";
+import { AddZoneDescriptionOnlyButton } from "./Buttons/AddZoneDescriptionOnlyButton";
 import { RiPlayListAddLine } from "react-icons/ri";
 
 const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {

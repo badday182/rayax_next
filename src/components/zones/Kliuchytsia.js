@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { peredniViddilyStopyViews } from "../data/PEREDNIVIDDILYSTOPY/peredniViddilyStopyViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { kliuchytsiaViews } from "../../data/KLIUCHYTSIA/kliuchytsiaViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-
-export const PeredniViddilyStopy = () => {
-  const [selectedPeredniViddilyStopyViews, setSelectedPeredniViddilyStopyViews] = useState(
-    peredniViddilyStopyViews[0]
+export const Kliuchytsia = () => {
+  const [selectedKliuchytsiaobViews, setSelectedKliuchytsiaobViews] = useState(
+    kliuchytsiaViews[0]
   );
-  const [peredniViddilyStopyCounter, setPeredniViddilyStopyCounter] = useState([{ id: uuidv4() }]);
+  const [kliuchytsiaCounter, setKliuchytsiaCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -34,12 +33,12 @@ export const PeredniViddilyStopy = () => {
   return (
     <div className="">
       <AddOptionBlock
-        items={peredniViddilyStopyViews}
-        onZoneSelect={setSelectedPeredniViddilyStopyViews}
+        items={kliuchytsiaViews}
+        onZoneSelect={setSelectedKliuchytsiaobViews}
         label="Норма/Не норма"
-        counter={peredniViddilyStopyCounter}
-        onAddClick={() => handleAddOption(setPeredniViddilyStopyCounter, peredniViddilyStopyCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [peredniViddilyStopyCounter, setPeredniViddilyStopyCounter])}
+        counter={kliuchytsiaCounter}
+        onAddClick={() => handleAddOption(setKliuchytsiaCounter, kliuchytsiaCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [kliuchytsiaCounter, setKliuchytsiaCounter])}
       />
     </div>
   );

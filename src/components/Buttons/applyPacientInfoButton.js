@@ -1,8 +1,8 @@
 import Button from "react-bootstrap/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { editExamNumber } from "./redux/slices/pacientInfoSliseReducer";
+import { editExamNumber } from "../redux/slices/pacientInfoSliseReducer";
 import { useRef } from "react";
-import { PacientInfoPattern } from "../patternsText/pacientInfoPattern";
+import { PacientInfoPattern } from "../../patternsText/pacientInfoPattern";
 import { renderToString } from "react-dom/server";
 
 

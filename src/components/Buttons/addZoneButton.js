@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   addImagineOptions,
   resetDescriptionOnly,
-} from "./redux/slices/newZoneSlise";
+} from "../redux/slices/newZoneSlise";
 import { BsClipboardPlus } from "react-icons/bs";
 
 

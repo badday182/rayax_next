@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { FormFloatingSelect } from "./FloatingLabel";
+import { FormFloatingSelect } from "../FloatingLabel";
 import { v4 as uuidv4 } from "uuid";
-import { shvhNormaNenorma } from "../data/SHVH/shvhNormaNenorma";
+import { shvhNormaNenorma } from "../../data/SHVH/shvhNormaNenorma";
 
-import { fiziologLordoz } from "../data/universal_notNorma/fiziologLordoz";
-import { seredynnaVis } from "../data/universal_notNorma/seredynnaVis";
-import { vysotaTilHrebtsivShvh } from "../data/SHVH/SHNH_notNorma/vysotaTilHrebtsivShvh";
-import { mizhkhrebtseviPromizhky } from "../data/universal_notNorma/mizhkhrebtseviPromizhky";
-import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../data/universal_notNorma/zamykaiuchiPlastynkyTilKhrebtsiv";
-import { fasetkoviUnkovertSuhlShchelyny } from "../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
+import { fiziologLordoz } from "../../data/universal_notNorma/fiziologLordoz";
+import { seredynnaVis } from "../../data/universal_notNorma/seredynnaVis";
+import { vysotaTilHrebtsivShvh } from "../../data/SHVH/SHNH_notNorma/vysotaTilHrebtsivShvh";
+import { mizhkhrebtseviPromizhky } from "../../data/universal_notNorma/mizhkhrebtseviPromizhky";
+import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../../data/universal_notNorma/zamykaiuchiPlastynkyTilKhrebtsiv";
+import { fasetkoviUnkovertSuhlShchelyny } from "../../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
 
-import { AddOptionBlock } from "./AddOptionBlock";
-import { shvhNenormaItems } from "../data/SHVH/shvhNenormaItems";
-import { zakliuchenniaShvh } from "../data/SHVH/SHNH_notNorma/zakliuchenniaShvh";
+import { AddOptionBlock } from "../AddOptionBlock";
+import { shvhNenormaItems } from "../../data/SHVH/shvhNenormaItems";
+import { zakliuchenniaShvh } from "../../data/SHVH/SHNH_notNorma/zakliuchenniaShvh";
 import {
   deleteIdSemicolonUniversalArray_1,
   deleteIdCommaUniversalArray_1,
@@ -23,7 +23,7 @@ import {
   deleteIdCommaUniversalArray_5,
   deleteIdCommaUniversalArray_6,
   deleteIdSvhVysotaTilHrebtsivArray,
-} from "./redux/slices/universalSliceReducer";
+} from "../redux/slices/universalSliceReducer";
 
 export const Shvh = () => {
   // const [selectedZone, setSelectedZone] = useState("ОГК");

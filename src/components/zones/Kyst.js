@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { rebraViews } from "../data/REBRA/rebraViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { kystViews } from "../../data/KYST/kystViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-export const Rebra = () => {
-  const [selectedRebraViews, setSelectedRebraViews] = useState(
-    rebraViews[0]
+export const Kyst = () => {
+  const [selectedKystViews, setSelectedKystViews] = useState(
+    kystViews[0]
   );
-  const [rebraCounter, setRebraCounter] = useState([{ id: uuidv4() }]);
+  const [kystCounter, setKystCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -30,15 +30,16 @@ export const Rebra = () => {
       }
    }
 
+
   return (
     <div className="">
       <AddOptionBlock
-        items={rebraViews}
-        onZoneSelect={setSelectedRebraViews}
+        items={kystViews}
+        onZoneSelect={setSelectedKystViews}
         label="Норма/Не норма"
-        counter={rebraCounter}
-        onAddClick={() => handleAddOption(setRebraCounter, rebraCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [rebraCounter, setRebraCounter])}
+        counter={kystCounter}
+        onAddClick={() => handleAddOption(setKystCounter, kystCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [kystCounter, setKystCounter])}
       />
     </div>
   );

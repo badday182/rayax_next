@@ -8,21 +8,21 @@ import {
   deleteIdCorArray,
   deleteIdOgkZakliuchenniaArray,
   
-} from "./redux/slices/ogkSliseReducer";
+} from "../redux/slices/ogkSliseReducer";
 
-import { FormFloatingSelect } from "./FloatingLabel";
+import { FormFloatingSelect } from "../FloatingLabel";
 import { v4 as uuidv4 } from "uuid";
-import { ogkViews } from "../data/ogkViews";
-import { ogkNormaNenorma } from "../data/OGK_notNorma/ogkNormaNenorma";
+import { ogkViews } from "../../data/ogkViews";
+import { ogkNormaNenorma } from "../../data/OGK_notNorma/ogkNormaNenorma";
 
-import { legenRysunok } from "../data/OGK_notNorma/legenRysunok";
-import { koreni } from "../data/OGK_notNorma/koreni";
-import { synusy } from "../data/OGK_notNorma/synusy";
-import { kupalaDiadragmy } from "../data/OGK_notNorma/kupalaDiadragmy";
-import { cor } from "../data/OGK_notNorma/cor";
-import { ogkZakliuchennia } from "../data/OGK_notNorma/ogkZakliuchennia";
+import { legenRysunok } from "../../data/OGK_notNorma/legenRysunok";
+import { koreni } from "../../data/OGK_notNorma/koreni";
+import { synusy } from "../../data/OGK_notNorma/synusy";
+import { kupalaDiadragmy } from "../../data/OGK_notNorma/kupalaDiadragmy";
+import { cor } from "../../data/OGK_notNorma/cor";
+import { ogkZakliuchennia } from "../../data/OGK_notNorma/ogkZakliuchennia";
 
-import { AddOptionBlock } from "./AddOptionBlock";
+import { AddOptionBlock } from "../AddOptionBlock";
 
 export const Ogk = ({ descriptionOnly }) => {
   const [selectedZone, setSelectedZone] = useState("ОГК");

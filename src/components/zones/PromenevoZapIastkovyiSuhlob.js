@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { stopaViews } from "../data/STOPA/stopaViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { promenevoZapIastkovyiSuhlobViews } from "../../data/PROMENZAPIaSTKSUHLOB/promenevoZapIastkovyiSuhlobViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-export const Stopa = () => {
-  const [selectedStopaViews, setSelectedStopaViews] = useState(
-    stopaViews[0]
+export const PromenevoZapIastkovyiSuhlob = () => {
+  const [selectedPromenevoZapIastkovyiSuhlobViews, setSelectedPromenevoZapIastkovyiSuhlobViews] = useState(
+    promenevoZapIastkovyiSuhlobViews[0]
   );
-  const [stopaCounter, setStopaCounter] = useState([{ id: uuidv4() }]);
+  const [promenevoZapIastkovyiSuhlobCounter, setPromenevoZapIastkovyiSuhlobCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -33,12 +33,12 @@ export const Stopa = () => {
   return (
     <div className="">
       <AddOptionBlock
-        items={stopaViews}
-        onZoneSelect={setSelectedStopaViews}
+        items={promenevoZapIastkovyiSuhlobViews}
+        onZoneSelect={setSelectedPromenevoZapIastkovyiSuhlobViews}
         label="Норма/Не норма"
-        counter={stopaCounter}
-        onAddClick={() => handleAddOption(setStopaCounter, stopaCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [stopaCounter, setStopaCounter])}
+        counter={promenevoZapIastkovyiSuhlobCounter}
+        onAddClick={() => handleAddOption(setPromenevoZapIastkovyiSuhlobCounter, promenevoZapIastkovyiSuhlobCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [promenevoZapIastkovyiSuhlobCounter, setPromenevoZapIastkovyiSuhlobCounter])}
       />
     </div>
   );

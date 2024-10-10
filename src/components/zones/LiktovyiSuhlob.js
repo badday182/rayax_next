@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-
 import { v4 as uuidv4 } from "uuid";
-import { ppnViews } from "../data/PPN/ppnViews";
-import { AddOptionBlock } from "./AddOptionBlock";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { liktovyiSuhlobViews } from "../../data/LIKTOVYISUHLOB/liktovyiSuhlobViews";
+import { AddOptionBlock } from "../AddOptionBlock";
+import { useDispatch } from "react-redux";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-export const Ppn = () => {
-  const [selectedPpnViews, setSelectedPpnViews] = useState(
-    ppnViews[0]
+export const LiktovyiSuhlob = () => {
+  const [selectedLiktovyiSuhlobViews, setSelectedLiktovyiSuhlobViews] = useState(
+    liktovyiSuhlobViews[0]
   );
-  const [ppnCounter, setPpnCounter] = useState([{ id: uuidv4() }]);
+  const [liktovyiSuhlobCounter, setLiktovyiSuhlobCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -30,15 +29,17 @@ export const Ppn = () => {
          dispatch(deleteIdSemicolonUniversalArray_1({ floatingId: deleteId }));   
       }
    }
+
   return (
     <div className="">
       <AddOptionBlock
-        items={ppnViews}
-        onZoneSelect={setSelectedPpnViews}
+        items={liktovyiSuhlobViews}
+        onZoneSelect={setSelectedLiktovyiSuhlobViews}
         label="Норма/Не норма"
-        counter={ppnCounter}
-        onAddClick={() => handleAddOption(setPpnCounter, ppnCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [ppnCounter, setPpnCounter])}      />
+        counter={liktovyiSuhlobCounter}
+        onAddClick={() => handleAddOption(setLiktovyiSuhlobCounter, liktovyiSuhlobCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [liktovyiSuhlobCounter, setLiktovyiSuhlobCounter])}
+      />
     </div>
   );
 };

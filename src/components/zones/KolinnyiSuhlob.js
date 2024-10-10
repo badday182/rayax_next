@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { kliuchytsiaViews } from "../data/KLIUCHYTSIA/kliuchytsiaViews";
-import { AddOptionBlock } from "./AddOptionBlock";
+import { kolinnyiSuhlobViews } from "../../data/KOLINNYISUHLOB/kolinnyiSuhlobViews";
+import { AddOptionBlock } from "../AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
 
-export const Kliuchytsia = () => {
-  const [selectedKliuchytsiaobViews, setSelectedKliuchytsiaobViews] = useState(
-    kliuchytsiaViews[0]
+export const KolinnyiSuhlob = () => {
+  const [selectedKolinnyiSuhlobViews, setSelectedKolinnyiSuhlobViews] = useState(
+    kolinnyiSuhlobViews[0]
   );
-  const [kliuchytsiaCounter, setKliuchytsiaCounter] = useState([{ id: uuidv4() }]);
+  const [kolinnyiSuhlobCounter, setKolinnyiSuhlobCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -30,15 +30,16 @@ export const Kliuchytsia = () => {
       }
    }
 
+
   return (
     <div className="">
       <AddOptionBlock
-        items={kliuchytsiaViews}
-        onZoneSelect={setSelectedKliuchytsiaobViews}
+        items={kolinnyiSuhlobViews}
+        onZoneSelect={setSelectedKolinnyiSuhlobViews}
         label="Норма/Не норма"
-        counter={kliuchytsiaCounter}
-        onAddClick={() => handleAddOption(setKliuchytsiaCounter, kliuchytsiaCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [kliuchytsiaCounter, setKliuchytsiaCounter])}
+        counter={kolinnyiSuhlobCounter}
+        onAddClick={() => handleAddOption(setKolinnyiSuhlobCounter, kolinnyiSuhlobCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [kolinnyiSuhlobCounter, setKolinnyiSuhlobCounter])}
       />
     </div>
   );

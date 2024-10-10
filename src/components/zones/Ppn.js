@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { ochpViews } from "../data/OCHP/ochpViews";
-import { AddOptionBlock } from "./AddOptionBlock";
 import { useDispatch } from "react-redux";
-import { deleteIdSemicolonUniversalArray_1 } from "./redux/slices/universalSliceReducer";
 
-export const Ochp = () => {
-  const [selectedOchpViews, setSelectedOchpViews] = useState(
-    ochpViews[0]
+import { v4 as uuidv4 } from "uuid";
+import { ppnViews } from "../../data/PPN/ppnViews";
+import { AddOptionBlock } from "../AddOptionBlock";
+import { deleteIdSemicolonUniversalArray_1 } from "../redux/slices/universalSliceReducer";
+
+export const Ppn = () => {
+  const [selectedPpnViews, setSelectedPpnViews] = useState(
+    ppnViews[0]
   );
-  const [ochpCounter, setOchpCounter] = useState([{ id: uuidv4() }]);
+  const [ppnCounter, setPpnCounter] = useState([{ id: uuidv4() }]);
 
   const handleAddOption = (setter, counter, setCounter) => {
   // const handleAddOption = (setter, counter) => {
@@ -32,15 +33,12 @@ export const Ochp = () => {
   return (
     <div className="">
       <AddOptionBlock
-        items={ochpViews}
-        onZoneSelect={setSelectedOchpViews}
+        items={ppnViews}
+        onZoneSelect={setSelectedPpnViews}
         label="Норма/Не норма"
-        counter={ochpCounter}
-        onAddClick={() => handleAddOption(setOchpCounter, ochpCounter)}
-        // onAddClick={() => handleAddOption(setSelectedOchpViews, ochpCounter)}
-        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [ochpCounter, setOchpCounter])}
-
-      />
+        counter={ppnCounter}
+        onAddClick={() => handleAddOption(setPpnCounter, ppnCounter)}
+        onDeleteClick={(deleteId) => handleDeleteOption(deleteId, [ppnCounter, setPpnCounter])}      />
     </div>
   );
 };
