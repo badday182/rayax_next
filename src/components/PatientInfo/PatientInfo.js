@@ -21,7 +21,7 @@ import { PacientInfoPattern } from "../../patternsText/pacientInfoPattern";
 import { addDocText } from "../redux/slices/documentSliseReducer";
 import { initialExamNumber } from "../../data/initialExamNumber";
 import { RiPlayListAddLine } from "react-icons/ri";
-import "../PatientInfo/PatientInfo.css"
+import "./patientInfo.css"
 // function PacientInfo() {
 const PatientInfo = ({ editorContent }) => {
   const textToDoc = renderToString(PacientInfoPattern());
