@@ -5,7 +5,7 @@ const TextEditor = ({ docTex, setEditorRef }) => {
   const editorRef = useRef();
   const API_KEY = `${process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}`
   if (!API_KEY) {
-    console.warn('TinyMCE API key is not set in environment variables');
+    console.warn('TinyMCE API key is not set in environment variables (');
   }
   {
     /*This code means that the callback function in useEffect 
