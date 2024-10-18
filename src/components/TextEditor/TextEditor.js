@@ -3,7 +3,10 @@ import { Editor } from "@tinymce/tinymce-react";
 
 const TextEditor = ({ docTex, setEditorRef }) => {
   const editorRef = useRef();
-
+  const API_KEY = `${process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}`
+  if (!API_KEY) {
+    console.warn('TinyMCE API key is not set in environment variables');
+  }
   {
     /*This code means that the callback function in useEffect 
     will be called only once after the component is mounted
@@ -24,10 +27,9 @@ within this effect anymore.
       lastChild.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   };
-
   return (
     <Editor
-      apiKey="62kbbg7407jjlea01hu71w9axyixiyxitsr8wtho4lnck72p"
+      apiKey={API_KEY}
       onInit={(_evt, editor) => {
         editorRef.current = editor;
         scrollToBottom(editor);
@@ -44,7 +46,7 @@ within this effect anymore.
         content_css: "/src/tineContent.css",
 
         setup: function (editor) {
-          editor.on("NodeChange", function () {
+          editor.on("SetContent", function () {
             scrollToBottom(editor);
           });
         },
