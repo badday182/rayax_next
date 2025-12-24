@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import {gvhNormaNenorma} from "../../data/GVH/gvhNormaNenorma";
+import { gvhNormaNenorma } from "../../data/GVH/gvhNormaNenorma";
 
 import { fiziologKifos } from "../../data/GVH/GVH_notNorma/fiziologKifos";
 import { seredynnaVis } from "../../data/universal_notNorma/seredynnaVis";
@@ -12,6 +12,7 @@ import { fasetkoviUnkovertSuhlShchelyny } from "../../data/universal_notNorma/fa
 import { AddOptionBlock } from "../AddOptionBlock";
 import { gvhNenormaItems } from "../../data/GVH/gvhNenormaItems";
 import { zakliuchenniaGvh } from "../../data/GVH/GVH_notNorma/zakliuchenniaGvh";
+import { FormFloatingSelect } from "../FloatingLabel";
 
 import { useDispatch } from "react-redux";
 import {
@@ -56,7 +57,7 @@ export const Gvh = () => {
   const handleAddOption = (setter, counter, setCounter) => {
     setter([...counter, { id: uuidv4() }]);
   };
-  
+
   const dispatch = useDispatch();
   const handleDeleteOption = (deleteId, resetCounter) => {
     // Проверяем длину массива, выполняем удаление только если длина не равна 1
@@ -81,7 +82,7 @@ export const Gvh = () => {
   };
   return (
     <div className="">
-      <FormFloatingSelec
+      <FormFloatingSelect
         items={gvhNormaNenorma}
         onZoneSelect={setSelectednormaNenorma}
         label="Норма/Не норма"
