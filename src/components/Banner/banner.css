@@ -2,111 +2,132 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
 
 .banner {
-    width: 90px;
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 14px;
-    left: 10px;
-    /* background-color: #3498db87; */
-    color: #fff;
-    padding: 10px;
-    padding-top: 0px;
-    border: 1px solid rgb(245 245 245 / 64%);
-    backdrop-filter: blur(0.7px);
-    /* background-color: rgb(178 214 247 / 18%); */
-    background-color: rgba(22, 101, 129, 0.11);
-    z-index: 20;
-  }
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* background-image: url('./svg/nnnoise.svg'); */
-  }
-  
-  .content p {
-    margin: 0;
-    margin-bottom: 5px;
-    font-size: 12px;
-    text-align: center;
-  }
-  
-  .content a,
-  img {
-    width: 50px;
-    height: auto;
-    margin: 5px 0;
-    border-radius: 25px;
-  }
-  
-  .logo {
-    position: relative;
-  }
-  
-  .logo::after {
-    content: "";
-    position: absolute;
-    /* background-image: url(/src/img/telegram_qr.jpg); */
-    background-size: cover;
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.5s ease 0s;
-  }
-  .telegram-logo::after {
-    background-image: url(/src/img/telegram_qr2.jpg);
-  }
-  .mono-logo::after {
-    background-image: url(/src/img/mono_qr.jpg);
-  }
-  .privat-logo::after {
-    background-image: url(/src/img/privat_qr.jpg);
-  }
-  .logo:hover::after {
-    opacity: 1;
-    top: -80px;
-    left: 150%;
-    /* box-shadow: 0 10px 16px -4px rgba(0, 0, 0, 0.6); */
-    box-shadow: 0px 0px 20px 6px rgba(0, 0, 0, 0.6);
-  }
-  
-  .privat-logo:hover::after {
-    height: 300px;
-    width: 300px;
-    border: 1px solid;
-    border-color: gray;
-  }
-  .mono-logo:hover::after {
-    height: 300px;
-    width: 350px;
-  }
-  .telegram-logo:hover::after {
-    height: 300px;
-    width: 250px;
-  }
+  height: fit-content;
+  position: fixed;
+  padding: 1rem;
+  padding-right: 2rem;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  border: 1px solid rgb(245 245 245 / 30%);
+  background-color: rgba(95, 105, 160, 0.425);
+  backdrop-filter: blur(1px);
+  border-radius: 12px;
+  z-index: 1000;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
 
-  #closeBanner {
-    align-self: flex-end;
-  }
-  #closeBanner:hover {
-    color: rgb(255, 51, 0);
-  }
-  .hidden {
-    display: none;
-  }
+.content p {
+  margin: 0;
+  font-size: 14px;
+}
 
-  .logo {
-    position: relative;
-  }
-  
-  .logo::after {
-    content: "";
-    position: absolute;
-    /* background-image: url(/src/img/telegram_qr.jpg); */
-    background-size: cover;
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.5s ease 0s;
-  }
+#closeBanner {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.7;
+}
+#closeBanner:hover {
+  opacity: 1;
+}
+
+.logo {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo img,
+.logo span {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.logo:hover img,
+.logo:hover span {
+  transform: scale(1.1);
+}
+.privat-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.logo::after {
+  content: '';
+  position: absolute;
+  /* left: -250%; */
+  bottom: 60px;
+  /* bottom: 850%; */
+  /* transform: translateX(-50%); */
+  width: 250px;
+  height: 250px;
+  background-color: white;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  pointer-events: none;
+}
+.telegram-logo::after {
+  background-image: url('/telegram_qr2.jpg');
+}
+.mono-logo::after {
+  background-image: url('/mono_qr.jpg');
+}
+.privat-logo::after {
+  background-image: url('/privat_qr.jpg');
+}
+.youtube-logo::after {
+  display: none;
+}
+.logo:hover::after {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1010;
+  box-shadow: 0px 0px 20px 6px rgba(0, 0, 0, 0.6);
+}
+
+#closeBanner {
+  align-self: flex-end;
+}
+#closeBanner:hover {
+  color: rgb(255, 51, 0);
+}
+.hidden {
+  display: none;
+}
+
+.logo {
+  position: relative;
+}
+
+.logo::after {
+  content: '';
+  position: absolute;
+  /* background-image: url(/src/img/telegram_qr.jpg); */
+  background-size: cover;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.5s ease 0s;
+}
