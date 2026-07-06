@@ -29,6 +29,9 @@ within this effect anymore.
   };
   return (
     <Editor
+      tinymceScriptSrc="/tinymce/tinymce.min.js"
+      onScriptsLoad={() => console.log("TinyMCE scripts loaded successfully.")}
+      onScriptsLoadError={(err) => console.error("Error loading TinyMCE scripts:", err)}
       apiKey={API_KEY}
       onInit={(_evt, editor) => {
         editorRef.current = editor;
