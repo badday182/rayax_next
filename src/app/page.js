@@ -6,7 +6,8 @@ import Banner from '@/components/Banner/Banner.jsx';
 import ButtonEditorCleaner from '@/components/Buttons/Button_EditorCleaner.js';
 import { useDispatch, useSelector } from 'react-redux';
 import PacientCard from '@/components/PacientCard.js';
-import TextEditor from '@/components/TextEditor/TextEditor.js';
+import dynamic from 'next/dynamic';
+const TextEditor = dynamic(() => import('@/components/TextEditor/TextEditor.js'), { ssr: false });
 import {
   addTextFromEditor,
   setDocumentText,

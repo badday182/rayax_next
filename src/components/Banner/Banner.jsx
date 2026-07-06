@@ -30,7 +30,8 @@ const Banner = () => {
               src='/PrivatBank.jpg'
               alt='ПриватБанк лого'
               fill
-              objectFit='cover'
+              sizes='50px'
+              style={{ objectFit: 'cover' }}
               className='rounded-circle'
             />
           </div>

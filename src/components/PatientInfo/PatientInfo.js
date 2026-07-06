@@ -164,13 +164,10 @@ const PatientInfo = ({ editorContent }) => {
               <Form.Label>№ дос-ня</Form.Label>
               <Form.Control
                 className="numeric"
-                // {initialExamDefaultValue != '' ? {}}
-                // placeholder="№ дослідження"
                 placeholder={initialExamDefaultValue}
                 type="number"
-                // defaultValue={naprav}
                 onChange={handleNapravChange}
-                value={initialExamDefaultValue}
+                value={examState !== initialExamNumber ? examState : ""}
               />
             </Form.Group>
           </Row>

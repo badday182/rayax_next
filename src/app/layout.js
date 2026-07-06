@@ -1,27 +1,24 @@
-'use client'
 import { Inter } from "next/font/google";
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.css'
 import "./globals.css";
-import store from "@/store/store";
-import { Provider } from "react-redux";
+import ReduxProvider from "@/components/ReduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// export const metadata = {
-//   title: "RayaX",
-//   description: "design by VBerk",
-// };
+export const metadata = {
+  title: "Rayax",
+  description: "design by VBerk",
+};
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <title>Rayax</title>
       </head>
-      <body className={inter.className}>
-        <Provider store={store}>
+      <body className={inter.className} suppressHydrationWarning>
+        <ReduxProvider>
           {children}
-        </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );
