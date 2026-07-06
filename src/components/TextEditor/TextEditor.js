@@ -41,12 +41,10 @@ within this effect anymore.
       init={{
         selector: "#myTextarea",
         browser_spellcheck: true,
-        spellchecker_language: "uk",
-        contextmenu: true,
-        language: "uk",
+        contextmenu: false,
+        license_key: 'gpl',
         height: 650,
         width: 700,
-        content_css: "/src/tineContent.css",
 
         setup: function (editor) {
           editor.on("SetContent", function () {
@@ -77,7 +75,7 @@ within this effect anymore.
           " undo redo | blocks | " +
           "bold italic forecolor | ",
         content_style:
-          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px; padding: 1rem;}  table { width: 100%; border-collapse: collapse; border: 2px solid white; border-color: white; } tbody, th, tr, td { border: 2px solid white; border-color: white; border-style: solid; } td {padding: 0.4rem;} h1,h2,h3,h4,h5,h6 {margin: 5px 5px;} ",
+          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px; padding: 1rem;}  table { width: 100%; border-collapse: collapse; border: 2px solid white; border-color: white; } tbody, th, tr, td { border-top: 2px solid white; border-bottom: 2px solid white; border-left: 2px solid transparent !important; border-right: 2px solid transparent !important; } td {padding: 0.4rem;} h1,h2,h3,h4,h5,h6 {margin: 5px 5px;} ",
       }}
     />
   );
