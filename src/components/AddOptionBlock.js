@@ -44,6 +44,7 @@ export const AddOptionBlock = ({
               key={option.id}
               id={option.id}
               items={mergedItems}
+              customValues={customOptions}
               onZoneSelect={onZoneSelect}
               label={label}
             />

@@ -68,8 +68,8 @@ const OptionRow = ({ userId, fieldKey, value }) => {
           </Button>
           <Button
             size="sm"
-            variant="outline-danger"
-            className="flex-shrink-0"
+            variant="danger"
+            className="btn-delete-custom-option flex-shrink-0"
             onClick={handleDelete}
           >
             Видалити
@@ -93,9 +93,9 @@ const AccountPage = () => {
   return (
     <div className="conteinerWidht p-3">
       <div className="mb-3">
-        <Link href="/" className="text-white">
+        <Button as={Link} href="/" variant="outline-light" size="sm">
           ← На головну
-        </Link>
+        </Button>
       </div>
 
       <h2 className="text-white mb-3">Мої варіанти описів</h2>
@@ -118,8 +118,8 @@ const AccountPage = () => {
 
       {user &&
         fieldsWithOptions.map((field) => (
-          <Card key={field.key} className="bg-glass text-white mb-3">
-            <Card.Body>
+          <Card key={field.key} className="bg-glass text-white mb-3" style={{ minWidth: 0 }}>
+            <Card.Body className="min-width-0">
               <Card.Title className="fs-6">
                 {field.zone} — {field.label}
               </Card.Title>

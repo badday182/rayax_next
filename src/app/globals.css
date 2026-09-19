@@ -393,6 +393,30 @@ button:focus {
   cursor: not-allowed;
 }
 
+.btn-delete-custom-option {
+  background-color: #e0626f;
+  border-color: #e0626f;
+  color: #fff;
+}
+
+.btn-delete-custom-option:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.min-width-0 {
+  min-width: 0;
+}
+
+.option-row {
+  min-width: 0;
+}
+
+.option-row-input {
+  min-width: 0;
+}
+
 @media (max-width: 425px) {
   .option-row {
     flex-direction: column;
@@ -401,10 +425,15 @@ button:focus {
 
   .option-row-input,
   .option-row-actions {
-    /* width: 100%; */
+    width: 100%;
   }
 
   .option-row-actions > * {
     flex: 1;
   }
+}
+
+option.custom-option {
+  background-color: #d7f0e0;
+  color: #0f5132;
 }

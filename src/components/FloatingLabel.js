@@ -129,7 +129,7 @@ export const fieldKeyByArray = new Map([
   [peredniViddilyStopyViews, "peredniViddilyStopyViews"],
 ]);
 
-export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
+export function FormFloatingSelect({ id, items, label, onZoneSelect, customValues = [] }) {
   const [floatingId] = useState(id);
   const [selectedValue, setSelectedValue] = useState('');
   const [placeholderVisible, setPlaceholderVisible] = useState(true);
@@ -157,12 +157,19 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
       return item.replace("$'", "'");
     };
 
-    return items.map((item) => (
-      // <option key={fixedZone(item)} value={fixedZone(item)}>
-      <option key={`${fixedZone(item)}-${floatingId}`} value={fixedZone(item)}>
-        {fixedZone(item)}
-      </option>
-    ));
+    return items.map((item) => {
+      const value = fixedZone(item);
+      const isCustom = customValues.includes(value);
+      return (
+        <option
+          key={`${value}-${floatingId}`}
+          value={value}
+          className={isCustom ? "custom-option" : undefined}
+        >
+          {value}
+        </option>
+      );
+    });
   };
 
   useEffect(() => {
