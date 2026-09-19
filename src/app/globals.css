@@ -372,3 +372,23 @@ button:focus {
 .mt--025rem {
   margin-top: -0.25rem;
 }
+
+.btn-save-custom-option {
+  background-color: #2fa06c;
+  border-color: #2fa06c;
+  color: #fff;
+}
+
+.btn-save-custom-option:hover:not(:disabled) {
+  background-color: #198754;
+  border-color: #198754;
+  color: #fff;
+}
+
+.btn-save-custom-option:disabled {
+  background-color: #88949e;
+  border-color: #a5a7a9;
+  color: #fff;
+  opacity: 1;
+  cursor: not-allowed;
+}

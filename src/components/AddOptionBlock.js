@@ -79,7 +79,12 @@ export const AddOptionBlock = ({
               }
             }}
           />
-          <Button variant="outline-success" onClick={handleSaveCustomOption}>
+          <Button
+            variant="success"
+            className="btn-save-custom-option"
+            disabled={!newValue.trim()}
+            onClick={handleSaveCustomOption}
+          >
             Зберегти
           </Button>
         </InputGroup>
