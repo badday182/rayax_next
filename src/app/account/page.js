@@ -49,29 +49,32 @@ const OptionRow = ({ userId, fieldKey, value }) => {
 
   return (
     <div className="mb-2">
-      <div className="d-flex align-items-center gap-2">
+      <div className="option-row d-flex align-items-center gap-2">
         <Form.Control
           size="sm"
+          className="option-row-input"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
         />
-        <Button
-          size="sm"
-          variant="success"
-          className="btn-save-custom-option flex-shrink-0"
-          disabled={isEmpty || isUnchanged || saving}
-          onClick={handleSave}
-        >
-          Зберегти
-        </Button>
-        <Button
-          size="sm"
-          variant="outline-danger"
-          className="flex-shrink-0"
-          onClick={handleDelete}
-        >
-          Видалити
-        </Button>
+        <div className="option-row-actions d-flex gap-2">
+          <Button
+            size="sm"
+            variant="success"
+            className="btn-save-custom-option flex-shrink-0"
+            disabled={isEmpty || isUnchanged || saving}
+            onClick={handleSave}
+          >
+            Зберегти
+          </Button>
+          <Button
+            size="sm"
+            variant="outline-danger"
+            className="flex-shrink-0"
+            onClick={handleDelete}
+          >
+            Видалити
+          </Button>
+        </div>
       </div>
       {error && <div className="text-danger small mt-1">{error}</div>}
     </div>
