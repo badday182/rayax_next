@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
 import AuthProvider from "@/components/Auth/AuthProvider";
+import Header from "@/components/Header/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className} suppressHydrationWarning>
         <ReduxProvider>
           <AuthProvider>
+            <Header />
             {children}
           </AuthProvider>
         </ReduxProvider>

@@ -1,0 +1,30 @@
+.siteHeader {
+  height: 56px;
+  color: #fff;
+  background-color: rgb(178 214 247 / 18%);
+  backdrop-filter: blur(0.7px);
+  border-bottom: 1px solid rgb(245 245 245 / 20%);
+}
+
+.siteHeader-logo {
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.siteHeader-name {
+  font-size: 14px;
+}
+
+.siteHeader-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgb(153, 68, 150);
+  border: 1px solid rgb(245 245 245 / 64%);
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+}
