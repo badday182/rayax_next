@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import { useAuth } from "./AuthProvider";
 
 const AuthForm = ({ show, onHide }) => {
-  const { signUp, signIn } = useAuth();
+  const { signUp, signIn, signInWithGoogle } = useAuth();
   const [mode, setMode] = useState("signIn"); // "signIn" | "signUp"
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,6 +48,12 @@ const AuthForm = ({ show, onHide }) => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setError("");
+    const { error: authError } = await signInWithGoogle();
+    if (authError) setError(authError.message);
+  };
+
   return (
     <Modal show={show} onHide={resetAndHide} centered>
       <Modal.Header closeButton>
@@ -55,8 +61,18 @@ const AuthForm = ({ show, onHide }) => {
           {mode === "signIn" ? "Увійти" : "Реєстрація"}
         </Modal.Title>
       </Modal.Header>
+      <Modal.Body>
+        <Button
+          variant="outline-dark"
+          className="w-100 mb-3"
+          onClick={handleGoogleSignIn}
+        >
+          Увійти через Google
+        </Button>
+        <div className="text-center text-muted mb-3">або</div>
+      </Modal.Body>
       <Form onSubmit={handleSubmit}>
-        <Modal.Body>
+        <Modal.Body className="pt-0">
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control

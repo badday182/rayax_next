@@ -48,8 +48,16 @@ const AuthProvider = ({ children }) => {
 
   const signOut = () => supabase.auth.signOut();
 
+  const signInWithGoogle = () =>
+    supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
+    });
+
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, loading, signUp, signIn, signOut, signInWithGoogle }}
+    >
       {children}
     </AuthContext.Provider>
   );
