@@ -38,6 +38,48 @@ export const addCustomOption = createAsyncThunk(
   }
 );
 
+export const updateCustomOption = createAsyncThunk(
+  "customOptions/update",
+  async ({ userId, fieldKey, oldValue, newValue }) => {
+    const { data, error } = await supabase
+      .from("custom_options")
+      .update({ value: newValue })
+      .eq("user_id", userId)
+      .eq("field_key", fieldKey)
+      .eq("value", oldValue)
+      .select();
+
+    if (error) throw error;
+    if (!data?.length) {
+      throw new Error(
+        "Варіант не знайдено (можливо, вже змінений в іншій вкладці)"
+      );
+    }
+    return { fieldKey, oldValue, newValue };
+  }
+);
+
+export const deleteCustomOption = createAsyncThunk(
+  "customOptions/delete",
+  async ({ userId, fieldKey, value }) => {
+    const { data, error } = await supabase
+      .from("custom_options")
+      .delete()
+      .eq("user_id", userId)
+      .eq("field_key", fieldKey)
+      .eq("value", value)
+      .select();
+
+    if (error) throw error;
+    if (!data?.length) {
+      throw new Error(
+        "Варіант не знайдено (можливо, вже видалений в іншій вкладці)"
+      );
+    }
+    return { fieldKey, value };
+  }
+);
+
 export const customOptionsSlice = createSlice({
   name: "customOptions",
   initialState,
@@ -65,6 +107,18 @@ export const customOptionsSlice = createSlice({
         if (!existing.includes(value)) {
           state.byKey[fieldKey] = [value, ...existing];
         }
+      })
+      .addCase(updateCustomOption.fulfilled, (state, action) => {
+        const { fieldKey, oldValue, newValue } = action.payload;
+        state.byKey[fieldKey] = (state.byKey[fieldKey] ?? []).map((v) =>
+          v === oldValue ? newValue : v
+        );
+      })
+      .addCase(deleteCustomOption.fulfilled, (state, action) => {
+        const { fieldKey, value } = action.payload;
+        state.byKey[fieldKey] = (state.byKey[fieldKey] ?? []).filter(
+          (v) => v !== value
+        );
       });
   },
 });

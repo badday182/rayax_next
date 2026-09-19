@@ -47,6 +47,21 @@ Logged-in users can save their own text options into the "finding" dropdowns (th
 - `FloatingLabel.js`'s `handleZoneSelect` cannot just check the plain static array anymore (a custom value isn't a member of it), so every allowlisted `someArray.includes(selectedZone)` check was replaced with a local `matches(someArray, selectedZone)` helper that also checks `customOptionsByKey[fieldKeyByArray.get(someArray)]` first. This is the piece that makes a custom selection actually dispatch into the same redux slot as a static one, so it reaches `zoneInfoPattern.js`'s output.
 - The static arrays in `src/data/**` and `zoneInfoPattern.js` itself are **never mutated** — merging only happens locally in `AddOptionBlock`'s render and in the `matches()` check, so SSR/hydration stays consistent (custom options simply aren't present until the client-side Supabase fetch resolves, same pattern the app already used for restoring `textToDoc` from `localStorage` in `page.js`).
 - Known pre-existing gap this doesn't fix: the "Кісток тазу" zone (`zoneInfoPattern.js`'s `Кісток тазу` branch) prints one fixed paragraph for any non-default selection regardless of the actual text chosen — a custom option saved there is selectable but won't be reflected in the generated report. Not touched, since it's a pre-existing zone quirk unrelated to this feature.
+- Fixed while building this: ГВХ's "Висота тіл хребців" field passes `vysotaTilHrebtsivGvh` into its `AddOptionBlock`, a different (mostly-but-not-fully overlapping) array than `vysotaTilHrebtsivShvh`. It had no `fieldKeyByArray` entry at all and no `matches()` dispatch branch in `handleZoneSelect`, so it silently had no "Зберегти" UI and its one GVH-specific static option never reached the report. Both are now fixed with their own dedicated key (not aliased to ШВХ's, to avoid cervical/thoracic custom options bleeding into each other's dropdowns).
+
+## Managing saved custom options: /account
+
+[account/page.js](src/app/account/page.js) — a dedicated route (not a modal), reachable by clicking the avatar in [Header.js](src/components/Header/Header.js). Reads `state.customOptions.byKey` directly (already populated on login, no extra fetch) and cross-references it against [customizableFieldsCatalog.js](src/data/customizableFieldsCatalog.js) — a display-only `{ key, zone, label }` list mirroring `fieldKeyByArray`'s keys (used only for human-readable headings here, never for logic) — to render one card per field that actually has saved values, skipping empty ones. Each value is edit-in-place (local draft state, save disabled until changed and non-empty) or deletable (with a confirm prompt).
+
+`updateCustomOption`/`deleteCustomOption` (added to `customOptionsSliceReducer.js`) deliberately match rows by the natural key `(user_id, field_key, value)` — exactly the table's existing `unique` constraint — rather than tracking each row's `id` client-side, so `byKey`'s shape (`{ [fieldKey]: string[] }`) never changes and `FloatingLabel.js`'s `matches()` / `AddOptionBlock.js`'s merge logic needed zero changes. Because Supabase `.update()`/`.delete()` don't error on a zero-row match, both thunks append `.select()` and explicitly throw if nothing came back (guards against a stale draft silently no-oping, e.g. two tabs open).
+
+Requires two more RLS policies beyond the original `select`/`insert` ones (run once in Supabase SQL Editor):
+```sql
+create policy "update own custom options" on public.custom_options
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "delete own custom options" on public.custom_options
+  for delete using (auth.uid() = user_id);
+```
 
 ## Premium status
 

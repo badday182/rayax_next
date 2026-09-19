@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useAuth } from '../Auth/AuthProvider';
@@ -29,24 +30,30 @@ const Header = () => {
         {!loading &&
           (user ? (
             <>
-              <span className='siteHeader-avatarWrap'>
-                {isPremium && (
-                  <span className='siteHeader-premiumBadge'>Pro</span>
-                )}
-                {avatarUrl ? (
-                  <img
-                    className='siteHeader-avatar-img'
-                    src={avatarUrl}
-                    alt={displayName}
-                    referrerPolicy='no-referrer'
-                  />
-                ) : (
-                  <span className='siteHeader-avatar'>{initial}</span>
-                )}
-              </span>
-              <span className='siteHeader-name d-none d-sm-inline'>
-                {displayName}
-              </span>
+              <Link
+                href='/account'
+                className='d-flex align-items-center gap-2 text-decoration-none text-white'
+                title='Особистий кабінет'
+              >
+                <span className='siteHeader-avatarWrap'>
+                  {isPremium && (
+                    <span className='siteHeader-premiumBadge'>Pro</span>
+                  )}
+                  {avatarUrl ? (
+                    <img
+                      className='siteHeader-avatar-img'
+                      src={avatarUrl}
+                      alt={displayName}
+                      referrerPolicy='no-referrer'
+                    />
+                  ) : (
+                    <span className='siteHeader-avatar'>{initial}</span>
+                  )}
+                </span>
+                <span className='siteHeader-name d-none d-sm-inline'>
+                  {displayName}
+                </span>
+              </Link>
               <Button
                 size='sm'
                 variant='outline-light'

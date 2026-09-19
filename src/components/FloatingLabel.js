@@ -105,6 +105,7 @@ export const fieldKeyByArray = new Map([
   [fiziologLordoz, "fiziologLordoz"],
   [seredynnaVis, "seredynnaVis"],
   [vysotaTilHrebtsivShvh, "vysotaTilHrebtsivShvh"],
+  [vysotaTilHrebtsivGvh, "vysotaTilHrebtsivGvh"],
   [mizhkhrebtseviPromizhky, "mizhkhrebtseviPromizhky"],
   [zamykaiuchiPlastynkyTilKhrebtsiv, "zamykaiuchiPlastynkyTilKhrebtsiv"],
   [fasetkoviUnkovertSuhlShchelyny, "fasetkoviUnkovertSuhlShchelyny"],
@@ -321,8 +322,11 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
       dispatch(editCommaUniversalArray_1({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
     }
+    if (matches(vysotaTilHrebtsivGvh, selectedZone)) {
+      dispatch(editSvhVysotaTilHrebtsivArray({ floatingId, selectedZone }));
+    }
 
-    //seredynnaVis vysotaTilHrebtsivGvh mizhkhrebtseviPromizhky zamykaiuchiPlastynkyTilKhrebtsiv fasetkoviUnkovertSuhlShchelyny используются из ШВХ ))
+    //seredynnaVis mizhkhrebtseviPromizhky zamykaiuchiPlastynkyTilKhrebtsiv fasetkoviUnkovertSuhlShchelyny используются из ШВХ ))
 
     if (matches(zakliuchenniaGvh, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
