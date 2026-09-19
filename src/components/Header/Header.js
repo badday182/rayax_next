@@ -16,6 +16,8 @@ const Header = () => {
     user?.email ||
     '';
   const initial = displayName ? displayName.trim()[0].toUpperCase() : '?';
+  const avatarUrl =
+    user?.user_metadata?.avatar_url || user?.user_metadata?.picture || '';
 
   return (
     <header className="siteHeader d-flex align-items-center justify-content-between px-3">
@@ -25,7 +27,16 @@ const Header = () => {
         {!loading &&
           (user ? (
             <>
-              <span className="siteHeader-avatar">{initial}</span>
+              {avatarUrl ? (
+                <img
+                  className="siteHeader-avatar-img"
+                  src={avatarUrl}
+                  alt={displayName}
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <span className="siteHeader-avatar">{initial}</span>
+              )}
               <span className="siteHeader-name d-none d-sm-inline">
                 {displayName}
               </span>
