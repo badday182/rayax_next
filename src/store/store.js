@@ -11,6 +11,7 @@ import universalSliceReducer from "../components/redux/slices/universalSliceRedu
 import newPatientSliseReducer from "../components/redux/slices/newPatientSliseReducer";
 import descriptionOnlyReducer from "../components/redux/slices/descriptionOnlyReducer";
 import customOptionsReducer from "../components/redux/slices/customOptionsSliceReducer";
+import profileReducer from "../components/redux/slices/profileSliceReducer";
 
 const store = configureStore({
     reducer: {
@@ -25,6 +26,7 @@ const store = configureStore({
         universalSlice: universalSliceReducer,
         descriptionOnly: descriptionOnlyReducer,
         customOptions: customOptionsReducer,
+        profile: profileReducer,
     }
 })
 

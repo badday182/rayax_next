@@ -48,6 +48,10 @@ Logged-in users can save their own text options into the "finding" dropdowns (th
 - The static arrays in `src/data/**` and `zoneInfoPattern.js` itself are **never mutated** — merging only happens locally in `AddOptionBlock`'s render and in the `matches()` check, so SSR/hydration stays consistent (custom options simply aren't present until the client-side Supabase fetch resolves, same pattern the app already used for restoring `textToDoc` from `localStorage` in `page.js`).
 - Known pre-existing gap this doesn't fix: the "Кісток тазу" zone (`zoneInfoPattern.js`'s `Кісток тазу` branch) prints one fixed paragraph for any non-default selection regardless of the actual text chosen — a custom option saved there is selectable but won't be reflected in the generated report. Not touched, since it's a pre-existing zone quirk unrelated to this feature.
 
+## Premium status
+
+There's no payment integration — premium is granted manually by the site owner via Supabase, not self-serve. `public.profiles` (`id` references `auth.users(id)`, `email`, `is_premium boolean default false`) has a row auto-created per signup by a Postgres trigger (`on_auth_user_created` → `handle_new_user()`). RLS only grants `select` to the owning row — there's deliberately no `insert`/`update` policy for the `authenticated` role, so a user can never grant themselves premium from the client; only the project owner running SQL (or using Table Editor) as the Postgres role can flip `is_premium`. [profileSliceReducer.js](src/components/redux/slices/profileSliceReducer.js) fetches this once per login (same trigger point as `fetchCustomOptions`, wired in `AuthProvider.js`) into `state.profile.isPremium`. Currently gates two things, both read via `useSelector((state) => state.profile.isPremium)`: a "Premium" badge on the avatar in [Header.js](src/components/Header/Header.js), and hiding the donation banner entirely ([Banner.jsx](src/components/Banner/Banner.jsx) returns `null` when premium).
+
 ## Notes
 
 - UI text, variable/data names, and comments are a mix of Ukrainian (UI-facing) and Russian (many code comments) — this is normal for this codebase, not a mistake to "fix".

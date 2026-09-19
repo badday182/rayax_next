@@ -2,12 +2,17 @@
 import Image from 'next/image';
 import './banner.css';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Banner = () => {
   const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const isPremium = useSelector((state) => state.profile.isPremium);
   const closeBanner = () => {
     setIsBannerVisible(false);
   };
+
+  if (isPremium) return null;
+
   return (
     <div
       className={`banner rounded-3 shadow-lg ${isBannerVisible ? '' : 'hidden'}`}

@@ -7,6 +7,7 @@ import {
   fetchCustomOptions,
   clearCustomOptions,
 } from "../redux/slices/customOptionsSliceReducer";
+import { fetchProfile, clearProfile } from "../redux/slices/profileSliceReducer";
 
 const AuthContext = createContext(null);
 
@@ -35,8 +36,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       dispatch(fetchCustomOptions(user.id));
+      dispatch(fetchProfile(user.id));
     } else {
       dispatch(clearCustomOptions());
+      dispatch(clearProfile());
     }
   }, [user, dispatch]);
 

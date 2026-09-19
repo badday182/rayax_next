@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useAuth } from '../Auth/AuthProvider';
 import AuthForm from '../Auth/AuthForm';
@@ -8,6 +9,7 @@ import './header.css';
 
 const Header = () => {
   const { user, loading, signOut } = useAuth();
+  const isPremium = useSelector((state) => state.profile.isPremium);
   const [showAuthForm, setShowAuthForm] = useState(false);
 
   const displayName =
@@ -20,29 +22,34 @@ const Header = () => {
     user?.user_metadata?.avatar_url || user?.user_metadata?.picture || '';
 
   return (
-    <header className="siteHeader d-flex align-items-center justify-content-between px-3">
-      <span className="siteHeader-logo fw-bold">Rayax</span>
+    <header className='siteHeader d-flex align-items-center justify-content-between px-3'>
+      <span className='siteHeader-logo fw-bold'>Rayax</span>
 
-      <div className="d-flex align-items-center gap-2">
+      <div className='d-flex align-items-center gap-2'>
         {!loading &&
           (user ? (
             <>
-              {avatarUrl ? (
-                <img
-                  className="siteHeader-avatar-img"
-                  src={avatarUrl}
-                  alt={displayName}
-                  referrerPolicy="no-referrer"
-                />
-              ) : (
-                <span className="siteHeader-avatar">{initial}</span>
-              )}
-              <span className="siteHeader-name d-none d-sm-inline">
+              <span className='siteHeader-avatarWrap'>
+                {isPremium && (
+                  <span className='siteHeader-premiumBadge'>Pro</span>
+                )}
+                {avatarUrl ? (
+                  <img
+                    className='siteHeader-avatar-img'
+                    src={avatarUrl}
+                    alt={displayName}
+                    referrerPolicy='no-referrer'
+                  />
+                ) : (
+                  <span className='siteHeader-avatar'>{initial}</span>
+                )}
+              </span>
+              <span className='siteHeader-name d-none d-sm-inline'>
                 {displayName}
               </span>
               <Button
-                size="sm"
-                variant="outline-light"
+                size='sm'
+                variant='outline-light'
                 onClick={signOut}
               >
                 Вийти
@@ -50,8 +57,8 @@ const Header = () => {
             </>
           ) : (
             <Button
-              size="sm"
-              variant="outline-light"
+              size='sm'
+              variant='outline-light'
               onClick={() => setShowAuthForm(true)}
             >
               Увійти
@@ -59,7 +66,10 @@ const Header = () => {
           ))}
       </div>
 
-      <AuthForm show={showAuthForm} onHide={() => setShowAuthForm(false)} />
+      <AuthForm
+        show={showAuthForm}
+        onHide={() => setShowAuthForm(false)}
+      />
     </header>
   );
 };
