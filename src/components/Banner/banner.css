@@ -45,6 +45,13 @@
   opacity: 1;
 }
 
+.authWidget {
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  color: #fff;
+}
+
 .logo {
   position: relative;
   display: flex;

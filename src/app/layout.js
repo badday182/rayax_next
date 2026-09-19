@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import 'bootstrap/dist/css/bootstrap.css'
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
+import AuthProvider from "@/components/Auth/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <ReduxProvider>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ReduxProvider>
       </body>
     </html>

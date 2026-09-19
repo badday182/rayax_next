@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   editZone,
   editProaction,
@@ -89,6 +89,45 @@ import { firstElements } from "../data/viewsToEditSemicolUnivArray_1";
 import { vysotaTilHrebtsivPvh } from "../data/PVH/PVH_notNorma/vysotaTilHrebtsivPvh";
 import { editDescriptionOnly } from "./redux/slices/descriptionOnlyReducer";
 
+// Поля-"знахідки", для яких дозволено зберігати власні варіанти тексту.
+// Навмисно НЕ включені структурні селектори (zones, sides, проекції,
+// Норма/Не норма тощо) — додавання туди кастомних значень зламало б
+// умовний рендеринг блоків знахідок.
+export const fieldKeyByArray = new Map([
+  [legenRysunok, "legenRysunok"],
+  [koreni, "koreni"],
+  [synusy, "synusy"],
+  [kupalaDiadragmy, "kupalaDiadragmy"],
+  [cor, "cor"],
+  [ogkZakliuchennia, "ogkZakliuchennia"],
+  [cherepViews, "cherepViews"],
+  [ppnViews, "ppnViews"],
+  [fiziologLordoz, "fiziologLordoz"],
+  [seredynnaVis, "seredynnaVis"],
+  [vysotaTilHrebtsivShvh, "vysotaTilHrebtsivShvh"],
+  [mizhkhrebtseviPromizhky, "mizhkhrebtseviPromizhky"],
+  [zamykaiuchiPlastynkyTilKhrebtsiv, "zamykaiuchiPlastynkyTilKhrebtsiv"],
+  [fasetkoviUnkovertSuhlShchelyny, "fasetkoviUnkovertSuhlShchelyny"],
+  [zakliuchenniaShvh, "zakliuchenniaShvh"],
+  [fiziologKifos, "fiziologKifos"],
+  [zakliuchenniaGvh, "zakliuchenniaGvh"],
+  [vysotaTilHrebtsivPvh, "vysotaTilHrebtsivPvh"],
+  [zakliuchenniaPvh, "zakliuchenniaPvh"],
+  [ochpViews, "ochpViews"],
+  [plechovyiSuhlobViews, "plechovyiSuhlobViews"],
+  [kliuchytsiaViews, "kliuchytsiaViews"],
+  [rebraViews, "rebraViews"],
+  [liktovyiSuhlobViews, "liktovyiSuhlobViews"],
+  [promenevoZapIastkovyiSuhlobViews, "promenevoZapIastkovyiSuhlobViews"],
+  [kystViews, "kystViews"],
+  [kistokTazuViews, "kistokTazuViews"],
+  [kulshovyiSuhlobViews, "kulshovyiSuhlobViews"],
+  [kolinnyiSuhlobViews, "kolinnyiSuhlobViews"],
+  [homilkovoStopnyiSuhlobViews, "homilkovoStopnyiSuhlobViews"],
+  [stopaViews, "stopaViews"],
+  [peredniViddilyStopyViews, "peredniViddilyStopyViews"],
+]);
+
 export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
   const [floatingId] = useState(id);
   const [selectedValue, setSelectedValue] = useState('');
@@ -102,6 +141,15 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
   }, [selectedValue]);
 
   const dispatch = useDispatch();
+  const customOptionsByKey = useSelector((state) => state.customOptions.byKey);
+
+  // Кастомний варіант, збережений користувачем для цього поля, повинен
+  // диспатчитись так само, як і будь-який статичний варіант з масиву.
+  const matches = (arr, value) => {
+    const key = fieldKeyByArray.get(arr);
+    if (key && customOptionsByKey[key]?.includes(value)) return true;
+    return arr.includes(value);
+  };
 
   const itemGenerator = () => {
     const fixedZone = (item) => {
@@ -196,36 +244,36 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
-    if (legenRysunok.includes(selectedZone)) {
+    if (matches(legenRysunok, selectedZone)) {
       // dispatch(editLegenRusynokId({ floatingId }));
       dispatch(editLegenRusynokArray({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
     }
-    if (koreni.includes(selectedZone)) {
+    if (matches(koreni, selectedZone)) {
       dispatch(editKoreniArray({ floatingId, selectedZone }));
     }
-    if (synusy.includes(selectedZone)) {
+    if (matches(synusy, selectedZone)) {
       dispatch(editSynusyArray({ floatingId, selectedZone }));
     }
-    if (kupalaDiadragmy.includes(selectedZone)) {
+    if (matches(kupalaDiadragmy, selectedZone)) {
       dispatch(editKupalaDiadragmyArray({ floatingId, selectedZone }));
     }
-    if (cor.includes(selectedZone)) {
+    if (matches(cor, selectedZone)) {
       dispatch(editCorArray({ floatingId, selectedZone }));
     }
-    if (ogkZakliuchennia.includes(selectedZone)) {
+    if (matches(ogkZakliuchennia, selectedZone)) {
       dispatch(editOgkZakliuchenniaArray({ floatingId, selectedZone }));
     }
     // -----------ОГК end---------
 
     // -----------Череп start---------
-    if (cherepViews.includes(selectedZone)) {
+    if (matches(cherepViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Череп end---------
 
     // -----------ППН start---------
-    if (ppnViews.includes(selectedZone)) {
+    if (matches(ppnViews, selectedZone)) {
       // dispatch(editPpnNormaNenormaArray({ floatingId, selectedZone }));
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
@@ -238,27 +286,27 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
       // console.log(selectedZone);
     }
 
-    if (fiziologLordoz.includes(selectedZone)) {
+    if (matches(fiziologLordoz, selectedZone)) {
       // dispatch(editLegenRusynokId({ floatingId }));
       dispatch(editCommaUniversalArray_1({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
     }
-    if (seredynnaVis.includes(selectedZone)) {
+    if (matches(seredynnaVis, selectedZone)) {
       dispatch(editCommaUniversalArray_2({ floatingId, selectedZone }));
     }
-    if (vysotaTilHrebtsivShvh.includes(selectedZone)) {
+    if (matches(vysotaTilHrebtsivShvh, selectedZone)) {
       dispatch(editSvhVysotaTilHrebtsivArray({ floatingId, selectedZone }));
     }
-    if (mizhkhrebtseviPromizhky.includes(selectedZone)) {
+    if (matches(mizhkhrebtseviPromizhky, selectedZone)) {
       dispatch(editCommaUniversalArray_4({ floatingId, selectedZone }));
     }
-    if (zamykaiuchiPlastynkyTilKhrebtsiv.includes(selectedZone)) {
+    if (matches(zamykaiuchiPlastynkyTilKhrebtsiv, selectedZone)) {
       dispatch(editCommaUniversalArray_5({ floatingId, selectedZone }));
     }
-    if (fasetkoviUnkovertSuhlShchelyny.includes(selectedZone)) {
+    if (matches(fasetkoviUnkovertSuhlShchelyny, selectedZone)) {
       dispatch(editCommaUniversalArray_6({ floatingId, selectedZone }));
     }
-    if (zakliuchenniaShvh.includes(selectedZone)) {
+    if (matches(zakliuchenniaShvh, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ШВХ end---------
@@ -268,7 +316,7 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
-    if (fiziologKifos.includes(selectedZone)) {
+    if (matches(fiziologKifos, selectedZone)) {
       // dispatch(editLegenRusynokId({ floatingId }));
       dispatch(editCommaUniversalArray_1({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
@@ -276,7 +324,7 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
 
     //seredynnaVis vysotaTilHrebtsivGvh mizhkhrebtseviPromizhky zamykaiuchiPlastynkyTilKhrebtsiv fasetkoviUnkovertSuhlShchelyny используются из ШВХ ))
 
-    if (zakliuchenniaGvh.includes(selectedZone)) {
+    if (matches(zakliuchenniaGvh, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ГВХ end---------
@@ -287,73 +335,73 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
       // console.log(selectedZone);
     }
 
-    if (vysotaTilHrebtsivPvh.includes(selectedZone)) {
+    if (matches(vysotaTilHrebtsivPvh, selectedZone)) {
       dispatch(editSvhVysotaTilHrebtsivArray({ floatingId, selectedZone }));
     }
     //seredynnaVis vysotaTilHrebtsivGvh mizhkhrebtseviPromizhky zamykaiuchiPlastynkyTilKhrebtsiv fasetkoviUnkovertSuhlShchelyny используются из ШВХ ))
 
-    if (zakliuchenniaPvh.includes(selectedZone)) {
+    if (matches(zakliuchenniaPvh, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ПВХ end---------
 
     // -----------ОЧП start--------
-    if (ochpViews.includes(selectedZone)) {
+    if (matches(ochpViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ОЧП end---------
 
     // -----------плечовийСуглоб start--------
-    if (plechovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(plechovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------плечовийСуглоб end---------
 
     // -----------Ключиця start--------
-    if (kliuchytsiaViews.includes(selectedZone)) {
+    if (matches(kliuchytsiaViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Ключиця end---------
     // -----------Ребра start--------
-    if (rebraViews.includes(selectedZone)) {
+    if (matches(rebraViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Ліктьовий суглоб end---------
-    if (liktovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(liktovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Ліктьовий суглоб end---------
     // -----------Променево-зап'ястковий суглоб end---------
-    if (promenevoZapIastkovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(promenevoZapIastkovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Променево-зап'ястковий суглоб end---------
     // -----------Кисть end---------
-    if (kystViews.includes(selectedZone)) {
+    if (matches(kystViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Кисть end---------
     // -----------Кісток тазу end---------
-    if (kistokTazuViews.includes(selectedZone)) {
+    if (matches(kistokTazuViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Кісток тазу end---------
     // -----------Кульшовий суглоб тазу end---------
-    if (kulshovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(kulshovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Кульшовий суглоб тазу end---------
     // -----------Колінний суглоб  end---------
-    if (kolinnyiSuhlobViews.includes(selectedZone)) {
+    if (matches(kolinnyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Колінний суглоб end---------
 
     // -----------Гомілковостопний суглоб end---------
     if (
-      homilkovoStopnyiSuhlobViews.includes(selectedZone) ||
-      stopaViews.includes(selectedZone) ||
-      peredniViddilyStopyViews.includes(selectedZone)
+      matches(homilkovoStopnyiSuhlobViews, selectedZone) ||
+      matches(stopaViews, selectedZone) ||
+      matches(peredniViddilyStopyViews, selectedZone)
     ) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }

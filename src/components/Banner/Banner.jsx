@@ -2,9 +2,14 @@
 import Image from 'next/image';
 import './banner.css';
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import { useAuth } from '../Auth/AuthProvider';
+import AuthForm from '../Auth/AuthForm';
 
 const Banner = () => {
   const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [showAuthForm, setShowAuthForm] = useState(false);
+  const { user, loading, signOut } = useAuth();
   const closeBanner = () => {
     setIsBannerVisible(false);
   };
@@ -19,6 +24,21 @@ const Banner = () => {
       >
         &times;
       </button>
+      <div className='authWidget d-flex align-items-center gap-2'>
+        {!loading && (user ? (
+          <>
+            <span className='small'>{user.email}</span>
+            <Button size='sm' variant='outline-secondary' onClick={signOut}>
+              Вийти
+            </Button>
+          </>
+        ) : (
+          <Button size='sm' variant='outline-primary' onClick={() => setShowAuthForm(true)}>
+            Увійти
+          </Button>
+        ))}
+      </div>
+      <AuthForm show={showAuthForm} onHide={() => setShowAuthForm(false)} />
       <div className='content d-flex flex-row align-items-center justify-content-center flex-wrap gap-3'>
         <div className='text-center d-flex flex-column align-items-center justify-content-center'>
           <p className='mb-0 fw-bold'>Подобається додаток?</p>

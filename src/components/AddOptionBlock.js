@@ -1,5 +1,10 @@
-import { FormFloatingSelect } from "./FloatingLabel";
-import { Button } from "react-bootstrap";
+import { useState } from "react";
+import { FormFloatingSelect, fieldKeyByArray } from "./FloatingLabel";
+import { Button, Form, InputGroup } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "./Auth/AuthProvider";
+import { addCustomOption } from "./redux/slices/customOptionsSliceReducer";
+import { svoiVaryant } from "../data/svoiVaryant";
 
 export const AddOptionBlock = ({
   items,
@@ -9,11 +14,26 @@ export const AddOptionBlock = ({
   onAddClick,
   onDeleteClick,
 }) => {
-  // useEffect(() => {
-  //   if (cherepViews.includes(items[0])) {
-  //     dispatch(editSemicolonUniversalArray_1({ floatingId: counter[0].id, selectedZone: items[0] }));
-  //   }
-  // }, []);
+  const { user } = useAuth();
+  const dispatch = useDispatch();
+  const customOptionsByKey = useSelector((state) => state.customOptions.byKey);
+  const [newValue, setNewValue] = useState("");
+
+  const fieldKey = fieldKeyByArray.get(items);
+  const customOptions = fieldKey ? customOptionsByKey[fieldKey] ?? [] : [];
+  // Кастомні варіанти йдуть одразу після першого (дефолтного) пункту —
+  // items[0] не можна зсувати, він використовується як sentinel в іншій логіці.
+  const mergedItems = customOptions.length
+    ? [items[0], ...customOptions, ...items.slice(1)]
+    : items;
+
+  const handleSaveCustomOption = () => {
+    const value = newValue.trim();
+    if (!value || !fieldKey || !user) return;
+    if (value.toLowerCase().includes(svoiVaryant.toLowerCase())) return;
+    dispatch(addCustomOption({ userId: user.id, fieldKey, value }));
+    setNewValue("");
+  };
 
   return (
     <div className="b1">
@@ -23,7 +43,7 @@ export const AddOptionBlock = ({
             <FormFloatingSelect
               key={option.id}
               id={option.id}
-              items={items}
+              items={mergedItems}
               onZoneSelect={onZoneSelect}
               label={label}
             />
@@ -45,6 +65,25 @@ export const AddOptionBlock = ({
       >
         Додати {label.toLowerCase()}
       </Button>{" "}
+
+      {fieldKey && user && (
+        <InputGroup className="mt-2 mb-2" size="sm">
+          <Form.Control
+            placeholder={`Свій варіант для "${label}"`}
+            value={newValue}
+            onChange={(e) => setNewValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSaveCustomOption();
+              }
+            }}
+          />
+          <Button variant="outline-success" onClick={handleSaveCustomOption}>
+            Зберегти
+          </Button>
+        </InputGroup>
+      )}
     </div>
   );
 };
