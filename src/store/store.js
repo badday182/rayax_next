@@ -12,6 +12,7 @@ import newPatientSliseReducer from "../components/redux/slices/newPatientSliseRe
 import descriptionOnlyReducer from "../components/redux/slices/descriptionOnlyReducer";
 import customOptionsReducer from "../components/redux/slices/customOptionsSliceReducer";
 import profileReducer from "../components/redux/slices/profileSliceReducer";
+import normTemplatesReducer from "../components/redux/slices/normTemplatesSliceReducer";
 
 const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ const store = configureStore({
     descriptionOnly: descriptionOnlyReducer,
     customOptions: customOptionsReducer,
     profile: profileReducer,
+    normTemplates: normTemplatesReducer,
   },
 });
 

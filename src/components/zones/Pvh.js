@@ -10,10 +10,11 @@ import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../../data/universal_notNorma/
 import { fasetkoviUnkovertSuhlShchelyny } from "../../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
 
 import { AddOptionBlock } from "../AddOptionBlock";
+import { AddNormTemplateButton } from "../AddNormTemplateButton";
 import { pvhNormaNenorma } from "../../data/PVH/pvhNormaNenorma";
 import { pvhNenormaItems } from "../../data/PVH/pvhNenormaItems";
 import { zakliuchenniaPvh } from "../../data/PVH/PVH_notNorma/zakliuchenniaPvh";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   deleteIdSemicolonUniversalArray_1,
   deleteIdCommaUniversalArray_1,
@@ -29,6 +30,17 @@ export const Pvh = () => {
   const [selectednormaNenorma, setSelectednormaNenorma] = useState(
     pvhNormaNenorma[0]
   );
+
+  const pvhNormTemplates = useSelector(
+    (state) => state.normTemplates.byZone["ПВХ"] ?? []
+  );
+  const mergedPvhNormaNenorma = pvhNormTemplates.length
+    ? [
+        pvhNormaNenorma[0],
+        ...pvhNormTemplates.map((t) => t.title),
+        ...pvhNormaNenorma.slice(1),
+      ]
+    : pvhNormaNenorma;
 
   const [fiziologLordozCounter, setfiziologLordozCounter] = useState([
     { id: uuidv4() },
@@ -81,10 +93,12 @@ export const Pvh = () => {
   return (
     <div className="">
       <FormFloatingSelect
-        items={pvhNormaNenorma}
+        items={mergedPvhNormaNenorma}
+        customValues={pvhNormTemplates.map((t) => t.title)}
         onZoneSelect={setSelectednormaNenorma}
         label="Норма/Не норма"
       />
+      <AddNormTemplateButton zone="ПВХ" />
       {selectednormaNenorma === "Не норма" ? (
         <div className=" ">
           <AddOptionBlock

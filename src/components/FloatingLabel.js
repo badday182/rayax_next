@@ -129,6 +129,18 @@ export const fieldKeyByArray = new Map([
   [peredniViddilyStopyViews, "peredniViddilyStopyViews"],
 ]);
 
+// Зона-агностичний мапінг для власних шаблонів "Норма/Не норма" (окремий
+// механізм від fieldKeyByArray вище — це інший Redux-слайс і інша семантика:
+// тут заголовок і повний текст висновку зберігаються окремо). Підключаємо
+// зони по одній — записи для інших "складних" зон (ГВХ/ШВХ/ПВХ) додаються
+// сюди в наступних ітераціях за тим самим патерном.
+const normArrayToZone = new Map([
+  [ogkNormaNenorma, "ОГК"],
+  [gvhNormaNenorma, "ГВХ"],
+  [shvhNormaNenorma, "ШВХ"],
+  [pvhNormaNenorma, "ПВХ"],
+]);
+
 export function FormFloatingSelect({
   id,
   items,
@@ -149,6 +161,9 @@ export function FormFloatingSelect({
 
   const dispatch = useDispatch();
   const customOptionsByKey = useSelector((state) => state.customOptions.byKey);
+  const normTemplatesByZone = useSelector(
+    (state) => state.normTemplates.byZone
+  );
 
   // Кастомний варіант, збережений користувачем для цього поля, повинен
   // диспатчитись так само, як і будь-який статичний варіант з масиву.
@@ -156,6 +171,16 @@ export function FormFloatingSelect({
     const key = fieldKeyByArray.get(arr);
     if (key && customOptionsByKey[key]?.includes(value)) return true;
     return arr.includes(value);
+  };
+
+  // Те саме, але для власних шаблонів "Норма/Не норма" — окремий Redux-слайс
+  // і окремий мапінг (normArrayToZone), бо тут потрібен саме заголовок
+  // шаблону, а не його опис.
+  const matchesNormTitle = (arr, value) => {
+    const zone = normArrayToZone.get(arr);
+    return (
+      !!zone && !!normTemplatesByZone[zone]?.some((t) => t.title === value)
+    );
   };
 
   const itemGenerator = () => {
@@ -251,7 +276,10 @@ export function FormFloatingSelect({
     // if (label === "Легеневий рисунок") {
     //   firstItem = true
     // }
-    if (ogkNormaNenorma.includes(selectedZone)) {
+    if (
+      ogkNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(ogkNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
@@ -292,7 +320,10 @@ export function FormFloatingSelect({
     // -----------ППН end---------
 
     // -----------ШВХ start---------
-    if (shvhNormaNenorma.includes(selectedZone)) {
+    if (
+      shvhNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(shvhNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
@@ -323,7 +354,10 @@ export function FormFloatingSelect({
     // -----------ШВХ end---------
 
     // -----------ГВХ start--------
-    if (gvhNormaNenorma.includes(selectedZone)) {
+    if (
+      gvhNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(gvhNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
@@ -344,7 +378,10 @@ export function FormFloatingSelect({
     // -----------ГВХ end---------
 
     // -----------ПВХ start--------
-    if (pvhNormaNenorma.includes(selectedZone)) {
+    if (
+      pvhNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(pvhNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }

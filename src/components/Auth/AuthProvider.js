@@ -11,6 +11,10 @@ import {
   fetchProfile,
   clearProfile,
 } from "../redux/slices/profileSliceReducer";
+import {
+  fetchNormTemplates,
+  clearNormTemplates,
+} from "../redux/slices/normTemplatesSliceReducer";
 
 const AuthContext = createContext(null);
 
@@ -40,9 +44,11 @@ const AuthProvider = ({ children }) => {
     if (user) {
       dispatch(fetchCustomOptions(user.id));
       dispatch(fetchProfile(user.id));
+      dispatch(fetchNormTemplates(user.id));
     } else {
       dispatch(clearCustomOptions());
       dispatch(clearProfile());
+      dispatch(clearNormTemplates());
     }
   }, [user, dispatch]);
 

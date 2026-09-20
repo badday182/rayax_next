@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   deleteIdLegenRusynokArray,
   deleteIdKoreniArray,
@@ -22,11 +22,23 @@ import { cor } from "../../data/OGK_notNorma/cor";
 import { ogkZakliuchennia } from "../../data/OGK_notNorma/ogkZakliuchennia";
 
 import { AddOptionBlock } from "../AddOptionBlock";
+import { AddNormTemplateButton } from "../AddNormTemplateButton";
 
 export const Ogk = ({ descriptionOnly }) => {
   const [selectedZone, setSelectedZone] = useState("ОГК");
   const [selectedOgkViews, setSelectedOgkViews] = useState("Оглядова");
   const [selectednormaNenorma, setSelectednormaNenorma] = useState("Норма");
+
+  const ogkNormTemplates = useSelector(
+    (state) => state.normTemplates.byZone["ОГК"] ?? []
+  );
+  const mergedOgkNormaNenorma = ogkNormTemplates.length
+    ? [
+        ogkNormaNenorma[0],
+        ...ogkNormTemplates.map((t) => t.title),
+        ...ogkNormaNenorma.slice(1),
+      ]
+    : ogkNormaNenorma;
 
   const [legenRysunokCounter, setlegenRysunokCounter] = useState([
     { id: uuidv4() },
@@ -93,10 +105,12 @@ export const Ogk = ({ descriptionOnly }) => {
         />
       )}
       <FormFloatingSelect
-        items={ogkNormaNenorma}
+        items={mergedOgkNormaNenorma}
+        customValues={ogkNormTemplates.map((t) => t.title)}
         onZoneSelect={setSelectednormaNenorma}
         label="Норма/Не норма"
       />
+      <AddNormTemplateButton zone="ОГК" />
 
       {selectednormaNenorma === "Не норма" ? (
         <div className=" ">
