@@ -3,9 +3,9 @@ import { Editor } from "@tinymce/tinymce-react";
 
 const TextEditor = ({ docTex, setEditorRef }) => {
   const editorRef = useRef();
-  const API_KEY = `${process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}`
+  const API_KEY = `${process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}`;
   if (!API_KEY) {
-    console.warn('TinyMCE API key is not set in environment variables (');
+    console.warn("TinyMCE API key is not set in environment variables (");
   }
   {
     /*This code means that the callback function in useEffect 
@@ -31,7 +31,9 @@ within this effect anymore.
     <Editor
       tinymceScriptSrc="/tinymce/tinymce.min.js"
       onScriptsLoad={() => console.log("TinyMCE scripts loaded successfully.")}
-      onScriptsLoadError={(err) => console.error("Error loading TinyMCE scripts:", err)}
+      onScriptsLoadError={(err) =>
+        console.error("Error loading TinyMCE scripts:", err)
+      }
       apiKey={API_KEY}
       onInit={(_evt, editor) => {
         editorRef.current = editor;
@@ -42,7 +44,7 @@ within this effect anymore.
         selector: "#myTextarea",
         browser_spellcheck: true,
         contextmenu: false,
-        license_key: 'gpl',
+        license_key: "gpl",
         height: 650,
         width: 700,
 

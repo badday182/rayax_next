@@ -5,4 +5,4 @@ export const ogkZakliuchennia = [
   "Двобічна полісегментарна пневмонія",
   "Двобічний гідроторакс",
   `${svoiVaryant.toLowerCase()} заключення`,
-  ];
+];

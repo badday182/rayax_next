@@ -7,7 +7,10 @@ import {
   fetchCustomOptions,
   clearCustomOptions,
 } from "../redux/slices/customOptionsSliceReducer";
-import { fetchProfile, clearProfile } from "../redux/slices/profileSliceReducer";
+import {
+  fetchProfile,
+  clearProfile,
+} from "../redux/slices/profileSliceReducer";
 
 const AuthContext = createContext(null);
 
@@ -43,8 +46,7 @@ const AuthProvider = ({ children }) => {
     }
   }, [user, dispatch]);
 
-  const signUp = (email, password) =>
-    supabase.auth.signUp({ email, password });
+  const signUp = (email, password) => supabase.auth.signUp({ email, password });
 
   const signIn = (email, password) =>
     supabase.auth.signInWithPassword({ email, password });

@@ -5,5 +5,4 @@ export const fiziologLordoz = [
   "згладжений",
   "збережений",
   `${svoiVaryant.toLowerCase()} фізіологічного лордозу`,
-
- ];
+];

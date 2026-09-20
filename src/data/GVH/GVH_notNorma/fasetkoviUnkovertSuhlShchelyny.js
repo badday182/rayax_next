@@ -5,5 +5,4 @@ export const fasetkoviUnkovertSuhlShchelyny = [
   "звужені",
   "замикаючі пластинки склерозовані, загострені",
   `${svoiVaryant.toLowerCase()} суглобових щілин`,
-
 ];

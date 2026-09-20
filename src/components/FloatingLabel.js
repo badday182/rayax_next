@@ -129,14 +129,20 @@ export const fieldKeyByArray = new Map([
   [peredniViddilyStopyViews, "peredniViddilyStopyViews"],
 ]);
 
-export function FormFloatingSelect({ id, items, label, onZoneSelect, customValues = [] }) {
+export function FormFloatingSelect({
+  id,
+  items,
+  label,
+  onZoneSelect,
+  customValues = [],
+}) {
   const [floatingId] = useState(id);
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
   const [placeholderVisible, setPlaceholderVisible] = useState(true);
 
   useEffect(() => {
     // Если значение выбрано, скрываем плейсхолдер
-    if (selectedValue !== '') {
+    if (selectedValue !== "") {
       setPlaceholderVisible(false);
     }
   }, [selectedValue]);
@@ -199,13 +205,10 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect, customValue
     setSelectedValue(selectedZone); // Если значение выбрано, потом меняем setPlaceholderVisible на false
     onZoneSelect(selectedZone);
 
-
-
     // В случае если пользователь поменяют зону исследования то все Reducerы сбрасываются
     if (zones.includes(selectedZone)) {
       // console.log('selectedZone', selectedZone);
       dispatch(editDescriptionOnly(selectedZone));
-
 
       dispatch(resetUniversalSliceReducer());
       dispatch(resetogkSliseReducer());
@@ -422,10 +425,10 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect, customValue
     <FloatingLabel className="mb-2" controlId={floatingId} label={label}>
       <Form.Select id={floatingId} onChange={handleZoneSelect}>
         {/* ---------------если выбрано что-то из ненормы ОГК-------------- */}
-        {ogkNenormaItems.includes(label) ? (
-          // <option value="">--виберіть опцію--</option>
-          placeholderVisible && <option value="">--виберіть опцію--</option>
-        ) : null}
+        {ogkNenormaItems.includes(label)
+          ? // <option value="">--виберіть опцію--</option>
+            placeholderVisible && <option value="">--виберіть опцію--</option>
+          : null}
 
         {/* --если выбран Череп или ППН (все пришедшие айтемы = айтемам черепа/ппн)--- */}
         {/* {items === ppnViews  ? (
@@ -433,10 +436,10 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect, customValue
         ) : null} */}
         {/* --если выбрано что-то из ненормы ШВХ --- */}
         {/* ---------------если выбрано что-то из ненормы ОГК-------------- */}
-        {shvhNenormaItems.includes(label) || gvhNenormaItems.includes(label) ? (
-          // <option value="">--виберіть опцію--</option>
-          placeholderVisible && <option value="">--виберіть опцію--</option>
-        ) : null}
+        {shvhNenormaItems.includes(label) || gvhNenormaItems.includes(label)
+          ? // <option value="">--виберіть опцію--</option>
+            placeholderVisible && <option value="">--виберіть опцію--</option>
+          : null}
 
         {itemGenerator()}
       </Form.Select>

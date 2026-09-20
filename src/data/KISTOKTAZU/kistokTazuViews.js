@@ -4,5 +4,6 @@ import { kistokTazuViewsZahalnaNenorma } from "./kistokTazuViewsZahalnaNenorma";
 export const kistokTazuViews = [
   kistkovaNorma,
   kistokTazuViewsZahalnaNenorma,
-  "Ч/з гіпсову пов'язку: стояння уламків задовільне", svoiVaryant
+  "Ч/з гіпсову пов'язку: стояння уламків задовільне",
+  svoiVaryant,
 ];

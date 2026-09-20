@@ -5,5 +5,4 @@ export const vysotaTilHrebtsivPvh = [
   "нерівномірно знижена",
   "в передньому/задньому відділі L",
   `${svoiVaryant.toLowerCase()} висоти`,
-
 ];

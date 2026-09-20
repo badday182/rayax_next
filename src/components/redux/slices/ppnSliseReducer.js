@@ -4,7 +4,7 @@ const initialState = {
   // Для корректного обновления использовать useEffect с dispatch в ImagineOptions
   ppnNormaNenormaText: "",
   ppnNormaNenormaArray: [],
-  };
+};
 
 export const ppnSliseReducer = createSlice({
   name: "ppnNormaNenormaText",
@@ -27,20 +27,16 @@ export const ppnSliseReducer = createSlice({
       state.ppnNormaNenormaText = state.ppnNormaNenormaArray
         .map((item) => item[1])
         .join("; ");
-// console.log(state.ppnNormaNenormaText);
+      // console.log(state.ppnNormaNenormaText);
     },
     resetPpnSliseReducer: (state) => {
-            state.ppnNormaNenormaText = ""
-            state.ppnNormaNenormaArray = []      
+      state.ppnNormaNenormaText = "";
+      state.ppnNormaNenormaArray = [];
     },
-   
-    
   },
 });
 
-export const {
-  editPpnNormaNenormaArray, resetPpnSliseReducer
- 
-} = ppnSliseReducer.actions;
+export const { editPpnNormaNenormaArray, resetPpnSliseReducer } =
+  ppnSliseReducer.actions;
 
 export default ppnSliseReducer.reducer;

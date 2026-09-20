@@ -26,10 +26,10 @@ export const PacientInfoPattern = () => {
             </td>
           </tr>
         </tbody>
-      </table> */}       
-              РЕНТГЕНОДІАГНОСТИЧНЕ ВІДДІЛЕННЯ
-              <br/>
-              <b>РЕЗУЛЬТАТИ R-ДОСЛІДЖЕННЯ</b>          
+      </table> */}
+      РЕНТГЕНОДІАГНОСТИЧНЕ ВІДДІЛЕННЯ
+      <br />
+      <b>РЕЗУЛЬТАТИ R-ДОСЛІДЖЕННЯ</b>
       <table
         width="100%"
         border-collapse="collapse"

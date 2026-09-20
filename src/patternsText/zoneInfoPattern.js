@@ -402,7 +402,8 @@ export const ZoneInfoPattern = (descriptionOnly) => {
                 zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
               ] && (
               <>
-                {shvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
+                {shvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}
+                .{" "}
               </>
             )}
 
@@ -521,7 +522,8 @@ export const ZoneInfoPattern = (descriptionOnly) => {
                 zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
               ] && (
               <>
-                {gvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
+                {gvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}
+                .{" "}
               </>
             )}
 
@@ -635,7 +637,8 @@ export const ZoneInfoPattern = (descriptionOnly) => {
                 zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
               ] && (
               <>
-                {pvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
+                {pvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}
+                .{" "}
               </>
             )}
 

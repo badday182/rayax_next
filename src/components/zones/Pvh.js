@@ -24,7 +24,6 @@ import {
   deleteIdSvhVysotaTilHrebtsivArray,
 } from "../redux/slices/universalSliceReducer";
 
-
 export const Pvh = () => {
   const [selectedPvhViews, setSelectedPvhViews] = useState("");
   const [selectednormaNenorma, setSelectednormaNenorma] = useState(

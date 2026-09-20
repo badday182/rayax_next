@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   textFromEditor: null,
-  documentText: '',
+  documentText: "",
   //localStorage works only on client, next use ssr, so needed this refactor
   // documentText: localStorage.getItem('textToDoc'),
 };
@@ -19,11 +19,9 @@ export const documentSliseReducer = createSlice({
       // const { PacientInfoPattern } = action.payload;
       // state.documentText = [...state.documentText, action.payload];
 
-      state.documentText += `${textToDoc}`
+      state.documentText += `${textToDoc}`;
 
       // state.documentText = state.textFromEditor + textToDoc
-
-
 
       // console.log(action.payload.naprav)
     },
@@ -34,8 +32,7 @@ export const documentSliseReducer = createSlice({
       // console.log(action.payload)
 
       // state.documentText = state.documentText + action.payload
-      state.documentText = action.payload
-
+      state.documentText = action.payload;
     },
 
     doubleAddPatientAndZoneDocText: (state, action) => {
@@ -45,17 +42,20 @@ export const documentSliseReducer = createSlice({
       // state.documentText = [...state.documentText, action.payload];
 
       // state.documentText += `${textToDoc}`
-      state.documentText += textToDocPacientInfo + textToDoc
+      state.documentText += textToDocPacientInfo + textToDoc;
 
       // state.documentText = state.textFromEditor + textToDoc
-
-
 
       // console.log(action.payload.naprav)
     },
   },
 });
 
-export const { addDocText, addTextFromEditor, doubleAddPatientAndZoneDocText, setDocumentText } = documentSliseReducer.actions;
+export const {
+  addDocText,
+  addTextFromEditor,
+  doubleAddPatientAndZoneDocText,
+  setDocumentText,
+} = documentSliseReducer.actions;
 
 export default documentSliseReducer.reducer;

@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import 'bootstrap/dist/css/bootstrap.css'
+import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
 import AuthProvider from "@/components/Auth/AuthProvider";
@@ -15,8 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-      </head>
+      <head></head>
       <body className={inter.className} suppressHydrationWarning>
         <ReduxProvider>
           <AuthProvider>

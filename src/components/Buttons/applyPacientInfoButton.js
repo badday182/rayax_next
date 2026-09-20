@@ -5,11 +5,10 @@ import { useRef } from "react";
 import { PacientInfoPattern } from "../../patternsText/pacientInfoPattern";
 import { renderToString } from "react-dom/server";
 
-
 function ApplyPacientInfoButton() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.pacientInfo.examNumber);
-  const pacientInfo = renderToString(PacientInfoPattern())
+  const pacientInfo = renderToString(PacientInfoPattern());
   const editorRef = useRef();
 
   return (

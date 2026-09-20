@@ -42,7 +42,9 @@ const AuthForm = ({ show, onHide }) => {
     }
 
     if (mode === "signUp") {
-      setInfo("Реєстрація успішна. Перевірте пошту, якщо потрібне підтвердження.");
+      setInfo(
+        "Реєстрація успішна. Перевірте пошту, якщо потрібне підтвердження."
+      );
     } else {
       resetAndHide();
     }
@@ -57,9 +59,7 @@ const AuthForm = ({ show, onHide }) => {
   return (
     <Modal show={show} onHide={resetAndHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>
-          {mode === "signIn" ? "Увійти" : "Реєстрація"}
-        </Modal.Title>
+        <Modal.Title>{mode === "signIn" ? "Увійти" : "Реєстрація"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Button
@@ -99,9 +99,7 @@ const AuthForm = ({ show, onHide }) => {
           <Button
             variant="link"
             type="button"
-            onClick={() =>
-              setMode(mode === "signIn" ? "signUp" : "signIn")
-            }
+            onClick={() => setMode(mode === "signIn" ? "signUp" : "signIn")}
           >
             {mode === "signIn"
               ? "Немає акаунту? Зареєструватися"

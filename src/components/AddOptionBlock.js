@@ -22,7 +22,7 @@ export const AddOptionBlock = ({
   const [showAddOptionModal, setShowAddOptionModal] = useState(false);
 
   const fieldKey = fieldKeyByArray.get(items);
-  const customOptions = fieldKey ? customOptionsByKey[fieldKey] ?? [] : [];
+  const customOptions = fieldKey ? (customOptionsByKey[fieldKey] ?? []) : [];
   // Кастомні варіанти йдуть одразу після першого (дефолтного) пункту —
   // items[0] не можна зсувати, він використовується як sentinel в іншій логіці.
   const mergedItems = customOptions.length

@@ -1,5 +1,1 @@
-export const fiziologLordoz = [
-  "підкреслений",
-  "згладжений",
-  "збережений",
- ];
+export const fiziologLordoz = ["підкреслений", "згладжений", "збережений"];

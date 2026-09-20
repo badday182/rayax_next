@@ -1,18 +1,14 @@
-'use client'
+"use client";
 import React, { useState, useRef } from "react";
 import { renderToString } from "react-dom/server";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 
-
 import PatientInfo from "./PatientInfo/PatientInfo";
 import Button from "react-bootstrap/Button";
 import ImagineOptions from "./ImagineOptions";
 
-
-import {
-  resetPatient,
-} from "./redux/slices/newPatientSliseReducer";
+import { resetPatient } from "./redux/slices/newPatientSliseReducer";
 import {
   resetDescriptionOnly,
   resetImagineOptions,
@@ -55,9 +51,8 @@ const PacientCard = ({ id, editorContent }) => {
           id={option.id}
           descriptionOnly={true}
         />
-    
       ))}
-   
+
       <div className="d-flex justify-content-between zonesButtons">
         <Button
           title="Створити нову анкету для опису протоколу дослідження нового пацієнта"
@@ -84,10 +79,9 @@ const PacientCard = ({ id, editorContent }) => {
             dispatch(resetogkSliseReducer()); // сброс ОГК
             dispatch(resetDescriptionOnly()); // сброс ТОЛЬКО_ОПИСАНИЯ
             // dispatch(resetDescriptionOnly()); // сброс редюсера только описания (без шапки)
-
           }}
         >
- Новий пацієнт <PiUserPlusLight className="mt--025rem" size={30}/>
+          Новий пацієнт <PiUserPlusLight className="mt--025rem" size={30} />
         </Button>
         {/* <Button
           onClick={() => {

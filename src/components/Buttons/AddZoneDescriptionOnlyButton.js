@@ -31,7 +31,7 @@ export function AddZoneDescriptionOnlyButton({
         onClick={handleClick}
         disabled={descriptionOnlyButtonDisabled || disabled}
       >
-        Додати опис <TbPencilPlus className="mt--025rem" size={18}/>
+        Додати опис <TbPencilPlus className="mt--025rem" size={18} />
       </Button>{" "}
     </>
   );

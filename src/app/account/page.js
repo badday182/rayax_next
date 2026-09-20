@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import { useAuth } from '@/components/Auth/AuthProvider';
-import AuthForm from '@/components/Auth/AuthForm';
+import { useState } from "react";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import { useAuth } from "@/components/Auth/AuthProvider";
+import AuthForm from "@/components/Auth/AuthForm";
 import {
   updateCustomOption,
   deleteCustomOption,
-} from '@/components/redux/slices/customOptionsSliceReducer';
-import { customizableFieldsCatalog } from '@/data/customizableFieldsCatalog';
+} from "@/components/redux/slices/customOptionsSliceReducer";
+import { customizableFieldsCatalog } from "@/data/customizableFieldsCatalog";
 
 const OptionRow = ({ userId, fieldKey, value }) => {
   const dispatch = useDispatch();
   const [draft, setDraft] = useState(value);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const trimmed = draft.trim();
   const isUnchanged = trimmed === value;
   const isEmpty = !trimmed;
 
   const handleSave = async () => {
-    setError('');
+    setError("");
     setSaving(true);
     try {
       await dispatch(
@@ -111,14 +111,18 @@ const AccountPage = () => {
 
       {user && fieldsWithOptions.length === 0 && (
         <div className="bg-glass rounded-3 p-3 text-white">
-          Ви ще не додали жодного власного варіанту. Додайте його прямо в
-          анкеті дослідження, натиснувши «Зберегти» біля потрібного поля.
+          Ви ще не додали жодного власного варіанту. Додайте його прямо в анкеті
+          дослідження, натиснувши «Зберегти» біля потрібного поля.
         </div>
       )}
 
       {user &&
         fieldsWithOptions.map((field) => (
-          <Card key={field.key} className="bg-glass text-white mb-3" style={{ minWidth: 0 }}>
+          <Card
+            key={field.key}
+            className="bg-glass text-white mb-3"
+            style={{ minWidth: 0 }}
+          >
             <Card.Body className="min-width-0">
               <Card.Title className="fs-6">
                 {field.zone} — {field.label}

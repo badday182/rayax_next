@@ -1,1 +1,2 @@
-export const kistokTazuViewsZahalnaNenorma = "Щіл. звуж., пласт. склероз., із кіст. та остеоф. Головки сплющ. R-ознаки двобіч. коксар-зу."
+export const kistokTazuViewsZahalnaNenorma =
+  "Щіл. звуж., пласт. склероз., із кіст. та остеоф. Головки сплющ. R-ознаки двобіч. коксар-зу.";
