@@ -209,21 +209,21 @@ export const ogkSliseReducer = createSlice({
         // Заменяем ", ;" на ";"
         state.corText = state.corText.replace(", ;", ";");
       }
-       // Если в state.corText есть текст "; склероз дуги аорти" и он не в конце строки
-       const searchText = "; склероз дуги аорти";
-       if (
-         state.corText.includes(searchText) &&
-         !state.corText.endsWith(searchText)
-       ) {
-         // Убираем текст из текущего положения
-         state.corText = state.corText.replace(searchText, "");
-         // Добавляем в конец
-         state.corText = state.corText + searchText;
-       }
-       // Удаляем ", " в начале строки, если есть
-       if (state.corText.startsWith(", ")) {
-         state.corText = state.corText.slice(2);
-       }
+      // Если в state.corText есть текст "; склероз дуги аорти" и он не в конце строки
+      const searchText = "; склероз дуги аорти";
+      if (
+        state.corText.includes(searchText) &&
+        !state.corText.endsWith(searchText)
+      ) {
+        // Убираем текст из текущего положения
+        state.corText = state.corText.replace(searchText, "");
+        // Добавляем в конец
+        state.corText = state.corText + searchText;
+      }
+      // Удаляем ", " в начале строки, если есть
+      if (state.corText.startsWith(", ")) {
+        state.corText = state.corText.slice(2);
+      }
     },
     resetCorArray: (state) => {
       state.corArray = [];

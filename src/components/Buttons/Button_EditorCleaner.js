@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { addTextFromEditor } from "../redux/slices/documentSliseReducer";
 import { VscClearAll } from "react-icons/vsc";
 
-const ButtonEditorCleaner = ({title}) => {
+const ButtonEditorCleaner = ({ title }) => {
   const dispatch = useDispatch();
   const handleClearEditor = () => {
     const isConfirmed = window.confirm(
@@ -10,7 +10,7 @@ const ButtonEditorCleaner = ({title}) => {
     );
     if (isConfirmed) {
       dispatch(addTextFromEditor("")); // Обнуляет текстовый редактор
-      localStorage.removeItem('textToDoc'); // Обнуляет localStorage
+      localStorage.removeItem("textToDoc"); // Обнуляет localStorage
     }
   };
   return (

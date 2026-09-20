@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   descriptionState: "ОГК",
-  };
+};
 
 export const descriptionOnlyReducer = createSlice({
   name: "descriptionOnly",
@@ -15,15 +15,12 @@ export const descriptionOnlyReducer = createSlice({
       state.descriptionState = action.payload;
     },
     resetDescriptionOnly: (state) => {
-      state.descriptionState = "ОГК";  },
-   
-    
+      state.descriptionState = "ОГК";
+    },
   },
 });
 
-export const {
-  editDescriptionOnly, resetDescriptionOnly
- 
-} = descriptionOnlyReducer.actions;
+export const { editDescriptionOnly, resetDescriptionOnly } =
+  descriptionOnlyReducer.actions;
 
 export default descriptionOnlyReducer.reducer;

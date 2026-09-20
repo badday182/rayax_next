@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { FormFloatingSelect } from "../FloatingLabel";
 import { v4 as uuidv4 } from "uuid";
@@ -13,6 +13,7 @@ import { zamykaiuchiPlastynkyTilKhrebtsiv } from "../../data/universal_notNorma/
 import { fasetkoviUnkovertSuhlShchelyny } from "../../data/universal_notNorma/fasetkoviUnkovertSuhlShchelyny";
 
 import { AddOptionBlock } from "../AddOptionBlock";
+import { AddNormTemplateButton } from "../AddNormTemplateButton";
 import { shvhNenormaItems } from "../../data/SHVH/shvhNenormaItems";
 import { zakliuchenniaShvh } from "../../data/SHVH/SHNH_notNorma/zakliuchenniaShvh";
 import {
@@ -31,6 +32,17 @@ export const Shvh = () => {
   const [selectednormaNenorma, setSelectednormaNenorma] = useState(
     shvhNormaNenorma[0]
   );
+
+  const shvhNormTemplates = useSelector(
+    (state) => state.normTemplates.byZone["ШВХ"] ?? []
+  );
+  const mergedShvhNormaNenorma = shvhNormTemplates.length
+    ? [
+        shvhNormaNenorma[0],
+        ...shvhNormTemplates.map((t) => t.title),
+        ...shvhNormaNenorma.slice(1),
+      ]
+    : shvhNormaNenorma;
 
   const [fiziologLordozCounter, setFiziologLordozCounter] = useState([
     { id: uuidv4() },
@@ -83,10 +95,12 @@ export const Shvh = () => {
   return (
     <div className="">
       <FormFloatingSelect
-        items={shvhNormaNenorma}
+        items={mergedShvhNormaNenorma}
+        customValues={shvhNormTemplates.map((t) => t.title)}
         onZoneSelect={setSelectednormaNenorma}
         label="Норма/Не норма"
       />
+      <AddNormTemplateButton zone="ШВХ" />
       {selectednormaNenorma === "Не норма" ? (
         <div className=" ">
           <AddOptionBlock

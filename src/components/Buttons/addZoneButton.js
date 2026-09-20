@@ -8,7 +8,6 @@ import {
 } from "../redux/slices/newZoneSlise";
 import { BsClipboardPlus } from "react-icons/bs";
 
-
 function AddZoneButton({
   title,
   variant,
@@ -22,7 +21,7 @@ function AddZoneButton({
   return (
     <>
       <Button
-      className="align-self-center d-ruby"
+        className="align-self-center d-ruby"
         title="Створити ще один протокол дослідження пацієнта"
         // className="backgroundWhite"
         variant={variant}
@@ -45,7 +44,7 @@ function AddZoneButton({
         }
         disabled={addZoneButtonDisabled}
       >
-        Новий протокол <BsClipboardPlus className="mt--025rem" size={18}/>
+        Новий протокол <BsClipboardPlus className="mt--025rem" size={18} />
       </Button>{" "}
     </>
   );

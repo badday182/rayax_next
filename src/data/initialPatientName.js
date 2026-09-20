@@ -1,1 +1,1 @@
-export const initialPatientName = "_________________"
+export const initialPatientName = "_________________";

@@ -56,6 +56,16 @@ export const ZoneInfoPattern = (descriptionOnly) => {
   const proaction = useSelector((state) => state.zoneInfo.proaction);
   const side = useSelector((state) => state.zoneInfo.side);
   const norma = useSelector((state) => state.zoneInfo.norma);
+  // Власний шаблон "Норма/Не норма" (title+description, збережений
+  // користувачем) повністю замінює звичайну логіку нижче для цієї зони —
+  // єдина точка підміни, підключається по одній зоні (див. normArrayToZone
+  // у FloatingLabel.js).
+  const normTemplatesByZone = useSelector(
+    (state) => state.normTemplates.byZone
+  );
+  const matchedNormTemplate = normTemplatesByZone[zone]?.find(
+    (t) => t.title === norma
+  );
 
   // const resetZoneInfoPattern = useSelector(
   //   (state) => state.resetZoneInfoPattern.reseter  );
@@ -227,71 +237,74 @@ export const ZoneInfoPattern = (descriptionOnly) => {
   }
   // --------------------set-mSv-end---------------
 
-  // --------------------ОГК-start---------------
-  if (zone === "ОГК" && (norma === "" || norma === ogkNormaNenorma[0])) {
-    report = "Легені та серце без змін.";
-  }
-  if (norma === "Легені та серце у межах вікових змін") {
-    report = norma + ".";
-  }
-  // if (norma === "Загальна ОГК не норма") {
-  if (norma === ogkNormaNenorma[3]) {
-    // "Загальна ОГК не норма"
-    report = ogkZagalnaNenorma;
-  }
-  if (norma === ogkNormaNenorma[4]) {
-    report = ogkNormaNenorma[4] + ".";
-  }
-  // выбран свой вариант
-  // if (norma === svoiVaryant) {
-  //   report = '';
-  // }
+  if (!matchedNormTemplate) {
+    // --------------------ОГК-start---------------
+    if (zone === "ОГК" && (norma === "" || norma === ogkNormaNenorma[0])) {
+      report = "Легені та серце без змін.";
+    }
+    if (norma === "Легені та серце у межах вікових змін") {
+      report = norma + ".";
+    }
+    // if (norma === "Загальна ОГК не норма") {
+    if (norma === ogkNormaNenorma[3]) {
+      // "Загальна ОГК не норма"
+      report = ogkZagalnaNenorma;
+    }
+    if (norma === ogkNormaNenorma[4]) {
+      report = ogkNormaNenorma[4] + ".";
+    }
+    // выбран свой вариант
+    // if (norma === svoiVaryant) {
+    //   report = '';
+    // }
 
-  if (zone === "ОГК" && norma === "Не норма") {
-    report = (
-      <div>
-        {/* если свой вариант то булет область с ".", если не будет выбора - области не будет */}
-        {legenRusynokState === legenRysunok[legenRysunok.length - 1] && (
-          <>Легеневий рисунок . </>
-        )}
-        {legenRusynokState !== "" &&
-          legenRusynokState !== legenRysunok[legenRysunok.length - 1] && (
-            <>Легеневий рисунок {legenRusynokState}. </>
+    if (zone === "ОГК" && norma === "Не норма") {
+      report = (
+        <div>
+          {/* если свой вариант то булет область с ".", если не будет выбора - области не будет */}
+          {legenRusynokState === legenRysunok[legenRysunok.length - 1] && (
+            <>Легеневий рисунок . </>
+          )}
+          {legenRusynokState !== "" &&
+            legenRusynokState !== legenRysunok[legenRysunok.length - 1] && (
+              <>Легеневий рисунок {legenRusynokState}. </>
+            )}
+
+          {koreniState === koreni[koreni.length - 1] && <>Корені . </>}
+          {koreniState !== "" && koreniState !== koreni[koreni.length - 1] && (
+            <>Корені {koreniState}. </>
           )}
 
-        {koreniState === koreni[koreni.length - 1] && <>Корені . </>}
-        {koreniState !== "" && koreniState !== koreni[koreni.length - 1] && (
-          <>Корені {koreniState}. </>
-        )}
+          {synusyState === synusy[synusy.length - 1] && <>Синуси . </>}
+          {synusyState !== "" && synusyState !== synusy[synusy.length - 1] && (
+            <>Синуси {synusyState}. </>
+          )}
 
-        {synusyState === synusy[synusy.length - 1] && <>Синуси . </>}
-        {synusyState !== "" && synusyState !== synusy[synusy.length - 1] && (
-          <>Синуси {synusyState}. </>
-        )}
-
-        {kupalaDiadragmyState ===
-          kupalaDiadragmy[kupalaDiadragmy.length - 1] && (
-          <>Купола діафрагми . </>
-        )}
-        {kupalaDiadragmyState !== "" &&
-          kupalaDiadragmyState !==
+          {kupalaDiadragmyState ===
             kupalaDiadragmy[kupalaDiadragmy.length - 1] && (
-            <>Купола діафрагми {kupalaDiadragmyState}. </>
+            <>Купола діафрагми . </>
+          )}
+          {kupalaDiadragmyState !== "" &&
+            kupalaDiadragmyState !==
+              kupalaDiadragmy[kupalaDiadragmy.length - 1] && (
+              <>Купола діафрагми {kupalaDiadragmyState}. </>
+            )}
+
+          {corState === cor[cor.length - 1] && <>Cor - . </>}
+          {corState !== "" && corState !== cor[cor.length - 1] && (
+            <>Cor - {corState}. </>
           )}
 
-        {corState === cor[cor.length - 1] && <>Cor - . </>}
-        {corState !== "" && corState !== cor[cor.length - 1] && (
-          <>Cor - {corState}. </>
-        )}
-
-        {ogkZakliuchenniaState ===
-          ogkZakliuchennia[ogkZakliuchennia.length - 1] && <>Заключення: . </>}
-        {ogkZakliuchenniaState !== "" &&
-          ogkZakliuchenniaState !==
+          {ogkZakliuchenniaState ===
             ogkZakliuchennia[ogkZakliuchennia.length - 1] && (
-            <>Заключення: {ogkZakliuchenniaState}. </>
+            <>Заключення: . </>
           )}
-        {/* {koreniState !== "" && <>Корені {koreniState}. </>}
+          {ogkZakliuchenniaState !== "" &&
+            ogkZakliuchenniaState !==
+              ogkZakliuchennia[ogkZakliuchennia.length - 1] && (
+              <>Заключення: {ogkZakliuchenniaState}. </>
+            )}
+          {/* {koreniState !== "" && <>Корені {koreniState}. </>}
         {synusyState !== "" && <>Синуси {synusyState}. </>}
         {kupalaDiadragmyState !== "" && <>Купола діафрагми {kupalaDiadragmyState}. </>}
         {corState !== "" && <>Cor - {corState}. </>}
@@ -299,560 +312,575 @@ export const ZoneInfoPattern = (descriptionOnly) => {
         {ogkZakliuchenniaState !== "" && (
           <>Заключення: {ogkZakliuchenniaState}.</>
         )} */}
-      </div>
-    );
-  }
-
-  // --------------------ОГК-end---------------
-
-  // --------------------Череп-start---------------
-  // if (zone === "Череп" && cherepNormaNenorma === "") {
-  //   report = "Грубих кістково-травматичних змін не визначається";
-  // }
-  if (zone === "Череп") {
-    if (zakliuchennia === svoiVaryant) {
-      report = ``;
-    } else if (zakliuchennia === "") {
-      report = `${cherepViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
+        </div>
+      );
     }
-  }
-  // --------------------Череп-end---------------
 
-  // --------------------ППН-start---------------
-  if (zone === "ППН") {
-    radiography = "ППН";
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${ppnViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------ППН-end---------------
+    // --------------------ОГК-end---------------
 
-  // --------------------ШВХ-start---------------
-  if (zone === "ШВХ") {
-    if (norma === "" || norma === shvhNormaNenorma[0]) {
-      report = shvhNormaNenorma[0]; //Груб кістк-травм змін не визначається
+    // --------------------Череп-start---------------
+    // if (zone === "Череп" && cherepNormaNenorma === "") {
+    //   report = "Грубих кістково-травматичних змін не визначається";
+    // }
+    if (zone === "Череп") {
+      if (zakliuchennia === svoiVaryant) {
+        report = ``;
+      } else if (zakliuchennia === "") {
+        report = `${cherepViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
     }
-    if (norma === shvhNormaNenorma[2]) {
-      // "Загальна не норма ШВХ"
-      report = zahalnaNenormaShvh;
+    // --------------------Череп-end---------------
+
+    // --------------------ППН-start---------------
+    if (zone === "ППН") {
+      radiography = "ППН";
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${ppnViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
     }
-    if (norma === shvhNormaNenorma[1]) {
-      //"Не норма"
-      report = (
-        <div>
-          {fiziologLordozState ===
-            fiziologLordoz[fiziologLordoz.length - 1] && (
-            <>{shvhNenormaItems[0]} . </>
-          )}
-          {fiziologLordozState !== "" &&
-            fiziologLordozState !==
+    // --------------------ППН-end---------------
+
+    // --------------------ШВХ-start---------------
+    if (zone === "ШВХ") {
+      if (norma === "" || norma === shvhNormaNenorma[0]) {
+        report = shvhNormaNenorma[0]; //Груб кістк-травм змін не визначається
+      }
+      if (norma === shvhNormaNenorma[2]) {
+        // "Загальна не норма ШВХ"
+        report = zahalnaNenormaShvh;
+      }
+      if (norma === shvhNormaNenorma[1]) {
+        //"Не норма"
+        report = (
+          <div>
+            {fiziologLordozState ===
               fiziologLordoz[fiziologLordoz.length - 1] && (
-              <>
-                {shvhNenormaItems[0]} {fiziologLordozState}.{" "}
-              </>
+              <>{shvhNenormaItems[0]} . </>
             )}
+            {fiziologLordozState !== "" &&
+              fiziologLordozState !==
+                fiziologLordoz[fiziologLordoz.length - 1] && (
+                <>
+                  {shvhNenormaItems[0]} {fiziologLordozState}.{" "}
+                </>
+              )}
 
-          {seredynnaVisState === seredynnaVis[seredynnaVis.length - 1] && (
-            <>{shvhNenormaItems[1]} . </>
-          )}
-          {seredynnaVisState !== "" &&
-            seredynnaVisState !== seredynnaVis[seredynnaVis.length - 1] && (
-              <>
-                {shvhNenormaItems[1]} {seredynnaVisState}.{" "}
-              </>
+            {seredynnaVisState === seredynnaVis[seredynnaVis.length - 1] && (
+              <>{shvhNenormaItems[1]} . </>
             )}
+            {seredynnaVisState !== "" &&
+              seredynnaVisState !== seredynnaVis[seredynnaVis.length - 1] && (
+                <>
+                  {shvhNenormaItems[1]} {seredynnaVisState}.{" "}
+                </>
+              )}
 
-          {vysotaTilHrebtsivState ===
-            vysotaTilHrebtsivShvh[vysotaTilHrebtsivShvh.length - 1] && (
-            <>{shvhNenormaItems[2]} . </>
-          )}
-          {vysotaTilHrebtsivState !== "" &&
-            vysotaTilHrebtsivState !==
+            {vysotaTilHrebtsivState ===
               vysotaTilHrebtsivShvh[vysotaTilHrebtsivShvh.length - 1] && (
-              <>
-                {shvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
-              </>
+              <>{shvhNenormaItems[2]} . </>
             )}
+            {vysotaTilHrebtsivState !== "" &&
+              vysotaTilHrebtsivState !==
+                vysotaTilHrebtsivShvh[vysotaTilHrebtsivShvh.length - 1] && (
+                <>
+                  {shvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
+                </>
+              )}
 
-          {mizhkhrebtseviPromizhkyState ===
-            mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
-            <>{shvhNenormaItems[3]} . </>
-          )}
-          {mizhkhrebtseviPromizhkyState !== "" &&
-            mizhkhrebtseviPromizhkyState !==
+            {mizhkhrebtseviPromizhkyState ===
               mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
-              <>
-                {shvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
-              </>
+              <>{shvhNenormaItems[3]} . </>
             )}
+            {mizhkhrebtseviPromizhkyState !== "" &&
+              mizhkhrebtseviPromizhkyState !==
+                mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
+                <>
+                  {shvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
+                </>
+              )}
 
-          {zamykaiuchiPlastynkyTilKhrebtsivState ===
-            zamykaiuchiPlastynkyTilKhrebtsiv[
-              zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
-            ] && <>{shvhNenormaItems[4]} . </>}
-          {zamykaiuchiPlastynkyTilKhrebtsivState !== "" &&
-            zamykaiuchiPlastynkyTilKhrebtsivState !==
+            {zamykaiuchiPlastynkyTilKhrebtsivState ===
               zamykaiuchiPlastynkyTilKhrebtsiv[
                 zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
-              ] && (
-              <>
-                {shvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
-              </>
-            )}
+              ] && <>{shvhNenormaItems[4]} . </>}
+            {zamykaiuchiPlastynkyTilKhrebtsivState !== "" &&
+              zamykaiuchiPlastynkyTilKhrebtsivState !==
+                zamykaiuchiPlastynkyTilKhrebtsiv[
+                  zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
+                ] && (
+                <>
+                  {shvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}
+                  .{" "}
+                </>
+              )}
 
-          {fasetkoviUnkovertSuhlShchelynyState ===
-            fasetkoviUnkovertSuhlShchelyny[
-              fasetkoviUnkovertSuhlShchelyny.length - 1
-            ] && (
-            <>
-              {shvhNenormaItems[5]} .<br />
-            </>
-          )}
-          {fasetkoviUnkovertSuhlShchelynyState !== "" &&
-            fasetkoviUnkovertSuhlShchelynyState !==
+            {fasetkoviUnkovertSuhlShchelynyState ===
               fasetkoviUnkovertSuhlShchelyny[
                 fasetkoviUnkovertSuhlShchelyny.length - 1
               ] && (
               <>
-                {shvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}.
-                <br />
+                {shvhNenormaItems[5]} .<br />
               </>
             )}
+            {fasetkoviUnkovertSuhlShchelynyState !== "" &&
+              fasetkoviUnkovertSuhlShchelynyState !==
+                fasetkoviUnkovertSuhlShchelyny[
+                  fasetkoviUnkovertSuhlShchelyny.length - 1
+                ] && (
+                <>
+                  {shvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}.
+                  <br />
+                </>
+              )}
 
-          {zakliuchennia ===
-            zakliuchenniaShvh[zakliuchenniaShvh.length - 1] && (
-            <>
-              {shvhNenormaItems[6]} .<br />
-            </>
-          )}
-          {zakliuchennia !== "" &&
-            zakliuchennia !==
+            {zakliuchennia ===
               zakliuchenniaShvh[zakliuchenniaShvh.length - 1] && (
               <>
-                {shvhNenormaItems[6]} {zakliuchennia}.
+                {shvhNenormaItems[6]} .<br />
               </>
             )}
+            {zakliuchennia !== "" &&
+              zakliuchennia !==
+                zakliuchenniaShvh[zakliuchenniaShvh.length - 1] && (
+                <>
+                  {shvhNenormaItems[6]} {zakliuchennia}.
+                </>
+              )}
 
-          {/* {shvhNenormaItems[1]} {seredynnaVisState}.
+            {/* {shvhNenormaItems[1]} {seredynnaVisState}.
           {shvhNenormaItems[2]}{" "}{vysotaTilHrebtsivState}.
           {shvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
           {shvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
           {shvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}.<br />
           {shvhNenormaItems[6]} {zakliuchennia}. */}
-        </div>
-      );
+          </div>
+        );
+      }
     }
-  }
-  // --------------------ШВХ-end---------------
+    // --------------------ШВХ-end---------------
 
-  // --------------------ГВХ-start---------------
-  if (zone === "ГВХ") {
-    if (norma === svoiVaryant) {
-      report = "";
-    }
-    if (norma === "" || norma === gvhNormaNenorma[0]) {
-      report = gvhNormaNenorma[0]; //Груб кістк-травм змін не визначається
-    }
-    if (norma === gvhNormaNenorma[2]) {
-      // "Загальна не норма ГВХ"
-      report = zahalnaNenormaGvh;
-    }
-    if (norma === gvhNormaNenorma[1]) {
-      //"Не норма"
-      report = (
-        <div>
-          {fiziologKifosState === fiziologKifos[fiziologKifos.length - 1] && (
-            <>{gvhNenormaItems[0]} . </>
-          )}
-          {fiziologKifosState !== "" &&
-            fiziologKifosState !== fiziologKifos[fiziologKifos.length - 1] && (
-              <>
-                {gvhNenormaItems[0]} {fiziologKifosState}.{" "}
-              </>
+    // --------------------ГВХ-start---------------
+    if (zone === "ГВХ") {
+      if (norma === svoiVaryant) {
+        report = "";
+      }
+      if (norma === "" || norma === gvhNormaNenorma[0]) {
+        report = gvhNormaNenorma[0]; //Груб кістк-травм змін не визначається
+      }
+      if (norma === gvhNormaNenorma[2]) {
+        // "Загальна не норма ГВХ"
+        report = zahalnaNenormaGvh;
+      }
+      if (norma === gvhNormaNenorma[1]) {
+        //"Не норма"
+        report = (
+          <div>
+            {fiziologKifosState === fiziologKifos[fiziologKifos.length - 1] && (
+              <>{gvhNenormaItems[0]} . </>
             )}
+            {fiziologKifosState !== "" &&
+              fiziologKifosState !==
+                fiziologKifos[fiziologKifos.length - 1] && (
+                <>
+                  {gvhNenormaItems[0]} {fiziologKifosState}.{" "}
+                </>
+              )}
 
-          {seredynnaVisState === seredynnaVis[seredynnaVis.length - 1] && (
-            <>{gvhNenormaItems[1]} . </>
-          )}
-          {seredynnaVisState !== "" &&
-            seredynnaVisState !== seredynnaVis[seredynnaVis.length - 1] && (
-              <>
-                {gvhNenormaItems[1]} {seredynnaVisState}.{" "}
-              </>
+            {seredynnaVisState === seredynnaVis[seredynnaVis.length - 1] && (
+              <>{gvhNenormaItems[1]} . </>
             )}
+            {seredynnaVisState !== "" &&
+              seredynnaVisState !== seredynnaVis[seredynnaVis.length - 1] && (
+                <>
+                  {gvhNenormaItems[1]} {seredynnaVisState}.{" "}
+                </>
+              )}
 
-          {vysotaTilHrebtsivState ===
-            vysotaTilHrebtsivGvh[vysotaTilHrebtsivGvh.length - 1] && (
-            <>{gvhNenormaItems[2]} . </>
-          )}
-          {vysotaTilHrebtsivState !== "" &&
-            vysotaTilHrebtsivState !==
+            {vysotaTilHrebtsivState ===
               vysotaTilHrebtsivGvh[vysotaTilHrebtsivGvh.length - 1] && (
-              <>
-                {gvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
-              </>
+              <>{gvhNenormaItems[2]} . </>
             )}
+            {vysotaTilHrebtsivState !== "" &&
+              vysotaTilHrebtsivState !==
+                vysotaTilHrebtsivGvh[vysotaTilHrebtsivGvh.length - 1] && (
+                <>
+                  {gvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
+                </>
+              )}
 
-          {mizhkhrebtseviPromizhkyState ===
-            mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
-            <>{gvhNenormaItems[3]} . </>
-          )}
-          {mizhkhrebtseviPromizhkyState !== "" &&
-            mizhkhrebtseviPromizhkyState !==
+            {mizhkhrebtseviPromizhkyState ===
               mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
-              <>
-                {gvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
-              </>
+              <>{gvhNenormaItems[3]} . </>
             )}
+            {mizhkhrebtseviPromizhkyState !== "" &&
+              mizhkhrebtseviPromizhkyState !==
+                mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
+                <>
+                  {gvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
+                </>
+              )}
 
-          {zamykaiuchiPlastynkyTilKhrebtsivState ===
-            zamykaiuchiPlastynkyTilKhrebtsiv[
-              zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
-            ] && <>{gvhNenormaItems[4]} . </>}
-          {zamykaiuchiPlastynkyTilKhrebtsivState !== "" &&
-            zamykaiuchiPlastynkyTilKhrebtsivState !==
+            {zamykaiuchiPlastynkyTilKhrebtsivState ===
               zamykaiuchiPlastynkyTilKhrebtsiv[
                 zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
-              ] && (
-              <>
-                {gvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
-              </>
-            )}
+              ] && <>{gvhNenormaItems[4]} . </>}
+            {zamykaiuchiPlastynkyTilKhrebtsivState !== "" &&
+              zamykaiuchiPlastynkyTilKhrebtsivState !==
+                zamykaiuchiPlastynkyTilKhrebtsiv[
+                  zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
+                ] && (
+                <>
+                  {gvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}
+                  .{" "}
+                </>
+              )}
 
-          {fasetkoviUnkovertSuhlShchelynyState ===
-            fasetkoviUnkovertSuhlShchelyny[
-              fasetkoviUnkovertSuhlShchelyny.length - 1
-            ] && <>{gvhNenormaItems[5]} . </>}
-          {fasetkoviUnkovertSuhlShchelynyState !== "" &&
-            fasetkoviUnkovertSuhlShchelynyState !==
+            {fasetkoviUnkovertSuhlShchelynyState ===
               fasetkoviUnkovertSuhlShchelyny[
                 fasetkoviUnkovertSuhlShchelyny.length - 1
-              ] && (
+              ] && <>{gvhNenormaItems[5]} . </>}
+            {fasetkoviUnkovertSuhlShchelynyState !== "" &&
+              fasetkoviUnkovertSuhlShchelynyState !==
+                fasetkoviUnkovertSuhlShchelyny[
+                  fasetkoviUnkovertSuhlShchelyny.length - 1
+                ] && (
+                <>
+                  {gvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}
+                  .{" "}
+                </>
+              )}
+
+            {zakliuchennia ===
+              zakliuchenniaGvh[zakliuchenniaGvh.length - 1] && (
               <>
-                {gvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}.{" "}
+                {gvhNenormaItems[6]} .<br />
               </>
             )}
+            {zakliuchennia !== "" &&
+              zakliuchennia !==
+                zakliuchenniaGvh[zakliuchenniaGvh.length - 1] && (
+                <>
+                  {gvhNenormaItems[6]} {zakliuchennia}.
+                </>
+              )}
 
-          {zakliuchennia === zakliuchenniaGvh[zakliuchenniaGvh.length - 1] && (
-            <>
-              {gvhNenormaItems[6]} .<br />
-            </>
-          )}
-          {zakliuchennia !== "" &&
-            zakliuchennia !== zakliuchenniaGvh[zakliuchenniaGvh.length - 1] && (
-              <>
-                {gvhNenormaItems[6]} {zakliuchennia}.
-              </>
-            )}
-
-          {/* {gvhNenormaItems[0]} {fiziologKifosState}. 
+            {/* {gvhNenormaItems[0]} {fiziologKifosState}. 
           {gvhNenormaItems[1]}{" "} {seredynnaVisState}. 
           {gvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
           {gvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.
           {gvhNenormaItems[4]}{" "}{zamykaiuchiPlastynkyTilKhrebtsivState}.
           {gvhNenormaItems[5]}{" "} {fasetkoviUnkovertSuhlShchelynyState}.<br />
           {gvhNenormaItems[6]} {zakliuchennia}. */}
-        </div>
-      );
+          </div>
+        );
+      }
     }
-  }
-  // --------------------ГВХ-end---------------
-  // --------------------ПВХ-start---------------
-  if (zone === "ПВХ") {
-    if (norma === svoiVaryant) {
-      report = "";
-    }
-    if (norma === "" || norma === pvhNormaNenorma[0]) {
-      report = pvhNormaNenorma[0]; //Груб кістк-травм змін не визначається
-    }
-    if (norma === pvhNormaNenorma[2]) {
-      // "Загальна не норма ПВХ"
-      report = zahalnaNenormaPvh;
-    }
-    if (norma === pvhNormaNenorma[1]) {
-      //"Не норма"
-      report = (
-        <div>
-          {fiziologLordozState ===
-            fiziologLordoz[fiziologLordoz.length - 1] && (
-            <>{pvhNenormaItems[0]} . </>
-          )}
-          {fiziologLordozState !== "" &&
-            fiziologLordozState !==
+    // --------------------ГВХ-end---------------
+    // --------------------ПВХ-start---------------
+    if (zone === "ПВХ") {
+      if (norma === svoiVaryant) {
+        report = "";
+      }
+      if (norma === "" || norma === pvhNormaNenorma[0]) {
+        report = pvhNormaNenorma[0]; //Груб кістк-травм змін не визначається
+      }
+      if (norma === pvhNormaNenorma[2]) {
+        // "Загальна не норма ПВХ"
+        report = zahalnaNenormaPvh;
+      }
+      if (norma === pvhNormaNenorma[1]) {
+        //"Не норма"
+        report = (
+          <div>
+            {fiziologLordozState ===
               fiziologLordoz[fiziologLordoz.length - 1] && (
-              <>
-                {pvhNenormaItems[0]} {fiziologLordozState}.{" "}
-              </>
+              <>{pvhNenormaItems[0]} . </>
             )}
+            {fiziologLordozState !== "" &&
+              fiziologLordozState !==
+                fiziologLordoz[fiziologLordoz.length - 1] && (
+                <>
+                  {pvhNenormaItems[0]} {fiziologLordozState}.{" "}
+                </>
+              )}
 
-          {seredynnaVisState === seredynnaVis[seredynnaVis.length - 1] && (
-            <>{pvhNenormaItems[1]} . </>
-          )}
-          {seredynnaVisState !== "" &&
-            seredynnaVisState !== seredynnaVis[seredynnaVis.length - 1] && (
-              <>
-                {pvhNenormaItems[1]} {seredynnaVisState}.{" "}
-              </>
+            {seredynnaVisState === seredynnaVis[seredynnaVis.length - 1] && (
+              <>{pvhNenormaItems[1]} . </>
             )}
+            {seredynnaVisState !== "" &&
+              seredynnaVisState !== seredynnaVis[seredynnaVis.length - 1] && (
+                <>
+                  {pvhNenormaItems[1]} {seredynnaVisState}.{" "}
+                </>
+              )}
 
-          {vysotaTilHrebtsivState ===
-            vysotaTilHrebtsivPvh[vysotaTilHrebtsivPvh.length - 1] && (
-            <>{pvhNenormaItems[2]} . </>
-          )}
-          {vysotaTilHrebtsivState !== "" &&
-            vysotaTilHrebtsivState !==
+            {vysotaTilHrebtsivState ===
               vysotaTilHrebtsivPvh[vysotaTilHrebtsivPvh.length - 1] && (
-              <>
-                {pvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
-              </>
+              <>{pvhNenormaItems[2]} . </>
             )}
+            {vysotaTilHrebtsivState !== "" &&
+              vysotaTilHrebtsivState !==
+                vysotaTilHrebtsivPvh[vysotaTilHrebtsivPvh.length - 1] && (
+                <>
+                  {pvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
+                </>
+              )}
 
-          {mizhkhrebtseviPromizhkyState ===
-            mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
-            <>{pvhNenormaItems[3]} . </>
-          )}
-          {mizhkhrebtseviPromizhkyState !== "" &&
-            mizhkhrebtseviPromizhkyState !==
+            {mizhkhrebtseviPromizhkyState ===
               mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
-              <>
-                {pvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
-              </>
+              <>{pvhNenormaItems[3]} . </>
             )}
+            {mizhkhrebtseviPromizhkyState !== "" &&
+              mizhkhrebtseviPromizhkyState !==
+                mizhkhrebtseviPromizhky[mizhkhrebtseviPromizhky.length - 1] && (
+                <>
+                  {pvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
+                </>
+              )}
 
-          {zamykaiuchiPlastynkyTilKhrebtsivState ===
-            zamykaiuchiPlastynkyTilKhrebtsiv[
-              zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
-            ] && <>{pvhNenormaItems[4]} . </>}
-          {zamykaiuchiPlastynkyTilKhrebtsivState !== "" &&
-            zamykaiuchiPlastynkyTilKhrebtsivState !==
+            {zamykaiuchiPlastynkyTilKhrebtsivState ===
               zamykaiuchiPlastynkyTilKhrebtsiv[
                 zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
-              ] && (
-              <>
-                {pvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
-              </>
-            )}
+              ] && <>{pvhNenormaItems[4]} . </>}
+            {zamykaiuchiPlastynkyTilKhrebtsivState !== "" &&
+              zamykaiuchiPlastynkyTilKhrebtsivState !==
+                zamykaiuchiPlastynkyTilKhrebtsiv[
+                  zamykaiuchiPlastynkyTilKhrebtsiv.length - 1
+                ] && (
+                <>
+                  {pvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}
+                  .{" "}
+                </>
+              )}
 
-          {fasetkoviUnkovertSuhlShchelynyState ===
-            fasetkoviUnkovertSuhlShchelyny[
-              fasetkoviUnkovertSuhlShchelyny.length - 1
-            ] && <>{pvhNenormaItems[5]} . </>}
-          {fasetkoviUnkovertSuhlShchelynyState !== "" &&
-            fasetkoviUnkovertSuhlShchelynyState !==
+            {fasetkoviUnkovertSuhlShchelynyState ===
               fasetkoviUnkovertSuhlShchelyny[
                 fasetkoviUnkovertSuhlShchelyny.length - 1
-              ] && (
+              ] && <>{pvhNenormaItems[5]} . </>}
+            {fasetkoviUnkovertSuhlShchelynyState !== "" &&
+              fasetkoviUnkovertSuhlShchelynyState !==
+                fasetkoviUnkovertSuhlShchelyny[
+                  fasetkoviUnkovertSuhlShchelyny.length - 1
+                ] && (
+                <>
+                  {pvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}
+                  .{" "}
+                </>
+              )}
+
+            {zakliuchennia ===
+              zakliuchenniaPvh[zakliuchenniaPvh.length - 1] && (
               <>
-                {pvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}.{" "}
+                {pvhNenormaItems[6]} .<br />
               </>
             )}
+            {zakliuchennia !== "" &&
+              zakliuchennia !==
+                zakliuchenniaPvh[zakliuchenniaPvh.length - 1] && (
+                <>
+                  {gvhNenormaItems[6]} {zakliuchennia}.
+                </>
+              )}
 
-          {zakliuchennia === zakliuchenniaPvh[zakliuchenniaPvh.length - 1] && (
-            <>
-              {pvhNenormaItems[6]} .<br />
-            </>
-          )}
-          {zakliuchennia !== "" &&
-            zakliuchennia !== zakliuchenniaPvh[zakliuchenniaPvh.length - 1] && (
-              <>
-                {gvhNenormaItems[6]} {zakliuchennia}.
-              </>
-            )}
-
-          {/* {pvhNenormaItems[0]} {fiziologLordozState}.
+            {/* {pvhNenormaItems[0]} {fiziologLordozState}.
           {pvhNenormaItems[1]}{" "}{seredynnaVisState}.
           {pvhNenormaItems[2]} {vysotaTilHrebtsivState}.{" "}
           {pvhNenormaItems[3]} {mizhkhrebtseviPromizhkyState}.{" "}
           {pvhNenormaItems[4]} {zamykaiuchiPlastynkyTilKhrebtsivState}.{" "}
           {pvhNenormaItems[5]} {fasetkoviUnkovertSuhlShchelynyState}.<br />
           {pvhNenormaItems[6]} {zakliuchennia}. */}
-        </div>
-      );
-    }
-  }
-  // --------------------ПВХ-end---------------
-
-  // --------------------ОЧП-start---------------
-  if (zone === "ОЧП") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${ochpViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------ОЧП-end---------------
-
-  // --------------------Плечовий суглоб-start---------------
-  if (zone === "Плечовий суглоб") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${plechovyiSuhlobViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Плечовий суглоб-end---------------
-
-  // --------------------Ключиця-start---------------
-  if (zone === "Ключиця") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${kliuchytsiaViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Ключиця-end---------------
-
-  // --------------------Ребра-start---------------
-  if (zone === "Ребра") {
-    radiography = `${zone} ${side.toLowerCase()}, в косій проекції`;
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${rebraViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Ребра-end---------------
-  // --------------------Ліктьовий суглоб-start---------------
-  if (zone === "Ліктьовий суглоб") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${liktovyiSuhlobViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Ліктьовий суглоб-end---------------
-  // --------------------Променево-зап'ястковий суглоб-start---------------
-  if (zone === "Променево-зап'ястковий суглоб") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${promenevoZapIastkovyiSuhlobViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Променево-зап'ястковий суглоб-end---------------
-  // --------------------Кисть-start---------------
-  if (zone === "Кисть") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${kystViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Кисть-end---------------
-  // --------------------Кісток тазу-start---------------
-  if (zone === "Кісток тазу") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === kistokTazuViews[0]) {
-      report = `${kistokTazuViews[0]}.`;
-    } else {
-      report = (
-        <>
-          Суглобові щілини кульшових суглобів нерівномірно звужені. Замикаючі
-          пластинки вертлюгових западин склерозовані, із субхондральними кістами
-          та крайовими остеофітами. Головки стегнових кісток сплощені.
-          <br />
-          Заключення: R-ознаки двобічного коксартрозу.
-        </>
-      );
-    }
-  }
-  // --------------------Кісток тазу-end---------------
-  // --------------------Кульшовий суглоб-start---------------
-  if (zone === "Кульшовий суглоб") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${kulshovyiSuhlobViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Кульшовий суглоб-end---------------
-  // --------------------Колінний суглоб-start---------------
-  if (zone === "Колінний суглоб") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${kolinnyiSuhlobViews[0]}.`;
-    } else if (zakliuchennia === kolinnyiSuhlobZahalnaNenorma) {
-      report = (
-        <>
-          Суглобові щілини нерівномірно звужені. Замикаючі пластинки
-          склерозовані, із крайовими остеофітами та субхондральними кістами.
-          Міжвиросткові підвищення та полюса надколінка загострені.
-          <br />
-          Заключення: R-ознаки гонартрозу.
-        </>
-      );
-    } else {
-      if (zakliuchennia.includes(kolinnyiSuhlobZahalnaNenorma)) {
-        let kolinnyiSuhlobZahalnaNenormaReplace =
-          "Суглобові щілини нерівномірно звужені. Замикаючі пластинки склерозовані, із крайовими остеофітами та субхондральними кістами. Міжвиросткові підвищення та полюса надколінка загострені. Заключення: R-ознаки гонартрозу.";
-        report = zakliuchennia.replace(
-          kolinnyiSuhlobZahalnaNenorma,
-          kolinnyiSuhlobZahalnaNenormaReplace
+          </div>
         );
+      }
+    }
+    // --------------------ПВХ-end---------------
+
+    // --------------------ОЧП-start---------------
+    if (zone === "ОЧП") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${ochpViews[0]}.`;
       } else {
         report = `${zakliuchennia}.`;
       }
     }
+    // --------------------ОЧП-end---------------
+
+    // --------------------Плечовий суглоб-start---------------
+    if (zone === "Плечовий суглоб") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${plechovyiSuhlobViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Плечовий суглоб-end---------------
+
+    // --------------------Ключиця-start---------------
+    if (zone === "Ключиця") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${kliuchytsiaViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Ключиця-end---------------
+
+    // --------------------Ребра-start---------------
+    if (zone === "Ребра") {
+      radiography = `${zone} ${side.toLowerCase()}, в косій проекції`;
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${rebraViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Ребра-end---------------
+    // --------------------Ліктьовий суглоб-start---------------
+    if (zone === "Ліктьовий суглоб") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${liktovyiSuhlobViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Ліктьовий суглоб-end---------------
+    // --------------------Променево-зап'ястковий суглоб-start---------------
+    if (zone === "Променево-зап'ястковий суглоб") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${promenevoZapIastkovyiSuhlobViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Променево-зап'ястковий суглоб-end---------------
+    // --------------------Кисть-start---------------
+    if (zone === "Кисть") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${kystViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Кисть-end---------------
+    // --------------------Кісток тазу-start---------------
+    if (zone === "Кісток тазу") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === kistokTazuViews[0]) {
+        report = `${kistokTazuViews[0]}.`;
+      } else {
+        report = (
+          <>
+            Суглобові щілини кульшових суглобів нерівномірно звужені. Замикаючі
+            пластинки вертлюгових западин склерозовані, із субхондральними
+            кістами та крайовими остеофітами. Головки стегнових кісток сплощені.
+            <br />
+            Заключення: R-ознаки двобічного коксартрозу.
+          </>
+        );
+      }
+    }
+    // --------------------Кісток тазу-end---------------
+    // --------------------Кульшовий суглоб-start---------------
+    if (zone === "Кульшовий суглоб") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${kulshovyiSuhlobViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Кульшовий суглоб-end---------------
+    // --------------------Колінний суглоб-start---------------
+    if (zone === "Колінний суглоб") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${kolinnyiSuhlobViews[0]}.`;
+      } else if (zakliuchennia === kolinnyiSuhlobZahalnaNenorma) {
+        report = (
+          <>
+            Суглобові щілини нерівномірно звужені. Замикаючі пластинки
+            склерозовані, із крайовими остеофітами та субхондральними кістами.
+            Міжвиросткові підвищення та полюса надколінка загострені.
+            <br />
+            Заключення: R-ознаки гонартрозу.
+          </>
+        );
+      } else {
+        if (zakliuchennia.includes(kolinnyiSuhlobZahalnaNenorma)) {
+          let kolinnyiSuhlobZahalnaNenormaReplace =
+            "Суглобові щілини нерівномірно звужені. Замикаючі пластинки склерозовані, із крайовими остеофітами та субхондральними кістами. Міжвиросткові підвищення та полюса надколінка загострені. Заключення: R-ознаки гонартрозу.";
+          report = zakliuchennia.replace(
+            kolinnyiSuhlobZahalnaNenorma,
+            kolinnyiSuhlobZahalnaNenormaReplace
+          );
+        } else {
+          report = `${zakliuchennia}.`;
+        }
+      }
+    }
+
+    // --------------------Колінний суглоб-end---------------
+    // --------------------Гомілковостопний суглоб-start---------------
+    if (zone === "Гомілковостопний суглоб") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${homilkovoStopnyiSuhlobViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Гомілковостопний суглоб-end---------------
+    // --------------------Стопа-start---------------
+    if (zone === "Стопа") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${stopaViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Стопа-end---------------
+    // --------------------Передні відділи стопи-start---------------
+    if (zone === "Передні відділи стопи") {
+      if (zakliuchennia === svoiVaryant) {
+        report = "";
+      } else if (zakliuchennia === "") {
+        report = `${peredniViddilyStopyViews[0]}.`;
+      } else {
+        report = `${zakliuchennia}.`;
+      }
+    }
+    // --------------------Передні відділи стопи-end---------------
   }
 
-  // --------------------Колінний суглоб-end---------------
-  // --------------------Гомілковостопний суглоб-start---------------
-  if (zone === "Гомілковостопний суглоб") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${homilkovoStopnyiSuhlobViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
+  if (matchedNormTemplate) {
+    report = matchedNormTemplate.description;
   }
-  // --------------------Гомілковостопний суглоб-end---------------
-  // --------------------Стопа-start---------------
-  if (zone === "Стопа") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${stopaViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Стопа-end---------------
-  // --------------------Передні відділи стопи-start---------------
-  if (zone === "Передні відділи стопи") {
-    if (zakliuchennia === svoiVaryant) {
-      report = "";
-    } else if (zakliuchennia === "") {
-      report = `${peredniViddilyStopyViews[0]}.`;
-    } else {
-      report = `${zakliuchennia}.`;
-    }
-  }
-  // --------------------Передні відділи стопи-end---------------
 
   return (
     <div>

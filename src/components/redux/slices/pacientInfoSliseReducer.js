@@ -21,11 +21,11 @@ export const pacientInfoSliseReducer = createSlice({
   reducers: {
     editExamNumber: (state, action) => {
       // state.documentText = [...state.documentText, action.payload];
-      state.examNumber = action.payload
-// if (state.examNumber === initialExamNumber) {
-//   state.examNumber = action.payload} else {
-//     state.examNumber = +state.examNumber + 1
-//   }
+      state.examNumber = action.payload;
+      // if (state.examNumber === initialExamNumber) {
+      //   state.examNumber = action.payload} else {
+      //     state.examNumber = +state.examNumber + 1
+      //   }
 
       // console.log(action.payload)
       // console.log(action)
@@ -50,7 +50,7 @@ export const pacientInfoSliseReducer = createSlice({
         .split("-")
         .reverse()
         .join(".");
-        state.examName = "_____________________";
+      state.examName = "_____________________";
       state.examBirthYear = "______";
       // console.log(action.payload)
     },

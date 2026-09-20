@@ -1,4 +1,3 @@
-
 import { cherepViews } from "../data/Cherep/cherepViews";
 
 import { ppnViews } from "../data/PPN/ppnViews";
@@ -18,7 +17,6 @@ import { stopaViews } from "../data/STOPA/stopaViews";
 
 import { peredniViddilyStopyViews } from "../data/PEREDNIVIDDILYSTOPY/peredniViddilyStopyViews";
 
-
 const viewsToEditSemicolUnivArray_1 = [
   cherepViews,
   ppnViews,
@@ -36,4 +34,6 @@ const viewsToEditSemicolUnivArray_1 = [
   stopaViews,
   peredniViddilyStopyViews,
 ];
-export const firstElements = viewsToEditSemicolUnivArray_1.map(viewsArray => viewsArray[0]);
+export const firstElements = viewsToEditSemicolUnivArray_1.map(
+  (viewsArray) => viewsArray[0]
+);

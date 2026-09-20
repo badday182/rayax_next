@@ -5,5 +5,4 @@ export const seredynnaVis = [
   "зміщена ліворуч",
   "не зміщена",
   `${svoiVaryant.toLowerCase()} серединної вісі`,
-
 ];

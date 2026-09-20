@@ -15,18 +15,18 @@ export const newPatientSlise = createSlice({
     deletePatient: (state, action) => {
       if (state.patientCounter.length !== 1) {
         state.patientCounter = state.patientCounter.filter(
-          (option) => option.id !== action.payload.id   );
-        }
-        
-      },
-      resetPatient: (state) => {
-        state.patientCounter = [{ id: uuidv4() }];
-        // state.zoneCounter.push(action.payload);
-      },
-      
+          (option) => option.id !== action.payload.id
+        );
+      }
+    },
+    resetPatient: (state) => {
+      state.patientCounter = [{ id: uuidv4() }];
+      // state.zoneCounter.push(action.payload);
+    },
   },
 });
 
-export const { addPatient, deletePatient, resetPatient } = newPatientSlise.actions;
+export const { addPatient, deletePatient, resetPatient } =
+  newPatientSlise.actions;
 
 export default newPatientSlise.reducer;

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { FormFloatingSelect } from "./FloatingLabel";
 import DeleteButton from "./Buttons/deleteButton";
@@ -14,14 +14,11 @@ import {
   applyPatientInfoBlock,
   resetZoneInfoSliseReducerExceptZone,
 } from "./redux/slices/zoneInfoSliseReducer";
-import {
-  resetogkSliseReducer,
-} from "./redux/slices/ogkSliseReducer";
+import { resetogkSliseReducer } from "./redux/slices/ogkSliseReducer";
 
 import { resetCherepSliseReducer } from "./redux/slices/cherepSliseReducer";
 import { resetPpnSliseReducer } from "./redux/slices/ppnSliseReducer";
 import { resetUniversalSliceReducer } from "./redux/slices/universalSliceReducer";
-
 
 import {
   addDocText,
@@ -67,8 +64,7 @@ const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
   // const [selectedZone, setSelectedZone] = useState("ОГК");
   const [selectedZone, setSelectedZone] = useState(zoneState);
 
-
-   const [selectedSide, setSelectedSide] = useState("Справа");
+  const [selectedSide, setSelectedSide] = useState("Справа");
   const [selectedOgkViews, setSelectedOgkViews] = useState("Оглядова");
   const [selectedplechKulshSuglobViews, setSelectedplechKulshSuglobViews] =
     useState("Пряма");
@@ -81,11 +77,9 @@ const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
   const [descriptionOnlyButtonDisabled, setDescriptionOnlyButtonDisabled] =
     useState(true);
 
-
   const zoneWithSides = zonesWithSides.includes(selectedZone) ? true : false;
 
   const dispatch = useDispatch();
-
 
   // // Текст с эдитора
   // const textFromEditor = useSelector(
@@ -161,7 +155,11 @@ const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
         descriptionOnly ? "border-info border-3" : "border-light-subtle"
       } bg-2ndglass`}
     >
-      {descriptionOnly && <h5 className="text-white fst-italic fw-light fs-5">Тільки опис зони "{selectedZone}"</h5>}
+      {descriptionOnly && (
+        <h5 className="text-white fst-italic fw-light fs-5">
+          Тільки опис зони &quot;{selectedZone}&quot;
+        </h5>
+      )}
       <div className="imagineOptions">
         {acceptNotice}
 
@@ -181,7 +179,9 @@ const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
           />
         )}
 
-        {selectedZone === "ОГК" ? <Ogk descriptionOnly={descriptionOnly}/> : null}
+        {selectedZone === "ОГК" ? (
+          <Ogk descriptionOnly={descriptionOnly} />
+        ) : null}
         {selectedZone === "Череп" ? <Cherep /> : null}
         {selectedZone === "ППН" ? <Ppn /> : null}
         {selectedZone === "ШВХ" ? <Shvh /> : null}
@@ -207,14 +207,14 @@ const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
           <PeredniViddilyStopy />
         ) : null}
 
-        {selectedZone === "Кульшовий суглоб" && !descriptionOnly ||
-        selectedZone === "Плечовий суглоб" && !descriptionOnly ? (
+        {(selectedZone === "Кульшовий суглоб" && !descriptionOnly) ||
+        (selectedZone === "Плечовий суглоб" && !descriptionOnly) ? (
           <FormFloatingSelect
             items={plechKulshSuglobViews}
             onZoneSelect={setSelectedplechKulshSuglobViews}
             label="Проекція"
           />
-               ) : null}
+        ) : null}
       </div>
 
       <div
@@ -244,38 +244,40 @@ const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
           </Button>{" "}
           {!descriptionOnly ? (
             <>
-            <AddZoneButton
-              className="me-0 mt-2 mb-2"
-              variant="success"
-              onAddOptions={() => {
-                handleApplyZone();
-                dispatch(resetZoneInfoSliseReducer());
-              }}
-              setDescriptionOnlyButtonTrue={() => {
-                setDescriptionOnlyButtonDisabled(true);
-                dispatch(resetZoneInfoSliseReducer());
-              }}
-              addintoEditorButtonDisabled={addintoEditorButtonDisabled}
-            />            
-          <AddZoneDescriptionOnlyButton
-            variant="outline-info"
-            descriptionOnlyButtonDisabled={descriptionOnlyButtonDisabled}
-          />
+              <AddZoneButton
+                className="me-0 mt-2 mb-2"
+                variant="success"
+                onAddOptions={() => {
+                  handleApplyZone();
+                  dispatch(resetZoneInfoSliseReducer());
+                }}
+                setDescriptionOnlyButtonTrue={() => {
+                  setDescriptionOnlyButtonDisabled(true);
+                  dispatch(resetZoneInfoSliseReducer());
+                }}
+                addintoEditorButtonDisabled={addintoEditorButtonDisabled}
+              />
+              <AddZoneDescriptionOnlyButton
+                variant="outline-info"
+                descriptionOnlyButtonDisabled={descriptionOnlyButtonDisabled}
+              />
             </>
           ) : (
             <AddZoneDescriptionOnlyButton
-            title="Add Description"
-            variant="outline-info"
-            descriptionOnlyButtonDisabled={descriptionOnlyButtonDisabled}
-            // onAddOptions={onAddOptions}
-          />
+              title="Add Description"
+              variant="outline-info"
+              descriptionOnlyButtonDisabled={descriptionOnlyButtonDisabled}
+              // onAddOptions={onAddOptions}
+            />
           )}
         </div>
-        {!descriptionOnly && <DeleteButton
-          className="me-0 mt-2 mb-2"
-          variant="outline-danger"
-          id={id}
-        />}        
+        {!descriptionOnly && (
+          <DeleteButton
+            className="me-0 mt-2 mb-2"
+            variant="outline-danger"
+            id={id}
+          />
+        )}
       </div>
     </div>
   );

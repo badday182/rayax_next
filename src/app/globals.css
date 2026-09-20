@@ -35,17 +35,17 @@ body {
   margin: 0;
   font-weight: 500;
   font-family:
-    'Raleway',
+    "Raleway",
     -apple-system,
     BlinkMacSystemFont,
-    'Segoe UI',
-    'Roboto',
-    'Oxygen',
-    'Ubuntu',
-    'Cantarell',
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -62,7 +62,7 @@ body {
 } */
 code {
   font-family:
-    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .bg-custom {
@@ -82,7 +82,7 @@ code {
 } */
 .conteinerWidht {
   min-height: 100vh;
-  background-image: url('./svg/nnnoise.svg');
+  background-image: url("./svg/nnnoise.svg");
 }
 
 @media (max-width: 768px) {
@@ -143,8 +143,8 @@ code {
 .form-select {
   font-weight: 400;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 17px;
 }
 
@@ -164,7 +164,7 @@ code {
   /* Это делает элемент активным для кликов */
   z-index: 10;
   /* Поместите слой выше формы */
-  background-image: url('https://cdn1.iconfinder.com/data/icons/basic-ui-elements-coloricon/21/15-512.png');
+  background-image: url("https://cdn1.iconfinder.com/data/icons/basic-ui-elements-coloricon/21/15-512.png");
   /* Замените на путь к вашей картинке */
   background-size: contain;
   /* Масштабирование изображения, чтобы оно занимало всю площадь */
@@ -371,4 +371,69 @@ button:focus {
 
 .mt--025rem {
   margin-top: -0.25rem;
+}
+
+.btn-save-custom-option {
+  background-color: #2fa06c;
+  border-color: #2fa06c;
+  color: #fff;
+}
+
+.btn-save-custom-option:hover:not(:disabled) {
+  background-color: #198754;
+  border-color: #198754;
+  color: #fff;
+}
+
+.btn-save-custom-option:disabled {
+  background-color: #88949e;
+  border-color: #a5a7a9;
+  color: #fff;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.btn-delete-custom-option {
+  background-color: #e0626f;
+  border-color: #e0626f;
+  color: #fff;
+}
+
+.btn-delete-custom-option:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.min-width-0 {
+  min-width: 0;
+}
+
+.option-row {
+  min-width: 0;
+}
+
+.option-row-input {
+  min-width: 0;
+}
+
+@media (max-width: 425px) {
+  .option-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .option-row-input,
+  .option-row-actions {
+    width: 100%;
+  }
+
+  .option-row-actions > * {
+    flex: 1;
+  }
+}
+
+option.custom-option {
+  background-color: #d7f0e0;
+  color: #0f5132;
 }

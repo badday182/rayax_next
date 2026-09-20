@@ -4,7 +4,7 @@ const initialState = {
   // Для корректного обновления использовать useEffect с dispatch в ImagineOptions
   cherepNormaNenormaText: "",
   cherepNormaNenormaArray: [],
-  };
+};
 
 export const cherepSliseReducer = createSlice({
   name: "cherepNormaNenorma",
@@ -25,20 +25,15 @@ export const cherepSliseReducer = createSlice({
       state.cherepNormaNenormaText = state.cherepNormaNenormaArray
         .map((item) => item[1])
         .join("; ");
-
     },
     resetCherepSliseReducer: (state) => {
-            state.cherepNormaNenormaText = ""
-            state.cherepNormaNenormaArray = []      
+      state.cherepNormaNenormaText = "";
+      state.cherepNormaNenormaArray = [];
     },
-   
-    
   },
 });
 
-export const {
-  editCherepNormaNenormaArray, resetCherepSliseReducer
- 
-} = cherepSliseReducer.actions;
+export const { editCherepNormaNenormaArray, resetCherepSliseReducer } =
+  cherepSliseReducer.actions;
 
 export default cherepSliseReducer.reducer;

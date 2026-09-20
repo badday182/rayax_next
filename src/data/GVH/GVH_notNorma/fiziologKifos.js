@@ -5,5 +5,4 @@ export const fiziologKifos = [
   "згладжений",
   "збережений",
   `${svoiVaryant.toLowerCase()} кіфозу`,
-
- ];
+];

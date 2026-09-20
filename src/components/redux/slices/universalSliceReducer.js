@@ -15,13 +15,11 @@ const initialState = {
   commaUniversalText_6: "",
   commaUniversalArray_6: [],
 
-  svhVysotaTilHrebtsivText:'',
-  svhVysotaTilHrebtsivArray:[],
+  svhVysotaTilHrebtsivText: "",
+  svhVysotaTilHrebtsivArray: [],
 
   semicolonUniversalText_1: "",
   semicolonUniversalArray_1: [],
-
- 
 };
 
 export const universalSliceReducer = createSlice({
@@ -47,7 +45,7 @@ export const universalSliceReducer = createSlice({
       state.commaUniversalText_1 = state.commaUniversalArray_1
         .map((item) => item[1])
         .join(", ");
-// console.log('state.commaUniversalText_1',state.commaUniversalText_1);
+      // console.log('state.commaUniversalText_1',state.commaUniversalText_1);
     },
     deleteIdCommaUniversalArray_1: (state, action) => {
       const { floatingId } = action.payload;
@@ -80,7 +78,7 @@ export const universalSliceReducer = createSlice({
       state.commaUniversalText_2 = state.commaUniversalArray_2
         .map((item) => item[1])
         .join(", ");
-// console.log('state.commaUniversalText_1',state.commaUniversalText_1);
+      // console.log('state.commaUniversalText_1',state.commaUniversalText_1);
     },
     deleteIdCommaUniversalArray_2: (state, action) => {
       const { floatingId } = action.payload;
@@ -219,13 +217,20 @@ export const universalSliceReducer = createSlice({
       }
 
       state.svhVysotaTilHrebtsivText = state.svhVysotaTilHrebtsivArray
-      .map((item) => item[1])
-      .join(", ");
-  
-    // Добавляем проверку и удаляем запятую перед 'в передньому/задньому відділі С'
-    if (state.svhVysotaTilHrebtsivText.includes(', в передньому/задньому відділі С')) {
-      state.svhVysotaTilHrebtsivText = state.svhVysotaTilHrebtsivText.replace(', в передньому/задньому відділі С', ' в передньому/задньому відділі С');
-    }
+        .map((item) => item[1])
+        .join(", ");
+
+      // Добавляем проверку и удаляем запятую перед 'в передньому/задньому відділі С'
+      if (
+        state.svhVysotaTilHrebtsivText.includes(
+          ", в передньому/задньому відділі С"
+        )
+      ) {
+        state.svhVysotaTilHrebtsivText = state.svhVysotaTilHrebtsivText.replace(
+          ", в передньому/задньому відділі С",
+          " в передньому/задньому відділі С"
+        );
+      }
     },
     deleteIdSvhVysotaTilHrebtsivArray: (state, action) => {
       const { floatingId } = action.payload;
@@ -238,10 +243,17 @@ export const universalSliceReducer = createSlice({
       state.svhVysotaTilHrebtsivText = state.svhVysotaTilHrebtsivArray
         .map((item) => item[1])
         .join(", ");
-        // Добавляем проверку и удаляем запятую перед 'в передньому/задньому відділі С'
-    if (state.svhVysotaTilHrebtsivText.includes(', в передньому/задньому відділі С')) {
-      state.svhVysotaTilHrebtsivText = state.svhVysotaTilHrebtsivText.replace(', в передньому/задньому відділі С', ' в передньому/задньому відділі С');
-    }
+      // Добавляем проверку и удаляем запятую перед 'в передньому/задньому відділі С'
+      if (
+        state.svhVysotaTilHrebtsivText.includes(
+          ", в передньому/задньому відділі С"
+        )
+      ) {
+        state.svhVysotaTilHrebtsivText = state.svhVysotaTilHrebtsivText.replace(
+          ", в передньому/задньому відділі С",
+          " в передньому/задньому відділі С"
+        );
+      }
     },
     editSemicolonUniversalArray_1: (state, action) => {
       // state.documentText = [...state.documentText, action.payload];
@@ -262,7 +274,7 @@ export const universalSliceReducer = createSlice({
       state.semicolonUniversalText_1 = state.semicolonUniversalArray_1
         .map((item) => item[1])
         .join("; ");
-// console.log('state.semicolonUniversalText_1', state.semicolonUniversalText_1);
+      // console.log('state.semicolonUniversalText_1', state.semicolonUniversalText_1);
     },
     deleteIdSemicolonUniversalArray_1: (state, action) => {
       const { floatingId } = action.payload;
@@ -276,10 +288,8 @@ export const universalSliceReducer = createSlice({
         .map((item) => item[1])
         .join("; ");
     },
-   
-    
-    resetUniversalSliceReducer: (state) => {
 
+    resetUniversalSliceReducer: (state) => {
       state.commaUniversalText_1 = "";
       state.commaUniversalArray_1 = [];
       state.commaUniversalText_2 = "";
