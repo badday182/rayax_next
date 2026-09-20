@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FormFloatingSelect, fieldKeyByArray } from "./FloatingLabel";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
+import { PiPencilSimpleLight } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "./Auth/AuthProvider";
 import { addCustomOption } from "./redux/slices/customOptionsSliceReducer";
@@ -18,6 +19,7 @@ export const AddOptionBlock = ({
   const dispatch = useDispatch();
   const customOptionsByKey = useSelector((state) => state.customOptions.byKey);
   const [newValue, setNewValue] = useState("");
+  const [showAddOptionModal, setShowAddOptionModal] = useState(false);
 
   const fieldKey = fieldKeyByArray.get(items);
   const customOptions = fieldKey ? customOptionsByKey[fieldKey] ?? [] : [];
@@ -33,6 +35,7 @@ export const AddOptionBlock = ({
     if (value.toLowerCase().includes(svoiVaryant.toLowerCase())) return;
     dispatch(addCustomOption({ userId: user.id, fieldKey, value }));
     setNewValue("");
+    setShowAddOptionModal(false);
   };
 
   return (
@@ -59,36 +62,62 @@ export const AddOptionBlock = ({
           </div>
         ))}
       </div>
-      <Button
-        variant="btn btn-primary w-75 mb-1"
-        className=""
-        onClick={onAddClick}
-      >
-        Додати {label.toLowerCase()}
-      </Button>{" "}
+      <div className="d-flex flex-wrap align-items-center gap-2">
+        <Button variant="primary" className="mb-1" onClick={onAddClick}>
+          Додати {label.toLowerCase()}
+        </Button>
+
+        {fieldKey && user && (
+          <Button
+            variant="outline-light"
+            size="sm"
+            className="mb-1 d-inline-flex align-items-center"
+            onClick={() => setShowAddOptionModal(true)}
+          >
+            <PiPencilSimpleLight className="me-1" size={16} />
+            Додати свій варіант
+          </Button>
+        )}
+      </div>
 
       {fieldKey && user && (
-        <InputGroup className="mt-2 mb-2" size="sm">
-          <Form.Control
-            placeholder={`Свій варіант для "${label}"`}
-            value={newValue}
-            onChange={(e) => setNewValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSaveCustomOption();
-              }
-            }}
-          />
-          <Button
-            variant="success"
-            className="btn-save-custom-option"
-            disabled={!newValue.trim()}
-            onClick={handleSaveCustomOption}
+        <>
+          <Modal
+            show={showAddOptionModal}
+            onHide={() => setShowAddOptionModal(false)}
+            centered
           >
-            Зберегти
-          </Button>
-        </InputGroup>
+            <Modal.Header closeButton>
+              <Modal.Title className="fs-6">
+                Введіть свою додаткову опцію для «{label}»
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Control
+                placeholder={`Свій варіант для "${label}"`}
+                value={newValue}
+                autoFocus
+                onChange={(e) => setNewValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSaveCustomOption();
+                  }
+                }}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="success"
+                className="btn-save-custom-option"
+                disabled={!newValue.trim()}
+                onClick={handleSaveCustomOption}
+              >
+                Зберегти
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
       )}
     </div>
   );

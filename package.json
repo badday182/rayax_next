@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "next lint && prettier --check ."
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
@@ -32,7 +35,11 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "eslint": "8.57.1",
+    "eslint-config-next": "14.2.4",
+    "eslint-config-prettier": "9.1.0",
     "postcss": "^8",
+    "prettier": "^3.9.8",
     "tailwindcss": "^3.4.1"
   }
 }

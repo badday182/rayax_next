@@ -161,7 +161,7 @@ const ImagineOptions = ({ id, editorContent, descriptionOnly = false }) => {
         descriptionOnly ? "border-info border-3" : "border-light-subtle"
       } bg-2ndglass`}
     >
-      {descriptionOnly && <h5 className="text-white fst-italic fw-light fs-5">Тільки опис зони "{selectedZone}"</h5>}
+      {descriptionOnly && <h5 className="text-white fst-italic fw-light fs-5">Тільки опис зони &quot;{selectedZone}&quot;</h5>}
       <div className="imagineOptions">
         {acceptNotice}
 
