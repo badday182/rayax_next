@@ -1,1 +1,1 @@
-export const svoiVaryant = "Свій варіант"
+export const svoiVaryant = "Пустий варіант";

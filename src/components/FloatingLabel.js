@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   editZone,
   editProaction,
@@ -89,31 +89,118 @@ import { firstElements } from "../data/viewsToEditSemicolUnivArray_1";
 import { vysotaTilHrebtsivPvh } from "../data/PVH/PVH_notNorma/vysotaTilHrebtsivPvh";
 import { editDescriptionOnly } from "./redux/slices/descriptionOnlyReducer";
 
-export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
+// Поля-"знахідки", для яких дозволено зберігати власні варіанти тексту.
+// Навмисно НЕ включені структурні селектори (zones, sides, проекції,
+// Норма/Не норма тощо) — додавання туди кастомних значень зламало б
+// умовний рендеринг блоків знахідок.
+export const fieldKeyByArray = new Map([
+  [legenRysunok, "legenRysunok"],
+  [koreni, "koreni"],
+  [synusy, "synusy"],
+  [kupalaDiadragmy, "kupalaDiadragmy"],
+  [cor, "cor"],
+  [ogkZakliuchennia, "ogkZakliuchennia"],
+  [cherepViews, "cherepViews"],
+  [ppnViews, "ppnViews"],
+  [fiziologLordoz, "fiziologLordoz"],
+  [seredynnaVis, "seredynnaVis"],
+  [vysotaTilHrebtsivShvh, "vysotaTilHrebtsivShvh"],
+  [vysotaTilHrebtsivGvh, "vysotaTilHrebtsivGvh"],
+  [mizhkhrebtseviPromizhky, "mizhkhrebtseviPromizhky"],
+  [zamykaiuchiPlastynkyTilKhrebtsiv, "zamykaiuchiPlastynkyTilKhrebtsiv"],
+  [fasetkoviUnkovertSuhlShchelyny, "fasetkoviUnkovertSuhlShchelyny"],
+  [zakliuchenniaShvh, "zakliuchenniaShvh"],
+  [fiziologKifos, "fiziologKifos"],
+  [zakliuchenniaGvh, "zakliuchenniaGvh"],
+  [vysotaTilHrebtsivPvh, "vysotaTilHrebtsivPvh"],
+  [zakliuchenniaPvh, "zakliuchenniaPvh"],
+  [ochpViews, "ochpViews"],
+  [plechovyiSuhlobViews, "plechovyiSuhlobViews"],
+  [kliuchytsiaViews, "kliuchytsiaViews"],
+  [rebraViews, "rebraViews"],
+  [liktovyiSuhlobViews, "liktovyiSuhlobViews"],
+  [promenevoZapIastkovyiSuhlobViews, "promenevoZapIastkovyiSuhlobViews"],
+  [kystViews, "kystViews"],
+  [kistokTazuViews, "kistokTazuViews"],
+  [kulshovyiSuhlobViews, "kulshovyiSuhlobViews"],
+  [kolinnyiSuhlobViews, "kolinnyiSuhlobViews"],
+  [homilkovoStopnyiSuhlobViews, "homilkovoStopnyiSuhlobViews"],
+  [stopaViews, "stopaViews"],
+  [peredniViddilyStopyViews, "peredniViddilyStopyViews"],
+]);
+
+// Зона-агностичний мапінг для власних шаблонів "Норма/Не норма" (окремий
+// механізм від fieldKeyByArray вище — це інший Redux-слайс і інша семантика:
+// тут заголовок і повний текст висновку зберігаються окремо). Підключаємо
+// зони по одній — записи для інших "складних" зон (ГВХ/ШВХ/ПВХ) додаються
+// сюди в наступних ітераціях за тим самим патерном.
+const normArrayToZone = new Map([
+  [ogkNormaNenorma, "ОГК"],
+  [gvhNormaNenorma, "ГВХ"],
+  [shvhNormaNenorma, "ШВХ"],
+  [pvhNormaNenorma, "ПВХ"],
+]);
+
+export function FormFloatingSelect({
+  id,
+  items,
+  label,
+  onZoneSelect,
+  customValues = [],
+}) {
   const [floatingId] = useState(id);
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
   const [placeholderVisible, setPlaceholderVisible] = useState(true);
 
   useEffect(() => {
     // Если значение выбрано, скрываем плейсхолдер
-    if (selectedValue !== '') {
+    if (selectedValue !== "") {
       setPlaceholderVisible(false);
     }
   }, [selectedValue]);
 
   const dispatch = useDispatch();
+  const customOptionsByKey = useSelector((state) => state.customOptions.byKey);
+  const normTemplatesByZone = useSelector(
+    (state) => state.normTemplates.byZone
+  );
+
+  // Кастомний варіант, збережений користувачем для цього поля, повинен
+  // диспатчитись так само, як і будь-який статичний варіант з масиву.
+  const matches = (arr, value) => {
+    const key = fieldKeyByArray.get(arr);
+    if (key && customOptionsByKey[key]?.includes(value)) return true;
+    return arr.includes(value);
+  };
+
+  // Те саме, але для власних шаблонів "Норма/Не норма" — окремий Redux-слайс
+  // і окремий мапінг (normArrayToZone), бо тут потрібен саме заголовок
+  // шаблону, а не його опис.
+  const matchesNormTitle = (arr, value) => {
+    const zone = normArrayToZone.get(arr);
+    return (
+      !!zone && !!normTemplatesByZone[zone]?.some((t) => t.title === value)
+    );
+  };
 
   const itemGenerator = () => {
     const fixedZone = (item) => {
       return item.replace("$'", "'");
     };
 
-    return items.map((item) => (
-      // <option key={fixedZone(item)} value={fixedZone(item)}>
-      <option key={`${fixedZone(item)}-${floatingId}`} value={fixedZone(item)}>
-        {fixedZone(item)}
-      </option>
-    ));
+    return items.map((item) => {
+      const value = fixedZone(item);
+      const isCustom = customValues.includes(value);
+      return (
+        <option
+          key={`${value}-${floatingId}`}
+          value={value}
+          className={isCustom ? "custom-option" : undefined}
+        >
+          {value}
+        </option>
+      );
+    });
   };
 
   useEffect(() => {
@@ -143,13 +230,10 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
     setSelectedValue(selectedZone); // Если значение выбрано, потом меняем setPlaceholderVisible на false
     onZoneSelect(selectedZone);
 
-
-
     // В случае если пользователь поменяют зону исследования то все Reducerы сбрасываются
     if (zones.includes(selectedZone)) {
       // console.log('selectedZone', selectedZone);
       dispatch(editDescriptionOnly(selectedZone));
-
 
       dispatch(resetUniversalSliceReducer());
       dispatch(resetogkSliseReducer());
@@ -192,40 +276,43 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
     // if (label === "Легеневий рисунок") {
     //   firstItem = true
     // }
-    if (ogkNormaNenorma.includes(selectedZone)) {
+    if (
+      ogkNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(ogkNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
-    if (legenRysunok.includes(selectedZone)) {
+    if (matches(legenRysunok, selectedZone)) {
       // dispatch(editLegenRusynokId({ floatingId }));
       dispatch(editLegenRusynokArray({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
     }
-    if (koreni.includes(selectedZone)) {
+    if (matches(koreni, selectedZone)) {
       dispatch(editKoreniArray({ floatingId, selectedZone }));
     }
-    if (synusy.includes(selectedZone)) {
+    if (matches(synusy, selectedZone)) {
       dispatch(editSynusyArray({ floatingId, selectedZone }));
     }
-    if (kupalaDiadragmy.includes(selectedZone)) {
+    if (matches(kupalaDiadragmy, selectedZone)) {
       dispatch(editKupalaDiadragmyArray({ floatingId, selectedZone }));
     }
-    if (cor.includes(selectedZone)) {
+    if (matches(cor, selectedZone)) {
       dispatch(editCorArray({ floatingId, selectedZone }));
     }
-    if (ogkZakliuchennia.includes(selectedZone)) {
+    if (matches(ogkZakliuchennia, selectedZone)) {
       dispatch(editOgkZakliuchenniaArray({ floatingId, selectedZone }));
     }
     // -----------ОГК end---------
 
     // -----------Череп start---------
-    if (cherepViews.includes(selectedZone)) {
+    if (matches(cherepViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Череп end---------
 
     // -----------ППН start---------
-    if (ppnViews.includes(selectedZone)) {
+    if (matches(ppnViews, selectedZone)) {
       // dispatch(editPpnNormaNenormaArray({ floatingId, selectedZone }));
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
@@ -233,127 +320,139 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
     // -----------ППН end---------
 
     // -----------ШВХ start---------
-    if (shvhNormaNenorma.includes(selectedZone)) {
+    if (
+      shvhNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(shvhNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
 
-    if (fiziologLordoz.includes(selectedZone)) {
+    if (matches(fiziologLordoz, selectedZone)) {
       // dispatch(editLegenRusynokId({ floatingId }));
       dispatch(editCommaUniversalArray_1({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
     }
-    if (seredynnaVis.includes(selectedZone)) {
+    if (matches(seredynnaVis, selectedZone)) {
       dispatch(editCommaUniversalArray_2({ floatingId, selectedZone }));
     }
-    if (vysotaTilHrebtsivShvh.includes(selectedZone)) {
+    if (matches(vysotaTilHrebtsivShvh, selectedZone)) {
       dispatch(editSvhVysotaTilHrebtsivArray({ floatingId, selectedZone }));
     }
-    if (mizhkhrebtseviPromizhky.includes(selectedZone)) {
+    if (matches(mizhkhrebtseviPromizhky, selectedZone)) {
       dispatch(editCommaUniversalArray_4({ floatingId, selectedZone }));
     }
-    if (zamykaiuchiPlastynkyTilKhrebtsiv.includes(selectedZone)) {
+    if (matches(zamykaiuchiPlastynkyTilKhrebtsiv, selectedZone)) {
       dispatch(editCommaUniversalArray_5({ floatingId, selectedZone }));
     }
-    if (fasetkoviUnkovertSuhlShchelyny.includes(selectedZone)) {
+    if (matches(fasetkoviUnkovertSuhlShchelyny, selectedZone)) {
       dispatch(editCommaUniversalArray_6({ floatingId, selectedZone }));
     }
-    if (zakliuchenniaShvh.includes(selectedZone)) {
+    if (matches(zakliuchenniaShvh, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ШВХ end---------
 
     // -----------ГВХ start--------
-    if (gvhNormaNenorma.includes(selectedZone)) {
+    if (
+      gvhNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(gvhNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
-    if (fiziologKifos.includes(selectedZone)) {
+    if (matches(fiziologKifos, selectedZone)) {
       // dispatch(editLegenRusynokId({ floatingId }));
       dispatch(editCommaUniversalArray_1({ floatingId, selectedZone }));
       // console.log(`selectedZone: ${selectedZone}, id: ${floatingId}`);
     }
+    if (matches(vysotaTilHrebtsivGvh, selectedZone)) {
+      dispatch(editSvhVysotaTilHrebtsivArray({ floatingId, selectedZone }));
+    }
 
-    //seredynnaVis vysotaTilHrebtsivGvh mizhkhrebtseviPromizhky zamykaiuchiPlastynkyTilKhrebtsiv fasetkoviUnkovertSuhlShchelyny используются из ШВХ ))
+    //seredynnaVis mizhkhrebtseviPromizhky zamykaiuchiPlastynkyTilKhrebtsiv fasetkoviUnkovertSuhlShchelyny используются из ШВХ ))
 
-    if (zakliuchenniaGvh.includes(selectedZone)) {
+    if (matches(zakliuchenniaGvh, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ГВХ end---------
 
     // -----------ПВХ start--------
-    if (pvhNormaNenorma.includes(selectedZone)) {
+    if (
+      pvhNormaNenorma.includes(selectedZone) ||
+      matchesNormTitle(pvhNormaNenorma, selectedZone)
+    ) {
       dispatch(editNorma(selectedZone));
       // console.log(selectedZone);
     }
 
-    if (vysotaTilHrebtsivPvh.includes(selectedZone)) {
+    if (matches(vysotaTilHrebtsivPvh, selectedZone)) {
       dispatch(editSvhVysotaTilHrebtsivArray({ floatingId, selectedZone }));
     }
     //seredynnaVis vysotaTilHrebtsivGvh mizhkhrebtseviPromizhky zamykaiuchiPlastynkyTilKhrebtsiv fasetkoviUnkovertSuhlShchelyny используются из ШВХ ))
 
-    if (zakliuchenniaPvh.includes(selectedZone)) {
+    if (matches(zakliuchenniaPvh, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ПВХ end---------
 
     // -----------ОЧП start--------
-    if (ochpViews.includes(selectedZone)) {
+    if (matches(ochpViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------ОЧП end---------
 
     // -----------плечовийСуглоб start--------
-    if (plechovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(plechovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------плечовийСуглоб end---------
 
     // -----------Ключиця start--------
-    if (kliuchytsiaViews.includes(selectedZone)) {
+    if (matches(kliuchytsiaViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Ключиця end---------
     // -----------Ребра start--------
-    if (rebraViews.includes(selectedZone)) {
+    if (matches(rebraViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Ліктьовий суглоб end---------
-    if (liktovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(liktovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Ліктьовий суглоб end---------
     // -----------Променево-зап'ястковий суглоб end---------
-    if (promenevoZapIastkovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(promenevoZapIastkovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Променево-зап'ястковий суглоб end---------
     // -----------Кисть end---------
-    if (kystViews.includes(selectedZone)) {
+    if (matches(kystViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Кисть end---------
     // -----------Кісток тазу end---------
-    if (kistokTazuViews.includes(selectedZone)) {
+    if (matches(kistokTazuViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Кісток тазу end---------
     // -----------Кульшовий суглоб тазу end---------
-    if (kulshovyiSuhlobViews.includes(selectedZone)) {
+    if (matches(kulshovyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Кульшовий суглоб тазу end---------
     // -----------Колінний суглоб  end---------
-    if (kolinnyiSuhlobViews.includes(selectedZone)) {
+    if (matches(kolinnyiSuhlobViews, selectedZone)) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
     // -----------Колінний суглоб end---------
 
     // -----------Гомілковостопний суглоб end---------
     if (
-      homilkovoStopnyiSuhlobViews.includes(selectedZone) ||
-      stopaViews.includes(selectedZone) ||
-      peredniViddilyStopyViews.includes(selectedZone)
+      matches(homilkovoStopnyiSuhlobViews, selectedZone) ||
+      matches(stopaViews, selectedZone) ||
+      matches(peredniViddilyStopyViews, selectedZone)
     ) {
       dispatch(editSemicolonUniversalArray_1({ floatingId, selectedZone }));
     }
@@ -363,10 +462,10 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
     <FloatingLabel className="mb-2" controlId={floatingId} label={label}>
       <Form.Select id={floatingId} onChange={handleZoneSelect}>
         {/* ---------------если выбрано что-то из ненормы ОГК-------------- */}
-        {ogkNenormaItems.includes(label) ? (
-          // <option value="">--виберіть опцію--</option>
-          placeholderVisible && <option value="">--виберіть опцію--</option>
-        ) : null}
+        {ogkNenormaItems.includes(label)
+          ? // <option value="">--виберіть опцію--</option>
+            placeholderVisible && <option value="">--виберіть опцію--</option>
+          : null}
 
         {/* --если выбран Череп или ППН (все пришедшие айтемы = айтемам черепа/ппн)--- */}
         {/* {items === ppnViews  ? (
@@ -374,10 +473,10 @@ export function FormFloatingSelect({ id, items, label, onZoneSelect }) {
         ) : null} */}
         {/* --если выбрано что-то из ненормы ШВХ --- */}
         {/* ---------------если выбрано что-то из ненормы ОГК-------------- */}
-        {shvhNenormaItems.includes(label) || gvhNenormaItems.includes(label) ? (
-          // <option value="">--виберіть опцію--</option>
-          placeholderVisible && <option value="">--виберіть опцію--</option>
-        ) : null}
+        {shvhNenormaItems.includes(label) || gvhNenormaItems.includes(label)
+          ? // <option value="">--виберіть опцію--</option>
+            placeholderVisible && <option value="">--виберіть опцію--</option>
+          : null}
 
         {itemGenerator()}
       </Form.Select>

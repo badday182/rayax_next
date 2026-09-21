@@ -1,5 +1,1 @@
-export const zonesWithOnlyDirectProjection = [
-  "ОЧП",
-  "Ключиця",
-  "Кісток тазу",
-];
+export const zonesWithOnlyDirectProjection = ["ОЧП", "Ключиця", "Кісток тазу"];

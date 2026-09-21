@@ -1,1 +1,1 @@
-export const initialPatientBirthYear = "______"
+export const initialPatientBirthYear = "______";

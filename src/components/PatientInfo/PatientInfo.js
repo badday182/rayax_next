@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState, useEffect, useRef } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -21,7 +21,7 @@ import { PacientInfoPattern } from "../../patternsText/pacientInfoPattern";
 import { addDocText } from "../redux/slices/documentSliseReducer";
 import { initialExamNumber } from "../../data/initialExamNumber";
 import { RiPlayListAddLine } from "react-icons/ri";
-import "./patientInfo.css"
+import "./patientInfo.css";
 // function PacientInfo() {
 const PatientInfo = ({ editorContent }) => {
   const textToDoc = renderToString(PacientInfoPattern());
@@ -202,7 +202,7 @@ const PatientInfo = ({ editorContent }) => {
         onClick={handleApplyPatientButtonClick}
         disabled={buttonDisabled}
       >
-            Додати <RiPlayListAddLine size={18}/>
+        Додати <RiPlayListAddLine size={18} />
       </Button>{" "}
     </div>
   );

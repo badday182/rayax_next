@@ -4,5 +4,4 @@ export const zamykaiuchiPlastynkyTilKhrebtsiv = [
   "з передньо-бічними остеофітами",
   "з субхондральними кістами",
   `${svoiVaryant.toLowerCase()} замикаючих пластинок`,
-
 ];

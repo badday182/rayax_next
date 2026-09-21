@@ -1,7 +1,7 @@
 import React from "react";
 // import ReactTooltip from "react-tooltip";
 // import * as ReactTooltip from "react-tooltip";
-import { Tooltip as ReactTooltip } from 'react-tooltip'
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const TooltipWithImage = ({ id, text, imageSrc }) => (
   <>
