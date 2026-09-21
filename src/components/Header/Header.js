@@ -31,6 +31,12 @@ const Header = () => {
         >
           Rayax
         </Link>
+        <Link
+          href="/articles"
+          className="siteHeader-navLink text-decoration-none"
+        >
+          Статті
+        </Link>
         <Link href="/faq" className="siteHeader-navLink text-decoration-none">
           FAQ
         </Link>

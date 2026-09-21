@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Rayax is a Next.js (App Router) single-page tool for generating X-ray ("R-графія") diagnostic report text in Ukrainian. A radiologist picks a body zone (ОГК, Череп, ШВХ, ГВХ, ПВХ, суглоби, etc.), fills in form fields describing findings, and the app assembles formatted report paragraphs that get pushed into a TinyMCE rich-text editor for the final document. Most state is client-side Redux, with `localStorage` persisting the editor's text across "new patient" resets. The only backend is Supabase, used narrowly for user auth and per-user custom dropdown options (see below) — everything else about the app is still purely client-side.
+Rayax is a Next.js (App Router) tool for generating X-ray ("R-графія") diagnostic report text in Ukrainian. The tool itself is one client-rendered page at `/generator`; the rest of the site (landing, FAQ, articles) is server-rendered content that exists for search visibility — see "SEO and public content pages". A radiologist picks a body zone (ОГК, Череп, ШВХ, ГВХ, ПВХ, суглоби, etc.), fills in form fields describing findings, and the app assembles formatted report paragraphs that get pushed into a TinyMCE rich-text editor for the final document. Most state is client-side Redux, with `localStorage` persisting the editor's text across "new patient" resets. The only backend is Supabase, used narrowly for user auth and per-user custom dropdown options (see below) — everything else about the app is still purely client-side.
 
 ## Commands
 
@@ -18,6 +18,7 @@ There is no test suite configured (`react-scripts`/`@testing-library` are instal
 ## Environment
 
 - `NEXT_PUBLIC_TINY_EDITOR_API_KEY` in `.env` — TinyMCE API key. TinyMCE itself is self-hosted from `public/tinymce/` (loaded via `tinymceScriptSrc="/tinymce/tinymce.min.js"` in [TextEditor.js](src/components/TextEditor/TextEditor.js)), not loaded from TinyMCE's CDN.
+- `NEXT_PUBLIC_SITE_URL` in `.env` — canonical site origin (currently `https://rayax-next.vercel.app`), read by `layout.js`'s `metadataBase`, `robots.js`, `sitemap.js` and `ArticleLayout.js`. Every one of those falls back to the same hardcoded Vercel URL if the var is missing, so a forgotten env var degrades silently rather than breaking the build — **it must also be set in Vercel → Project Settings → Environment Variables**, since `.env` is gitignored. Changing the domain later is a one-line change here.
 - `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env` — Supabase project used for auth + `custom_options` table (see [supabaseClient.js](src/lib/supabaseClient.js)). Email confirmation is left at Supabase's default; the built-in email sender has a low rate limit (`email rate limit exceeded` after a handful of signups in a short window) — fine for real usage, but during manual testing prefer confirming/creating test users directly in Supabase Dashboard → Authentication → Users rather than repeatedly hitting the signup form.
 
 ## Architecture
@@ -30,7 +31,7 @@ The app follows a **repeating three-part pattern per anatomical "zone"** (ОГК
 
 **Report generation is centralized**, not per-zone: [zoneInfoPattern.js](src/patternsText/zoneInfoPattern.js) (`ZoneInfoPattern`) is one large function that reads the currently selected `zone` from `zoneInfo` state plus all the relevant slice text, and contains an `if (zone === "...")` branch per zone that builds the final report string/JSX (including the R-графія/ЕЕД(mSv) header table). [pacientInfoPattern.js](src/patternsText/pacientInfoPattern.js) similarly renders the patient-info header block. Both are rendered to HTML via `renderToString` (from `react-dom/server`, used client-side) before being pushed into Redux/localStorage/the editor.
 
-**Component flow**: [page.js](src/app/page.js) → `PacientCard` (one per patient) → `PatientInfo` (header fields) + one or more `ImagineOptions` (one per zone entry added) → [ImagineOptions.js](src/components/ImagineOptions.js) renders the zone picker and conditionally mounts the matching zone component from `src/components/zones/`, plus an "Додати" button that runs `ZoneInfoPattern`/`PacientInfoPattern`, dispatches the resulting text into `documentSliseReducer`, and resets the per-zone slices for the next entry. `descriptionOnly` mode reuses the same `ImagineOptions`/zone components but skips the R-графія header and patient block (for adding a bare findings paragraph without a new visit record).
+**Component flow**: [generator/page.js](src/app/generator/page.js) → [HomeClient.js](src/components/Home/HomeClient.js) (the `"use client"` root of the whole tool) → `PacientCard` (one per patient) → `PatientInfo` (header fields) + one or more `ImagineOptions` (one per zone entry added) → [ImagineOptions.js](src/components/ImagineOptions.js) renders the zone picker and conditionally mounts the matching zone component from `src/components/zones/`, plus an "Додати" button that runs `ZoneInfoPattern`/`PacientInfoPattern`, dispatches the resulting text into `documentSliseReducer`, and resets the per-zone slices for the next entry. `descriptionOnly` mode reuses the same `ImagineOptions`/zone components but skips the R-графія header and patient block (for adding a bare findings paragraph without a new visit record).
 
 When adding a new zone, the pattern to follow is: add a data folder, a zone component, wire selection into `FloatingLabel.js`'s `handleZoneSelect` (which centrally dispatches into the universal/ogk/cherep slices based on which data array the selected value belongs to — see the large `if (someViews.includes(selectedZone))` chain there), add a branch in `ZoneInfoPattern`, and register the zone in `src/data/zones.js` (plus `zonesWithSides`/`zonesWithOnly2Projection`/`zonesWithOnlyDirectProjection` if relevant) and `ImagineOptions.js`'s conditional render list.
 
@@ -45,7 +46,7 @@ Logged-in users can save their own text options into the "finding" dropdowns (th
 - `fieldKeyByArray` (exported from [FloatingLabel.js](src/components/FloatingLabel.js)) is a curated allowlist `Map` from a specific static data array (e.g. `fiziologKifos`, `cherepViews`) to a stable string key. It intentionally excludes structural selectors (`zones`, `sides`, `ogkViews`, the `*NormaNenorma` arrays) — only "finding"/"заключення" arrays are customizable.
 - [AddOptionBlock.js](src/components/AddOptionBlock.js) looks up `fieldKeyByArray.get(items)` (reference equality — reliable because every zone component passes the imported array directly, never a copy) and merges the user's saved values into what gets rendered: **`[items[0], ...custom, ...items.slice(1)]`, never a plain prepend**. `items[0]` must stay pinned because it's read as a sentinel/default elsewhere (`zoneInfoPattern.js`'s "nothing selected" fallback, and the mount-time default-sync effect in `FloatingLabel.js` via `src/data/viewsToEditSemicolUnivArray_1.js`'s `firstElements`) — putting a custom value at index 0 would desync the visibly-selected dropdown value from what actually lands in the generated report. It also renders the small "Зберегти" input that calls `addCustomOption`, guarded against saving anything containing `svoiVaryant` ("Пустий варіант") text, which is a pre-existing placeholder sentinel meaning "print nothing, let the doctor type manually" — a saved custom option must stay distinguishable from that.
 - `FloatingLabel.js`'s `handleZoneSelect` cannot just check the plain static array anymore (a custom value isn't a member of it), so every allowlisted `someArray.includes(selectedZone)` check was replaced with a local `matches(someArray, selectedZone)` helper that also checks `customOptionsByKey[fieldKeyByArray.get(someArray)]` first. This is the piece that makes a custom selection actually dispatch into the same redux slot as a static one, so it reaches `zoneInfoPattern.js`'s output.
-- The static arrays in `src/data/**` and `zoneInfoPattern.js` itself are **never mutated** — merging only happens locally in `AddOptionBlock`'s render and in the `matches()` check, so SSR/hydration stays consistent (custom options simply aren't present until the client-side Supabase fetch resolves, same pattern the app already used for restoring `textToDoc` from `localStorage` in `page.js`).
+- The static arrays in `src/data/**` and `zoneInfoPattern.js` itself are **never mutated** — merging only happens locally in `AddOptionBlock`'s render and in the `matches()` check, so SSR/hydration stays consistent (custom options simply aren't present until the client-side Supabase fetch resolves, same pattern the app already used for restoring `textToDoc` from `localStorage` in `HomeClient.js`).
 - Known pre-existing gap this doesn't fix: the "Кісток тазу" zone (`zoneInfoPattern.js`'s `Кісток тазу` branch) prints one fixed paragraph for any non-default selection regardless of the actual text chosen — a custom option saved there is selectable but won't be reflected in the generated report. Not touched, since it's a pre-existing zone quirk unrelated to this feature.
 - Fixed while building this: ГВХ's "Висота тіл хребців" field passes `vysotaTilHrebtsivGvh` into its `AddOptionBlock`, a different (mostly-but-not-fully overlapping) array than `vysotaTilHrebtsivShvh`. It had no `fieldKeyByArray` entry at all and no `matches()` dispatch branch in `handleZoneSelect`, so it silently had no "Зберегти" UI and its one GVH-specific static option never reached the report. Both are now fixed with their own dedicated key (not aliased to ШВХ's, to avoid cervical/thoracic custom options bleeding into each other's dropdowns).
 
@@ -77,6 +78,37 @@ Separate from the per-field custom options above: for "single-list" zones (Че�
 ## Premium status
 
 There's no payment integration — premium is granted manually by the site owner via Supabase, not self-serve. `public.profiles` (`id` references `auth.users(id)`, `email`, `is_premium boolean default false`) has a row auto-created per signup by a Postgres trigger (`on_auth_user_created` → `handle_new_user()`). RLS only grants `select` to the owning row — there's deliberately no `insert`/`update` policy for the `authenticated` role, so a user can never grant themselves premium from the client; only the project owner running SQL (or using Table Editor) as the Postgres role can flip `is_premium`. [profileSliceReducer.js](src/components/redux/slices/profileSliceReducer.js) fetches this once per login (same trigger point as `fetchCustomOptions`, wired in `AuthProvider.js`) into `state.profile.isPremium`. Currently gates two things, both read via `useSelector((state) => state.profile.isPremium)`: a "Premium" badge on the avatar in [Header.js](src/components/Header/Header.js), and hiding the donation banner entirely ([Banner.jsx](src/components/Banner/Banner.jsx) returns `null` when premium).
+
+## SEO and public content pages
+
+The app used to be a single client-rendered page at `/`. It is now split so that search engines have something to index: **everything except the generator is a server component with no `"use client"`**, and keeping it that way is the whole point — moving marketing/content markup inside a client component would undo it.
+
+Routes:
+
+| Route | What it is |
+| --- | --- |
+| `/` | Server-rendered landing: `<h1>`, description, CTA to the generator, links to `/faq` and `/articles`. ~94 kB First Load JS. |
+| `/generator` | The actual tool — [generator/page.js](src/app/generator/page.js) (server, holds `metadata`) renders [HomeClient.js](src/components/Home/HomeClient.js) (client, the old `page.js` body verbatim). ~246 kB, because Redux + TinyMCE load only here. |
+| `/faq` | [faq/page.js](src/app/faq/page.js) — 7 Q&A + `FAQPage` JSON-LD. |
+| `/articles`, `/articles/<slug>` | 9 articles, see below. |
+| `/account` | `noindex` via [account/layout.js](src/app/account/layout.js) (a metadata-only server layout, since `account/page.js` is a client component and can't export `metadata` itself) + `disallow` in `robots.js`. |
+
+Metadata and crawler files:
+
+- [layout.js](src/app/layout.js) — `metadataBase`, title template (`"%s — Rayax"`), Ukrainian description/keywords, Open Graph (`uk_UA`), Twitter card, `verification.google` (Search Console, verified; sitemap submitted), and a `SoftwareApplication` JSON-LD block. `<html lang="uk">` — was `"en"` while serving Ukrainian content.
+- [robots.js](src/app/robots.js) / [sitemap.js](src/app/sitemap.js) — Next.js App Router file conventions (no `next-sitemap` dependency). `sitemap.js` imports the articles registry, so new articles appear automatically; only non-article routes are listed by hand.
+- [icon.svg](src/app/icon.svg) — placeholder favicon (letter mark on the site's gradient), replaces the default Next.js logo. Swap it when a real logo exists.
+
+Articles:
+
+- [articles.js](src/data/articles.js) is the single registry (`slug`, `title`, `description`, `date`). It drives the `/articles` index, `sitemap.js` and `ArticleLayout`'s heading/JSON-LD. **Adding an article = add a registry entry + create `src/app/articles/<slug>/page.js`**; forgetting the registry entry makes `getArticle()` return `undefined` and the page crash at build time, which is the intended loud failure.
+- [ArticleLayout.js](src/components/Articles/ArticleLayout.js) holds the shared wrapper: byline, date, `Article` JSON-LD, CTA. The byline is `"Редакція Rayax"` as an `Organization` (not `Person` — it's an editorial collective). If a named radiologist ever signs the articles, this one file is the only place to change.
+- Articles cross-link to each other and all 19 zones have coverage. The cluster is deliberately capped at 9 — for YMYL/medical topics Google rewards depth over volume, and near-duplicate articles would cannibalise each other.
+
+Two standing content decisions:
+
+- **The canned report phrases from `src/data/**` are deliberately not published.** `/faq` lists the 19 zones and explains the template structure, and the articles describe _how_ a protocol is built, but neither dumps the ready-to-copy formulations — that content is the product's value (see the note at the top of [templates-catalog.md](docs/templates-catalog.md)). Keep new public pages on the same side of that line unless the owner says otherwise.
+- **The article text has not been reviewed by a physician.** It was drafted from `templates-catalog.md`, deliberately limited to protocol structure rather than diagnostic guidance. Treat medical wording as owner-reviewed-before-publish, not settled.
 
 ## Notes
 
