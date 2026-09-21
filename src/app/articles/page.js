@@ -19,20 +19,14 @@ export default function ArticlesPage() {
 
       <div style={{ maxWidth: 760, width: "100%" }}>
         {articles.map((article) => (
-          <article
+          <Link
             key={article.slug}
-            className="backgroundWhite rounded p-4 mb-3"
+            href={`/articles/${article.slug}`}
+            className="articleCard backgroundWhite rounded p-4 mb-3 d-block text-decoration-none text-dark"
           >
-            <h2 className="h5 fw-bold mb-2">
-              <Link
-                href={`/articles/${article.slug}`}
-                className="text-decoration-none"
-              >
-                {article.title}
-              </Link>
-            </h2>
+            <h2 className="h5 fw-bold mb-2">{article.title}</h2>
             <p className="fw400 mb-0">{article.description}</p>
-          </article>
+          </Link>
         ))}
       </div>
     </main>

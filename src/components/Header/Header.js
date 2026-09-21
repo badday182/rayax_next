@@ -32,6 +32,12 @@ const Header = () => {
           Rayax
         </Link>
         <Link
+          href="/generator"
+          className="siteHeader-navLink text-decoration-none"
+        >
+          Генератор
+        </Link>
+        <Link
           href="/articles"
           className="siteHeader-navLink text-decoration-none"
         >
