@@ -50,6 +50,9 @@ export const metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "jsWqi5r-01cV8EVBDEbyr1iWSngTyKQwRNri2Z3EZYI",
+  },
 };
 
 const jsonLd = {

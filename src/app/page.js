@@ -1,20 +1,19 @@
-import HomeClient from "@/components/Home/HomeClient.js";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <>
-      <section className="text-white text-center px-3 pt-4 pb-2">
-        <h1 className="h4 fw-bold mb-2">
-          Опис рентгенівських знімків онлайн
-        </h1>
-        <p className="mb-0" style={{ maxWidth: 640, margin: "0 auto" }}>
-          Rayax — сервіс для лікарів-рентгенологів, який допомагає швидко
-          скласти протокол опису рентгена (ОГК, черепа, хребта, суглобів та
-          інших зон): готові варіанти формулювань, власні шаблони й миттєве
-          формування тексту рентгенологічного дослідження.
-        </p>
-      </section>
-      <HomeClient />
-    </>
+    <main className="text-white text-center px-3 py-5 d-flex flex-column align-items-center justify-content-center">
+      <h1 className="fw-bold mb-3">Опис рентгенівських знімків онлайн</h1>
+      <p className="mb-4" style={{ maxWidth: 640 }}>
+        Rayax — сервіс для лікарів-рентгенологів, який допомагає швидко
+        скласти протокол опису рентгенівського знімка: ОГК, черепа, хребта,
+        суглобів та інших зон. Готові варіанти формулювань, власні шаблони й
+        миттєве формування тексту рентгенологічного дослідження — без
+        рутинного набору однакових фраз вручну.
+      </p>
+      <Link href="/generator" className="p-2 px-4 glass-button d-ruby fw-bold">
+        Перейти до генератора
+      </Link>
+    </main>
   );
 }

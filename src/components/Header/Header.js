@@ -24,7 +24,12 @@ const Header = () => {
 
   return (
     <header className="siteHeader d-flex align-items-center justify-content-between px-3">
-      <span className="siteHeader-logo fw-bold">Rayax</span>
+      <Link
+        href="/"
+        className="siteHeader-logo fw-bold text-decoration-none text-white user-select-none"
+      >
+        Rayax
+      </Link>
 
       <div className="d-flex align-items-center gap-2">
         {!loading &&
