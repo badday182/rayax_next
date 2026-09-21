@@ -29,7 +29,7 @@ const ArticleLayout = ({ slug, children }) => {
   };
 
   return (
-    <main className="px-3 py-5 d-flex flex-column align-items-center">
+    <main className="conteinerWidht px-3 py-5 d-flex flex-column align-items-center">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

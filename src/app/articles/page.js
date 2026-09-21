@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function ArticlesPage() {
   return (
-    <main className="px-3 py-5 d-flex flex-column align-items-center">
+    <main className="conteinerWidht px-3 py-5 d-flex flex-column align-items-center">
       <h1 className="text-white fw-bold text-center mb-4">
         Статті про опис рентгенівських знімків
       </h1>
