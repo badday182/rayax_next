@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="text-white text-center px-3 py-5 d-flex flex-column align-items-center justify-content-center">
+    <main className="conteinerWidht text-white text-center px-3 py-5 d-flex flex-column align-items-center justify-content-center">
       <h1 className="fw-bold mb-3">Опис рентгенівських знімків онлайн</h1>
       <p className="mb-4" style={{ maxWidth: 640 }}>
         Rayax — сервіс для лікарів-рентгенологів, який допомагає швидко
