@@ -16,6 +16,17 @@
   text-shadow: 0 0 12px rgb(186 223 243 / 80%);
 }
 
+.siteHeader-navLink {
+  font-size: 15px;
+  color: rgb(245 245 245 / 85%);
+  transition: color 0.2s ease;
+  align-self: end;
+}
+
+.siteHeader-navLink:hover {
+  color: #fff;
+}
+
 .siteHeader-name {
   font-size: 14px;
 }

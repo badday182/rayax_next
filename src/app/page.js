@@ -14,6 +14,11 @@ export default function Home() {
       <Link href="/generator" className="p-2 px-4 glass-button d-ruby fw-bold">
         Перейти до генератора
       </Link>
+      <p className="mt-4 mb-0">
+        <Link href="/faq" className="text-white">
+          Як це працює та що входить у шаблони опису
+        </Link>
+      </p>
     </main>
   );
 }

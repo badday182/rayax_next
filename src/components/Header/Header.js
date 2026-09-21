@@ -24,12 +24,17 @@ const Header = () => {
 
   return (
     <header className="siteHeader d-flex align-items-center justify-content-between px-3">
-      <Link
-        href="/"
-        className="siteHeader-logo fw-bold text-decoration-none text-white user-select-none"
-      >
-        Rayax
-      </Link>
+      <div className="d-flex align-items-center gap-3">
+        <Link
+          href="/"
+          className="siteHeader-logo fw-bold text-decoration-none text-white user-select-none"
+        >
+          Rayax
+        </Link>
+        <Link href="/faq" className="siteHeader-navLink text-decoration-none">
+          FAQ
+        </Link>
+      </div>
 
       <div className="d-flex align-items-center gap-2">
         {!loading &&
