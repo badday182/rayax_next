@@ -29,6 +29,12 @@ export default function sitemap() {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: `${siteUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
     ...articles.map((article) => ({
       url: `${siteUrl}/articles/${article.slug}`,
       lastModified: new Date(article.date),
