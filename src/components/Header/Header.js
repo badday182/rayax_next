@@ -54,6 +54,12 @@ const Header = () => {
             >
               FAQ
             </Link>
+            <Link
+              href="/about"
+              className="siteHeader-navLink text-decoration-none"
+            >
+              Про нас
+            </Link>
           </nav>
 
           <button
@@ -123,6 +129,9 @@ const Header = () => {
           </Link>
           <Link href="/faq" onClick={closeMenu}>
             FAQ
+          </Link>
+          <Link href="/about" onClick={closeMenu}>
+            Про нас
           </Link>
         </nav>
       )}
