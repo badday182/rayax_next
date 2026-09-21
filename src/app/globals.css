@@ -33,6 +33,7 @@ table#tableid {
 
 body {
   margin: 0;
+  padding-top: 56px;
   font-weight: 500;
   font-family:
     "Raleway",
