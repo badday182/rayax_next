@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 
 const initialState = {
   isPremium: false,
@@ -9,6 +9,7 @@ const initialState = {
 export const fetchProfile = createAsyncThunk(
   "profile/fetch",
   async (userId) => {
+    const supabase = await getSupabase();
     const { data, error } = await supabase
       .from("profiles")
       .select("is_premium")

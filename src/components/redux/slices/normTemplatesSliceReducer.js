@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 
 const initialState = {
   byZone: {},
@@ -9,6 +9,7 @@ const initialState = {
 export const fetchNormTemplates = createAsyncThunk(
   "normTemplates/fetchAll",
   async (userId) => {
+    const supabase = await getSupabase();
     const { data, error } = await supabase
       .from("norm_templates")
       .select("zone, title, description")
@@ -29,6 +30,7 @@ export const fetchNormTemplates = createAsyncThunk(
 export const addNormTemplate = createAsyncThunk(
   "normTemplates/add",
   async ({ userId, zone, title, description }) => {
+    const supabase = await getSupabase();
     const { error } = await supabase
       .from("norm_templates")
       .insert({ user_id: userId, zone, title, description });
@@ -41,6 +43,7 @@ export const addNormTemplate = createAsyncThunk(
 export const updateNormTemplate = createAsyncThunk(
   "normTemplates/update",
   async ({ userId, zone, oldTitle, newTitle, newDescription }) => {
+    const supabase = await getSupabase();
     const { data, error } = await supabase
       .from("norm_templates")
       .update({ title: newTitle, description: newDescription })
@@ -62,6 +65,7 @@ export const updateNormTemplate = createAsyncThunk(
 export const deleteNormTemplate = createAsyncThunk(
   "normTemplates/delete",
   async ({ userId, zone, title }) => {
+    const supabase = await getSupabase();
     const { data, error } = await supabase
       .from("norm_templates")
       .delete()

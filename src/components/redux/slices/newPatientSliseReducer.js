@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 const initialState = {
   patientCounter: [{ id: 0o0 }],
 };
@@ -20,7 +19,7 @@ export const newPatientSlise = createSlice({
       }
     },
     resetPatient: (state) => {
-      state.patientCounter = [{ id: uuidv4() }];
+      state.patientCounter = [{ id: crypto.randomUUID() }];
       // state.zoneCounter.push(action.payload);
     },
   },

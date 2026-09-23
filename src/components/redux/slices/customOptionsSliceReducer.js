@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 
 const initialState = {
   byKey: {},
@@ -9,6 +9,7 @@ const initialState = {
 export const fetchCustomOptions = createAsyncThunk(
   "customOptions/fetchAll",
   async (userId) => {
+    const supabase = await getSupabase();
     const { data, error } = await supabase
       .from("custom_options")
       .select("field_key, value")
@@ -29,6 +30,7 @@ export const fetchCustomOptions = createAsyncThunk(
 export const addCustomOption = createAsyncThunk(
   "customOptions/add",
   async ({ userId, fieldKey, value }) => {
+    const supabase = await getSupabase();
     const { error } = await supabase
       .from("custom_options")
       .insert({ user_id: userId, field_key: fieldKey, value });
@@ -41,6 +43,7 @@ export const addCustomOption = createAsyncThunk(
 export const updateCustomOption = createAsyncThunk(
   "customOptions/update",
   async ({ userId, fieldKey, oldValue, newValue }) => {
+    const supabase = await getSupabase();
     const { data, error } = await supabase
       .from("custom_options")
       .update({ value: newValue })
@@ -62,6 +65,7 @@ export const updateCustomOption = createAsyncThunk(
 export const deleteCustomOption = createAsyncThunk(
   "customOptions/delete",
   async ({ userId, fieldKey, value }) => {
+    const supabase = await getSupabase();
     const { data, error } = await supabase
       .from("custom_options")
       .delete()
