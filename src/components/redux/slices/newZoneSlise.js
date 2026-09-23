@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   zoneCounter: [{ id: 0 }],
@@ -32,7 +31,7 @@ export const newZoneSlise = createSlice({
       }
     },
     resetImagineOptions: (state) => {
-      state.zoneCounter = [{ id: uuidv4() }];
+      state.zoneCounter = [{ id: crypto.randomUUID() }];
     },
     resetDescriptionOnly: (state) => {
       state.zoneDescriptionOnlyCounter = [];

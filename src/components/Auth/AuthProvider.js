@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import {
   fetchCustomOptions,
   clearCustomOptions,
@@ -26,18 +26,29 @@ const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+    let cancelled = false;
+    let subscription;
+
+    getSupabase().then((supabase) => {
+      if (cancelled) return;
+
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (cancelled) return;
+        setUser(session?.user ?? null);
+        setLoading(false);
+      });
+
+      ({
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null);
+      }));
     });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      subscription?.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -52,15 +63,16 @@ const AuthProvider = ({ children }) => {
     }
   }, [user, dispatch]);
 
-  const signUp = (email, password) => supabase.auth.signUp({ email, password });
+  const signUp = async (email, password) =>
+    (await getSupabase()).auth.signUp({ email, password });
 
-  const signIn = (email, password) =>
-    supabase.auth.signInWithPassword({ email, password });
+  const signIn = async (email, password) =>
+    (await getSupabase()).auth.signInWithPassword({ email, password });
 
-  const signOut = () => supabase.auth.signOut();
+  const signOut = async () => (await getSupabase()).auth.signOut();
 
-  const signInWithGoogle = () =>
-    supabase.auth.signInWithOAuth({
+  const signInWithGoogle = async () =>
+    (await getSupabase()).auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: window.location.origin },
     });
