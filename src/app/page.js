@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LazyVideo from "@/components/Home/LazyVideo";
 
 export default function Home() {
   return (
@@ -16,15 +17,7 @@ export default function Home() {
       </Link>
       <section className="mt-5 w-100" style={{ maxWidth: 900 }}>
         <h2 className="fw-bold mb-3 fs-4">Як працює Rayax</h2>
-        <video
-          className="w-100 rounded shadow"
-          src="/rayax_video.webm"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        />
+        <LazyVideo className="w-100 rounded shadow" src="/rayax_video.webm" />
       </section>
       <div className="mt-4 d-flex flex-col gap-3 justify-content-center flex-wrap">
         <Link href="/faq" className="p-2 px-4 glass-button d-ruby fw-bold">
