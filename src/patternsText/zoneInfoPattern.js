@@ -882,6 +882,11 @@ export const ZoneInfoPattern = (descriptionOnly) => {
     report = matchedNormTemplate.description;
   }
 
+  const emptyLinesCount = useSelector((state) => state.settings?.emptyLinesCount ?? 3);
+  const emptyLines = Array.from({ length: emptyLinesCount + 1 }).map((_, index) => (
+    <br key={index} />
+  ));
+
   return (
     <div>
       {!descriptionOnly && (
@@ -900,10 +905,7 @@ export const ZoneInfoPattern = (descriptionOnly) => {
         </table>
       )}
       {report}
-      <br />
-      <br />
-      <br />
-      <br />
+      {emptyLines}
     </div>
   );
 };

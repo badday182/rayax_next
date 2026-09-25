@@ -8,10 +8,23 @@ import Tab from "react-bootstrap/Tab";
 import { useAuth } from "@/components/Auth/AuthProvider";
 import AuthForm from "@/components/Auth/AuthForm";
 import CustomTemplatesTab from "./CustomTemplatesTab";
+import SettingsTab from "./SettingsTab";
+
+import Modal from "react-bootstrap/Modal";
 
 const AccountPage = () => {
   const { user, loading } = useAuth();
   const [showAuthForm, setShowAuthForm] = useState(false);
+  const [activeTab, setActiveTab] = useState("templates");
+  const [showRestrictedModal, setShowRestrictedModal] = useState(false);
+
+  const handleTabSelect = (key) => {
+    if (key === "settings" && !user) {
+      setShowRestrictedModal(true);
+      return;
+    }
+    setActiveTab(key);
+  };
 
   return (
     <div className="conteinerWidht p-3">
@@ -22,7 +35,8 @@ const AccountPage = () => {
       </div>
 
       <Tabs
-        defaultActiveKey="templates"
+        activeKey={activeTab}
+        onSelect={handleTabSelect}
         id="account-tabs"
         className="mb-4 account-custom-tabs"
         data-bs-theme="dark"
@@ -35,13 +49,42 @@ const AccountPage = () => {
           />
         </Tab>
         <Tab eventKey="settings" title="Налаштування проекту">
-          <div className="bg-glass rounded-3 p-3 text-white">
-            <p>Тут згодом будуть налаштування проекту.</p>
-          </div>
+          <SettingsTab />
         </Tab>
       </Tabs>
 
       <AuthForm show={showAuthForm} onHide={() => setShowAuthForm(false)} />
+
+      <Modal
+        show={showRestrictedModal}
+        onHide={() => setShowRestrictedModal(false)}
+        centered
+        data-bs-theme="dark"
+      >
+        <Modal.Header closeButton className="bg-dark text-white border-bottom-0">
+          <Modal.Title>Доступ обмежено</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="bg-dark text-white">
+          <p>Тільки зареєстровані користувачі мають доступ до налаштувань.</p>
+        </Modal.Body>
+        <Modal.Footer className="bg-dark border-top-0">
+          <Button
+            variant="outline-light"
+            onClick={() => setShowRestrictedModal(false)}
+          >
+            Закрити
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setShowRestrictedModal(false);
+              setShowAuthForm(true);
+            }}
+          >
+            Увійти
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
