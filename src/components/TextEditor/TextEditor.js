@@ -40,6 +40,11 @@ within this effect anymore.
         scrollToBottom(editor);
       }}
       initialValue={docTex}
+      onEditorChange={(content) => {
+        if (typeof window !== "undefined") {
+          localStorage.setItem("textToDoc", content);
+        }
+      }}
       init={{
         selector: "#myTextarea",
         browser_spellcheck: true,

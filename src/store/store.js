@@ -13,6 +13,7 @@ import descriptionOnlyReducer from "../components/redux/slices/descriptionOnlyRe
 import customOptionsReducer from "../components/redux/slices/customOptionsSliceReducer";
 import profileReducer from "../components/redux/slices/profileSliceReducer";
 import normTemplatesReducer from "../components/redux/slices/normTemplatesSliceReducer";
+import settingsReducer from "../components/redux/slices/settingsSliceReducer";
 
 const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ const store = configureStore({
     customOptions: customOptionsReducer,
     profile: profileReducer,
     normTemplates: normTemplatesReducer,
+    settings: settingsReducer,
   },
 });
 

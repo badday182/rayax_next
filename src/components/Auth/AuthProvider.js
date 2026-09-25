@@ -15,6 +15,10 @@ import {
   fetchNormTemplates,
   clearNormTemplates,
 } from "../redux/slices/normTemplatesSliceReducer";
+import {
+  fetchUserSettings,
+  clearSettings,
+} from "../redux/slices/settingsSliceReducer";
 
 const AuthContext = createContext(null);
 
@@ -56,10 +60,12 @@ const AuthProvider = ({ children }) => {
       dispatch(fetchCustomOptions(user.id));
       dispatch(fetchProfile(user.id));
       dispatch(fetchNormTemplates(user.id));
+      dispatch(fetchUserSettings(user.id));
     } else {
       dispatch(clearCustomOptions());
       dispatch(clearProfile());
       dispatch(clearNormTemplates());
+      dispatch(clearSettings());
     }
   }, [user, dispatch]);
 
