@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
 import { useAuth } from "@/components/Auth/AuthProvider";
 import AuthForm from "@/components/Auth/AuthForm";
 import {
@@ -189,7 +191,14 @@ const AccountPage = () => {
         </Button>
       </div>
 
-      <h2 className="text-white mb-3">Мої варіанти описів</h2>
+      <Tabs
+        defaultActiveKey="templates"
+        id="account-tabs"
+        className="mb-4 account-custom-tabs"
+        data-bs-theme="dark"
+      >
+        <Tab eventKey="templates" title="Кастомні шаблони">
+          <h2 className="text-white mb-3">Мої варіанти описів</h2>
 
       {!loading && !user && (
         <div className="bg-glass rounded-3 p-3 text-white">
@@ -255,6 +264,13 @@ const AccountPage = () => {
           ))}
         </>
       )}
+        </Tab>
+        <Tab eventKey="settings" title="Налаштування проекту">
+          <div className="bg-glass rounded-3 p-3 text-white">
+            <p>Тут згодом будуть налаштування проекту.</p>
+          </div>
+        </Tab>
+      </Tabs>
 
       <AuthForm show={showAuthForm} onHide={() => setShowAuthForm(false)} />
     </div>

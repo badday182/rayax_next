@@ -131,3 +131,7 @@ Open blockers are marked as `TODO` at the top of each country file — the chest
 
 - UI text, variable/data names, and comments are a mix of Ukrainian (UI-facing) and Russian (many code comments) — this is normal for this codebase, not a mistake to "fix".
 - Styling: Bootstrap 5 (`bootstrap.css` imported globally) + `react-bootstrap` + Tailwind utility classes side by side, plus component-scoped CSS files (`Banner/banner.css`, `PatientInfo/patientInfo.css`).
+- Visuals (Glassmorphism): The project uses a "frosted glass" aesthetic. Primary containers, cards, and active UI elements like tabs often use the `.bg-glass` class (`rgb(178 214 247 / 18%)` with `backdrop-filter: blur`). When styling tabbed interfaces:
+  - Both active and inactive tabs must have white text.
+  - The active tab must feature the `.bg-glass` frosted style.
+  - The horizontal separator below the tabs must be solid white.
