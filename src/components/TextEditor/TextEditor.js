@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import debounce from "lodash/debounce";
 
 const TextEditor = ({ docTex, setEditorRef }) => {
   const editorRef = useRef();
@@ -27,6 +28,14 @@ within this effect anymore.
       lastChild.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   };
+
+  const handleEditorChange = useCallback(
+    debounce((content) => {
+      localStorage.setItem("textToDoc", content);
+    }, 3000),
+    []
+  );
+
   return (
     <Editor
       tinymceScriptSrc="/tinymce/tinymce.min.js"
@@ -42,7 +51,7 @@ within this effect anymore.
       initialValue={docTex}
       onEditorChange={(content) => {
         if (typeof window !== "undefined") {
-          localStorage.setItem("textToDoc", content);
+          handleEditorChange(content);
         }
       }}
       init={{
